@@ -1,0 +1,86 @@
+<div class="columns is-centered">
+  <div class="column is-4-desktop is-8-tablet is-full-mobile">
+    <!-- Errors -->
+    <!-- Error: general error -->
+    @if(isError){
+      <div class="block">
+        <div class="notification is-danger">
+          <p>Something went wrong. Please try again later</p>
+        </div>
+      </div>
+    }
+    <!-- Header -->
+    <div class="block has-text-centered">
+      <p class="title is-3">Glad to see you back</p>
+      <p class="subtitle is-5">Please login to continue</p>
+    </div>
+    <!-- Form -->
+    <div class="block">
+      <div class="box">
+        <form [formGroup]="form" (submit)="onFormSubmit()">
+          <!-- Email address -->
+          <div class="field">
+            <label class="label">Email address</label>
+            <div class="control has-icons-left">
+              <input
+                [class.is-danger]="form.get('email')?.touched && !form.get('email')?.valid"
+                [class.is-success]="form.get('email')?.touched && form.get('email')?.valid"
+                formControlName="email"
+                type="text"
+                class="input">
+              <span class="icon is-left">
+                <i class="bx bx-envelope"></i>
+              </span>
+            </div>
+            @if (form.get('email')?.touched && form.get('email')?.hasError('required')) {
+              <p class="help is-danger">
+                <span class="icon">
+                  <i class="bx bx-error"></i>
+                </span>
+                <span>This field cannot be empty</span>
+              </p>
+            }
+          </div>
+
+          <!-- Password -->
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control has-icons-left">
+              <input
+                [class.is-danger]="form.get('password')?.touched && !form.get('password')?.valid"
+                [class.is-success]="form.get('password')?.touched && form.get('password')?.valid"
+                formControlName="password"
+                type="password"
+                class="input">
+              <span class="icon is-left">
+                <i class="bx bx-lock-alt"></i>
+              </span>
+            </div>
+            @if (form.get('password')?.touched && form.get('password')?.hasError('required')) {
+              <p class="help is-danger">
+                <span class="icon">
+                  <i class="bx bx-error"></i>
+                </span>
+                <span>This field cannot be empty</span>
+              </p>
+            }
+          </div>
+          <!-- Submit -->
+          <div class="buttons">
+            <button
+              [class.is-loading]="isFormLoading"
+              [disabled]="!form.valid"
+              class="button is-primary is-fullwidth">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Footer -->
+    <div class="block">
+      <div class="box">
+        <p class="has-text-centered block">Do not have an account yet?</p>
+        <a [routerLink]="['/users/signup']" class="button is-fullwidth">Sign up</a>
+      </div>
+    </div>
+  </div>
+</div>

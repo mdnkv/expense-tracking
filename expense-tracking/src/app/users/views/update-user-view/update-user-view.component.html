@@ -1,0 +1,112 @@
+<div class="columns is-centered">
+  <!-- Left -->
+  <div class="column is-3-desktop is-4-tablet is-full-mobile">
+    <div class="box">
+      <div class="menu">
+        <ul class="menu-list">
+          <li>
+            <a [routerLink]="['/users/user']">
+              <span class="icon">
+                <i class="bx bx-user"></i>
+              </span>
+              <span>My profile</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/users/password']">
+              <span class="icon">
+                <i class="bx bx-lock"></i>
+              </span>
+              <span>Passwords</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- Main -->
+  <div class="column is-6-desktop is-8-tablet is-full-mobile">
+    <div class="box">
+      <!-- Success message -->
+      @if (isSuccess){
+        <div class="notification is-success">
+          <button class="delete" (click)="isSuccess = false"></button>
+          <p>Your profile information was updated successfully</p>
+        </div>
+      }
+      <!-- Error message -->
+      @if (isError){
+        <div class="notification is-danger">
+          <button class="delete" (click)="isError = false"></button>
+          <p>Something went wrong! Please try again later</p>
+        </div>
+      }
+      <!-- Header -->
+      <div class="block">
+        <p class="title is-3">My profile</p>
+      </div>
+      <!-- form -->
+      <div class="block">
+        <form [formGroup]="form" (submit)="onFormSubmit()">
+          <!-- First name -->
+          <div class="field">
+            <label class="label">First name</label>
+            <div class="control">
+              <input
+                [class.is-skeleton]="user == undefined"
+                [class.is-danger]="form.get('firstName')?.touched && !form.get('firstName')?.valid"
+                [class.is-success]="form.get('firstName')?.touched && form.get('firstName')?.valid"
+                formControlName="firstName"
+                type="text"
+                placeholder="Enter your first name"
+                class="input">
+            </div>
+            @if (form.get('firstName')?.touched && form.get('firstName')?.hasError('required')) {
+              <p class="help is-danger">
+                <span class="icon">
+                  <i class="bx bx-error"></i>
+                </span>
+                <span>This field cannot be empty</span>
+              </p>
+            }
+          </div>
+          <!-- Last name -->
+          <div class="field">
+            <label class="label">Last name</label>
+            <div class="control">
+              <input
+                [class.is-skeleton]="user == undefined"
+                [class.is-danger]="form.get('lastName')?.touched && !form.get('lastName')?.valid"
+                [class.is-success]="form.get('lastName')?.touched && form.get('lastName')?.valid"
+                formControlName="lastName"
+                type="text"
+                placeholder="Enter your last name"
+                class="input">
+            </div>
+            @if (form.get('lastName')?.touched && form.get('lastName')?.hasError('required')) {
+              <p class="help is-danger">
+                <span class="icon">
+                  <i class="bx bx-error"></i>
+                </span>
+                <span>This field cannot be empty</span>
+              </p>
+            }
+          </div>
+
+          <!-- Buttons -->
+          <div class="buttons">
+            <button
+              [disabled]="!form.valid"
+              [class.is-skeleton]="user == undefined"
+              [class.is-loading]="isFormLoading"
+              type="submit"
+              class="button is-primary">
+              Save
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

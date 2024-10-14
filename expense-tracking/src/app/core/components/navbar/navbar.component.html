@@ -1,0 +1,16 @@
+<nav class="navbar is-dark is-fixed-top">
+  <div class="navbar-brand"></div>
+  <div class="navbar-menu">
+    @if (isAuthenticated){
+      <div class="navbar-start"></div>
+      <div class="navbar-end">
+        <a (click)="logout()" class="navbar-item">Logout</a>
+      </div>
+    } @else {
+      <div class="navbar-end">
+        <a [routerLink]="['/auth/login']" class="navbar-item">Login</a>
+        <a [routerLink]="['/users/signup']" class="navbar-item">Signup</a>
+      </div>
+    }
+  </div>
+</nav>
