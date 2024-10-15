@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "categories_category")
-public class Category {
+public class Category implements Comparable<Category> {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,6 +21,11 @@ public class Category {
 
     @Column(name = "category_name", nullable = false)
     private String name;
+
+    @Override
+    public int compareTo(Category o) {
+        return this.name.compareTo(o.name);
+    }
 
     @Override
     public boolean equals(Object o) {

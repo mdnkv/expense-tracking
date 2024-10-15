@@ -1,0 +1,74 @@
+<div class="columns is-centered">
+  <div class="column is-4-desktop is-8-tablet is-full-mobile">
+    <!-- Header -->
+    <div class="block">
+      <p class="title is-4">Edit category</p>
+    </div>
+
+    <!-- Success -->
+    @if(isSuccess){
+      <div class="block">
+        <div class="notification is-success">
+          <p>The item was updated successfully</p>
+        </div>
+      </div>
+    }
+
+    <!-- Error -->
+    @if(isError){
+      <div class="block">
+        <div class="notification is-danger">
+          <p>Something went wrong. Please try again later</p>
+        </div>
+      </div>
+    }
+
+    <!-- Form -->
+    <div class="block">
+      <form (submit)="onFormSubmit()" [formGroup]="categoryUpdateForm">
+
+        <div class="field">
+          <label class="label">Category name</label>
+          <div class="control">
+            <input
+              [class.is-danger]="categoryUpdateForm.get('name')?.touched && !categoryUpdateForm.get('name')?.valid"
+              [class.is-success]="categoryUpdateForm.get('name')?.touched && categoryUpdateForm.get('name')?.valid"
+              [class.is-skeleton]="category == undefined"
+              formControlName="name"
+              placeholder="Enter a category name..."
+              type="text"
+              class="input"
+            >
+          </div>
+          @if (categoryUpdateForm.get('name')?.touched && categoryUpdateForm.get('name')?.hasError('required')) {
+            <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+              <span>This field cannot be empty</span>
+            </p>
+          }
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons">
+          <button
+            [disabled]="!categoryUpdateForm.valid"
+            [class.is-skeleton]="category == undefined"
+            [class.is-loading]="isFormLoading"
+            type="submit"
+            class="button is-primary">
+            Save
+          </button>
+
+          <button
+            (click)="onCancel()"
+            class="button"
+            type="button">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
