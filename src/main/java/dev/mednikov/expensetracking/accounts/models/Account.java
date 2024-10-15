@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "accounts_account")
-public class Account {
+public class Account implements Comparable<Account> {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,6 +25,11 @@ public class Account {
     @Column(name = "account_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountType type;
+
+    @Override
+    public int compareTo(Account o) {
+        return this.name.compareTo(o.name);
+    }
 
     @Override
     public boolean equals(Object o) {

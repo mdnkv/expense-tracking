@@ -1,11 +1,15 @@
 import { Routes } from '@angular/router';
+
+import {IsAuthenticatedGuard} from "./auth/guards/auth.guards";
+
 import {SignupViewComponent} from "./users/views/signup-view/signup-view.component";
 import {LoginViewComponent} from "./auth/views/login-view/login-view.component";
 import {UpdateUserViewComponent} from "./users/views/update-user-view/update-user-view.component";
 import {UpdatePasswordViewComponent} from "./users/views/update-password-view/update-password-view.component";
-import {IsAuthenticatedGuard} from "./auth/guards/auth.guards";
 import {CategoriesViewComponent} from "./categories/views/categories-view/categories-view.component";
 import {EditCategoryViewComponent} from "./categories/views/edit-category-view/edit-category-view.component";
+import {AccountsViewComponent} from "./accounts/views/accounts-view/accounts-view.component";
+import {EditAccountViewComponent} from "./accounts/views/edit-account-view/edit-account-view.component";
 
 export const routes: Routes = [
   {
@@ -34,6 +38,16 @@ export const routes: Routes = [
   {
     path: 'category/:id',
     component: EditCategoryViewComponent,
+    canActivate: [IsAuthenticatedGuard()]
+  },
+  {
+    path: 'accounts',
+    component: AccountsViewComponent,
+    canActivate: [IsAuthenticatedGuard()]
+  },
+  {
+    path: 'account/:id',
+    component: EditAccountViewComponent,
     canActivate: [IsAuthenticatedGuard()]
   }
 ];

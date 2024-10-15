@@ -64,6 +64,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountDto> findAllAccountsForUser(Long userId) {
         return this.accountRepository.findAllByUserId(userId)
-                .stream().map(mapper).toList();
+                .stream().sorted().map(mapper).toList();
     }
 }

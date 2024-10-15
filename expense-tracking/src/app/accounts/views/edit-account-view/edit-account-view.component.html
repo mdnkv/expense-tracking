@@ -1,0 +1,87 @@
+<div class="columns is-centered">
+  <div class="column is-4-desktop is-8-tablet is-full-mobile">
+    <!-- Header -->
+    <div class="block">
+      <p class="title is-4">Edit account</p>
+    </div>
+
+    <!-- Success -->
+    @if(isSuccess){
+      <div class="block">
+        <div class="notification is-success">
+          <p>The item was updated successfully</p>
+        </div>
+      </div>
+    }
+
+    <!-- Error -->
+    @if(isError){
+      <div class="block">
+        <div class="notification is-danger">
+          <p>Something went wrong. Please try again later</p>
+        </div>
+      </div>
+    }
+
+    <!-- Form -->
+    <div class="block">
+      <form (submit)="onFormSubmit()" [formGroup]="accountUpdateForm">
+
+        <div class="field">
+          <label class="label">Account name</label>
+          <div class="control">
+            <input
+              [class.is-skeleton]="account == undefined"
+              [class.is-danger]="accountUpdateForm.get('name')?.touched && !accountUpdateForm.get('name')?.valid"
+              [class.is-success]="accountUpdateForm.get('name')?.touched && accountUpdateForm.get('name')?.valid"
+              formControlName="name"
+              placeholder="Enter an account name..."
+              type="text"
+              class="input"
+            >
+          </div>
+          @if (accountUpdateForm.get('name')?.touched && accountUpdateForm.get('name')?.hasError('required')) {
+            <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+              <span>This field cannot be empty</span>
+            </p>
+          }
+
+        </div>
+
+        <div class="field">
+          <label class="label">Account type</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select formControlName="type">
+                @for (at of accountTypes; track at.value){
+                  <option [value]="at.value">{{at.name}}</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons">
+          <button
+            [disabled]="!accountUpdateForm.valid"
+            [class.is-skeleton]="account == undefined"
+            [class.is-loading]="isFormLoading"
+            type="submit"
+            class="button is-primary">
+            Save
+          </button>
+
+          <button
+            (click)="onCancel()"
+            class="button"
+            type="button">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

@@ -4,6 +4,7 @@
     @if (isAuthenticated){
       <div class="navbar-start">
         <a [routerLink]="['/categories']" class="navbar-item">Categories</a>
+        <a [routerLink]="['/accounts']" class="navbar-item">Accounts</a>
       </div>
       <div class="navbar-end">
         <a (click)="logout()" class="navbar-item">Logout</a>
