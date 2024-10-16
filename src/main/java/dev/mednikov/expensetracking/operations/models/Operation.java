@@ -13,7 +13,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "operations_operation")
-public class Operation {
+public class Operation implements Comparable<Operation> {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,6 +48,11 @@ public class Operation {
 
     @Column(name = "operation_date", nullable = false)
     private LocalDate operationDate;
+
+    @Override
+    public int compareTo(Operation o) {
+        return this.operationDate.compareTo(o.operationDate);
+    }
 
     @Override
     public boolean equals(Object o) {

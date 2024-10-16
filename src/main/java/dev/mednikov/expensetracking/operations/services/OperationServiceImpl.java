@@ -12,8 +12,10 @@ import dev.mednikov.expensetracking.operations.models.Operation;
 import dev.mednikov.expensetracking.operations.repositories.OperationRepository;
 import dev.mednikov.expensetracking.users.models.User;
 import dev.mednikov.expensetracking.users.repositories.UserRepository;
+
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,6 +101,8 @@ public class OperationServiceImpl implements OperationService {
     public List<OperationResponseDto> findAllOperationsForUser(Long userId) {
         return this.operationRepository
                 .findAllByUserId(userId)
-                .stream().map(responseDtoMapper).toList();
+                .stream()
+                .sorted(Comparator.reverseOrder())
+                .map(responseDtoMapper).toList();
     }
 }

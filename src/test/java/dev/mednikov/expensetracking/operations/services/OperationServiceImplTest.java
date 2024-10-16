@@ -1,6 +1,7 @@
 package dev.mednikov.expensetracking.operations.services;
 
 import com.github.javafaker.Faker;
+
 import dev.mednikov.expensetracking.accounts.models.Account;
 import dev.mednikov.expensetracking.accounts.models.AccountType;
 import dev.mednikov.expensetracking.accounts.repositories.AccountRepository;
@@ -14,6 +15,7 @@ import dev.mednikov.expensetracking.operations.models.OperationType;
 import dev.mednikov.expensetracking.operations.repositories.OperationRepository;
 import dev.mednikov.expensetracking.users.models.User;
 import dev.mednikov.expensetracking.users.repositories.UserRepository;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +41,7 @@ class OperationServiceImplTest {
     @InjectMocks private OperationServiceImpl operationService;
 
     @Test
-    void createAccount_withAccountTest(){
+    void createOperation_withAccountTest(){
         Long userId = faker.number().randomNumber();
         Long accountId = faker.number().randomNumber();
         Long operationId = faker.number().randomNumber();
@@ -86,7 +88,7 @@ class OperationServiceImplTest {
     }
 
     @Test
-    void createAccount_withAccountAndCategoryTest(){
+    void createOperation_withAccountAndCategoryTest(){
         Long userId = faker.number().randomNumber();
         Long accountId = faker.number().randomNumber();
         Long operationId = faker.number().randomNumber();
@@ -143,7 +145,7 @@ class OperationServiceImplTest {
     }
 
     @Test
-    void updateAccount_notFoundTest(){
+    void updateOperation_notFoundTest(){
         Long userId = faker.number().randomNumber();
         Long accountId = faker.number().randomNumber();
         Long operationId = faker.number().randomNumber();
@@ -167,13 +169,153 @@ class OperationServiceImplTest {
                 .isInstanceOf(OperationNotFoundException.class);
     }
 
-    void updateAccount_withAccountTest(){}
+    @Test
+    void updateOperation_withAccountTest(){
+        Long userId = faker.number().randomNumber();
+        Long accountId = faker.number().randomNumber();
+        Long operationId = faker.number().randomNumber();
 
-    void updateAccount_withAccountAndCategoryTest(){}
+        User user = new User.UserBuilder().withId(userId).build();
+        Account account = new Account.AccountBuilder()
+                .withName(faker.lorem().fixedString(50))
+                .withId(accountId)
+                .withUser(user)
+                .withType(AccountType.CASH)
+                .build();
 
-    void findAccountById_existsTest(){}
+        Operation operation = new Operation.OperationBuilder()
+                .withId(operationId)
+                .withUser(user)
+                .withAccount(account)
+                .withAmount(BigDecimal.valueOf(100))
+                .withCurrency("EUR")
+                .withOperationDate(LocalDate.now())
+                .withType(OperationType.EXPENSE)
+                .withDescription(faker.lorem().fixedString(200))
+                .build();
 
-    void findAccountById_doesNotExistTest(){}
+        Mockito.when(operationRepository.findById(operationId)).thenReturn(Optional.of(operation));
+        Mockito.when(accountRepository.getReferenceById(accountId)).thenReturn(account);
+        Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
+
+        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
+                .withId(operationId)
+                .withAccountId(accountId)
+                .withUserId(userId)
+                .withAmount(BigDecimal.valueOf(100))
+                .withCurrency("EUR")
+                .withOperationDate(LocalDate.now())
+                .withType(OperationType.EXPENSE)
+                .withDescription(faker.lorem().fixedString(200))
+                .build();
+
+        OperationResponseDto result = operationService.updateOperation(request);
+        Assertions.assertThat(result)
+                .hasFieldOrPropertyWithValue("id", operationId)
+                .hasFieldOrProperty("account");
+    }
+
+    @Test
+    void updateOperation_withAccountAndCategoryTest(){
+        Long userId = faker.number().randomNumber();
+        Long accountId = faker.number().randomNumber();
+        Long operationId = faker.number().randomNumber();
+        Long categoryId = faker.number().randomNumber();
+
+        User user = new User.UserBuilder().withId(userId).build();
+        Account account = new Account.AccountBuilder()
+                .withName(faker.lorem().fixedString(50))
+                .withId(accountId)
+                .withUser(user)
+                .withType(AccountType.CASH)
+                .build();
+
+        Category category = new Category.CategoryBuilder()
+                .withId(categoryId)
+                .withName(faker.lorem().fixedString(15))
+                .withUser(user)
+                .build();
+
+        Operation operation = new Operation.OperationBuilder()
+                .withId(operationId)
+                .withUser(user)
+                .withAccount(account)
+                .withAmount(BigDecimal.valueOf(100))
+                .withCurrency("EUR")
+                .withOperationDate(LocalDate.now())
+                .withType(OperationType.EXPENSE)
+                .withCategory(category)
+                .withDescription(faker.lorem().fixedString(200))
+                .build();
+
+        Mockito.when(operationRepository.findById(operationId)).thenReturn(Optional.of(operation));
+        Mockito.when(accountRepository.getReferenceById(accountId)).thenReturn(account);
+        Mockito.when(categoryRepository.getReferenceById(categoryId)).thenReturn(category);
+        Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
+
+        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
+                .withId(operationId)
+                .withAccountId(accountId)
+                .withCategoryId(categoryId)
+                .withUserId(userId)
+                .withAmount(BigDecimal.valueOf(100))
+                .withCurrency("EUR")
+                .withOperationDate(LocalDate.now())
+                .withType(OperationType.EXPENSE)
+                .withDescription(faker.lorem().fixedString(200))
+                .build();
+
+        OperationResponseDto result = operationService.updateOperation(request);
+        Assertions.assertThat(result)
+                .hasFieldOrPropertyWithValue("id", operationId)
+                .hasFieldOrProperty("account");
+    }
+
+    @Test
+    void findOperationById_existsTest(){
+        Long userId = faker.number().randomNumber();
+        Long accountId = faker.number().randomNumber();
+        Long operationId = faker.number().randomNumber();
+        Long categoryId = faker.number().randomNumber();
+
+        User user = new User.UserBuilder().withId(userId).build();
+        Account account = new Account.AccountBuilder()
+                .withName(faker.lorem().fixedString(50))
+                .withId(accountId)
+                .withUser(user)
+                .withType(AccountType.CASH)
+                .build();
+
+        Category category = new Category.CategoryBuilder()
+                .withId(categoryId)
+                .withName(faker.lorem().fixedString(15))
+                .withUser(user)
+                .build();
+
+        Operation operation = new Operation.OperationBuilder()
+                .withId(operationId)
+                .withUser(user)
+                .withAccount(account)
+                .withAmount(BigDecimal.valueOf(100))
+                .withCurrency("EUR")
+                .withOperationDate(LocalDate.now())
+                .withType(OperationType.EXPENSE)
+                .withCategory(category)
+                .withDescription(faker.lorem().fixedString(200))
+                .build();
+
+        Mockito.when(operationRepository.findById(operationId)).thenReturn(Optional.of(operation));
+        Optional<OperationResponseDto> result = operationService.findOperationById(operationId);
+        Assertions.assertThat(result).isPresent();
+    }
+
+    @Test
+    void findOperationById_doesNotExistTest(){
+        Long id = faker.number().randomNumber();
+        Mockito.when(operationRepository.findById(id)).thenReturn(Optional.empty());
+        Optional<OperationResponseDto> result = operationService.findOperationById(id);
+        Assertions.assertThat(result).isEmpty();
+    }
 
 
 
