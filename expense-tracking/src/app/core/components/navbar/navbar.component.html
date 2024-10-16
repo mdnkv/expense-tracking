@@ -3,6 +3,7 @@
   <div class="navbar-menu">
     @if (isAuthenticated){
       <div class="navbar-start">
+        <a [routerLink]="['/operations']" class="navbar-item">Operations</a>
         <a [routerLink]="['/categories']" class="navbar-item">Categories</a>
         <a [routerLink]="['/accounts']" class="navbar-item">Accounts</a>
       </div>

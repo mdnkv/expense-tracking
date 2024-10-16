@@ -48,8 +48,8 @@ export class LoginViewComponent {
         // output result
         console.log(result)
 
-        // go to edit user view
-        this.router.navigateByUrl("/users/user")
+        // go to operations view
+        this.router.navigateByUrl("/operations")
 
       },
       error: (err: HttpErrorResponse) => {

@@ -10,6 +10,8 @@ import {CategoriesViewComponent} from "./categories/views/categories-view/catego
 import {EditCategoryViewComponent} from "./categories/views/edit-category-view/edit-category-view.component";
 import {AccountsViewComponent} from "./accounts/views/accounts-view/accounts-view.component";
 import {EditAccountViewComponent} from "./accounts/views/edit-account-view/edit-account-view.component";
+import {OperationsViewComponent} from "./operations/views/operations-view/operations-view.component";
+import {EditOperationViewComponent} from "./operations/views/edit-operation-view/edit-operation-view.component";
 
 export const routes: Routes = [
   {
@@ -48,6 +50,16 @@ export const routes: Routes = [
   {
     path: 'account/:id',
     component: EditAccountViewComponent,
+    canActivate: [IsAuthenticatedGuard()]
+  },
+  {
+    path: 'operations',
+    component: OperationsViewComponent,
+    canActivate: [IsAuthenticatedGuard()]
+  },
+  {
+    path: 'operation/:id',
+    component: EditOperationViewComponent,
     canActivate: [IsAuthenticatedGuard()]
   }
 ];

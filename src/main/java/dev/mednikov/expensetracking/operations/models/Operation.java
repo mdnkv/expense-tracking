@@ -24,13 +24,13 @@ public class Operation implements Comparable<Operation> {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "category_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
-    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "account_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Account account;
 
     @Column(name = "operation_type", nullable = false)

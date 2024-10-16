@@ -1,0 +1,186 @@
+<div class="columns is-centered">
+  <div class="column is-4-desktop is-8-tablet is-full-mobile">
+    <!-- Header -->
+    <div class="block">
+      <p class="title is-4">Edit operation</p>
+    </div>
+
+    <!-- Success -->
+    @if(isSuccess){
+      <div class="block">
+        <div class="notification is-success">
+          <p>The item was updated successfully</p>
+        </div>
+      </div>
+    }
+
+    <!-- Error -->
+    @if(isError){
+      <div class="block">
+        <div class="notification is-danger">
+          <p>Something went wrong. Please try again later</p>
+        </div>
+      </div>
+    }
+
+    <!-- Form -->
+    <div class="block">
+      <form (submit)="onFormSubmit()" [formGroup]="operationUpdateForm">
+
+        <!-- Form fields -->
+        <!-- Description -->
+        <div class="field">
+          <label class="label">Description</label>
+          <div class="control">
+            <input
+              [class.is-skeleton]="operation == undefined"
+              [class.is-danger]="operationUpdateForm.get('description')?.touched && !operationUpdateForm.get('description')?.valid"
+              [class.is-success]="operationUpdateForm.get('description')?.touched && operationUpdateForm.get('description')?.valid"
+              formControlName="description"
+              placeholder="Enter a description for this operation"
+              type="text"
+              class="input"
+            >
+          </div>
+          @if (operationUpdateForm.get('description')?.touched && operationUpdateForm.get('description')?.hasError('required')) {
+            <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+              <span>This field cannot be empty</span>
+            </p>
+          }
+        </div>
+
+        <!-- Date -->
+        <div class="field">
+          <label class="label">Date</label>
+          <div class="control">
+            <input
+              [class.is-skeleton]="operation == undefined"
+              [class.is-danger]="operationUpdateForm.get('operationDate')?.touched && !operationUpdateForm.get('operationDate')?.valid"
+              [class.is-success]="operationUpdateForm.get('operationDate')?.touched && operationUpdateForm.get('operationDate')?.valid"
+              formControlName="operationDate"
+              placeholder="When it was?"
+              type="date"
+              class="input"
+            >
+          </div>
+          @if (operationUpdateForm.get('operationDate')?.touched && operationUpdateForm.get('operationDate')?.hasError('required')) {
+            <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+              <span>This field cannot be empty</span>
+            </p>
+          }
+        </div>
+
+        <!-- Amount -->
+        <div class="field">
+          <label class="label">Amount</label>
+          <div class="control">
+            <input
+              [class.is-skeleton]="operation == undefined"
+              [class.is-danger]="operationUpdateForm.get('amount')?.touched && !operationUpdateForm.get('amount')?.valid"
+              [class.is-success]="operationUpdateForm.get('amount')?.touched && operationUpdateForm.get('amount')?.valid"
+              formControlName="amount"
+              placeholder="Enter an amount"
+              type="number"
+              class="input"
+            >
+          </div>
+          @if (operationUpdateForm.get('amount')?.touched && operationUpdateForm.get('amount')?.hasError('required')) {
+            <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+              <span>This field cannot be empty</span>
+            </p>
+          }
+          @if (operationUpdateForm.get('amount')?.touched && operationUpdateForm.get('amount')?.hasError('min')) {
+            <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+              <span>The operation amount cannot be negative</span>
+            </p>
+          }
+        </div>
+
+        <!-- Type -->
+        <div class="field">
+          <label class="label">Type of the operation</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select formControlName="type">
+                @for (ot of operationTypes; track ot.value){
+                  <option [value]="ot.value">{{ot.name}}</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account -->
+        <fieldset [disabled]="accountsList.length == 0 || operation == undefined">
+          <div class="field">
+            <label class="label">Account</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select formControlName="accountId">
+                  @for (account of accountsList; track account.id!){
+                    <option [value]="account.id!">{{account.name}}</option>
+                  }
+                </select>
+              </div>
+            </div>
+            @if (operationUpdateForm.get('accountId')?.touched && operationUpdateForm.get('accountId')?.hasError('required')) {
+              <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+                <span>This field cannot be empty</span>
+              </p>
+            }
+
+          </div>
+        </fieldset>
+
+        <!-- Category -->
+        <fieldset [disabled]="categoriesList.length == 0 || operation == undefined" class="block">
+          <div class="field">
+            <label class="label">Category</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select formControlName="categoryId">
+                  @for (category of categoriesList; track category.id!){
+                    <option [value]="category.id!">{{category.name}}</option>
+                  }
+                </select>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Buttons -->
+        <div class="buttons">
+          <button
+            [disabled]="!operationUpdateForm.valid"
+            [class.is-skeleton]="operation == undefined"
+            [class.is-loading]="isFormLoading"
+            type="submit"
+            class="button is-primary">
+            Save
+          </button>
+
+          <button
+            (click)="onCancel()"
+            class="button"
+            type="button">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
