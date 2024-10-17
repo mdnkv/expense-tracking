@@ -15,6 +15,7 @@ public record OperationResponseDto(
         String currency,
         BigDecimal amount,
         OperationType type,
-        LocalDate operationDate
+        LocalDate operationDate,
+        String monetaryAmount
 ) {
 }

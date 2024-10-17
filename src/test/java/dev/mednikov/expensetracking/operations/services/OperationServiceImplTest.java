@@ -82,9 +82,8 @@ class OperationServiceImplTest {
         Assertions
                 .assertThat(result)
                 .hasFieldOrPropertyWithValue("id", operationId)
-                .hasFieldOrProperty("account");
-
-
+                .hasFieldOrProperty("account")
+                .hasFieldOrPropertyWithValue("monetaryAmount", "EUR 100.00");
     }
 
     @Test
@@ -141,7 +140,8 @@ class OperationServiceImplTest {
                 .assertThat(result)
                 .hasFieldOrPropertyWithValue("id", operationId)
                 .hasFieldOrProperty("account")
-                .hasFieldOrProperty("category");
+                .hasFieldOrProperty("category")
+                .hasFieldOrPropertyWithValue("monetaryAmount", "EUR 100.00");
     }
 
     @Test
@@ -202,7 +202,7 @@ class OperationServiceImplTest {
                 .withId(operationId)
                 .withAccountId(accountId)
                 .withUserId(userId)
-                .withAmount(BigDecimal.valueOf(100))
+                .withAmount(BigDecimal.valueOf(250))
                 .withCurrency("EUR")
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
@@ -212,6 +212,7 @@ class OperationServiceImplTest {
         OperationResponseDto result = operationService.updateOperation(request);
         Assertions.assertThat(result)
                 .hasFieldOrPropertyWithValue("id", operationId)
+                .hasFieldOrPropertyWithValue("monetaryAmount", "EUR 250.00")
                 .hasFieldOrProperty("account");
     }
 
@@ -258,7 +259,7 @@ class OperationServiceImplTest {
                 .withAccountId(accountId)
                 .withCategoryId(categoryId)
                 .withUserId(userId)
-                .withAmount(BigDecimal.valueOf(100))
+                .withAmount(BigDecimal.valueOf(300))
                 .withCurrency("EUR")
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
@@ -268,6 +269,7 @@ class OperationServiceImplTest {
         OperationResponseDto result = operationService.updateOperation(request);
         Assertions.assertThat(result)
                 .hasFieldOrPropertyWithValue("id", operationId)
+                .hasFieldOrPropertyWithValue("monetaryAmount", "EUR 300.00")
                 .hasFieldOrProperty("account");
     }
 

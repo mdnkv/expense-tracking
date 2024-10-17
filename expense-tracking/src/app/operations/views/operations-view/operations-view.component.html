@@ -22,9 +22,11 @@
     <div>
       <div class="columns is-vcentered">
         <div class="column is-1">
+          <!-- Operation date -->
           <p>{{operation.operationDate}}</p>
         </div>
         <div class="column">
+          <!-- Description and category -->
           <p class="is-size-5">{{operation.description}}</p>
           @if (operation.category) {
             <p>
@@ -41,12 +43,41 @@
           }
         </div>
         <div class="column">
-          <p>{{operation.account.name}}</p>
+          <!-- Account -->
+          <p class="tag is-rounded">
+            <span class="icon">
+              @switch(operation.account.type) {
+                @case ('CASH') {
+                  <i class="bx bx-coin-stack"></i>
+                }
+                @case ('CREDIT_CARD') {
+                  <i class="bx bx-credit-card"></i>
+                }
+                @case ('BANK_ACCOUNT') {
+                  <i class="bx bxs-bank"></i>
+                }
+              }
+            </span>
+            <span>{{operation.account.name}}</span>
+          </p>
         </div>
         <div class="column is-2">
-          <p>{{operation.currency}} {{operation.amount}}</p>
+          <!-- Amount -->
+          <p class="is-size-5">
+            @if (operation.type == 'INCOME') {
+              <span class="icon">
+                <i class="bx bx-arrow-to-bottom"></i>
+              </span>
+            } @else {
+              <span class="icon">
+                <i class="bx bx-arrow-from-bottom"></i>
+              </span>
+            }
+            <span>{{ operation.monetaryAmount }}</span>
+          </p>
         </div>
         <div class="column is-1">
+          <!-- Actions -->
           <div class="buttons is-right">
             <div class="dropdown is-right is-hoverable">
               <div class="dropdown-trigger">
@@ -159,15 +190,20 @@
       <!-- Amount -->
       <div class="field">
         <label class="label">Amount</label>
-        <div class="control">
-          <input
-            [class.is-danger]="operationCreateForm.get('amount')?.touched && !operationCreateForm.get('amount')?.valid"
-            [class.is-success]="operationCreateForm.get('amount')?.touched && operationCreateForm.get('amount')?.valid"
-            formControlName="amount"
-            placeholder="Enter an amount"
-            type="number"
-            class="input"
-          >
+        <div class="field has-addons">
+          <div class="control">
+            <button class="button is-static">EUR</button>
+          </div>
+          <div class="control is-expanded">
+            <input
+              [class.is-danger]="operationCreateForm.get('amount')?.touched && !operationCreateForm.get('amount')?.valid"
+              [class.is-success]="operationCreateForm.get('amount')?.touched && operationCreateForm.get('amount')?.valid"
+              formControlName="amount"
+              placeholder="Enter an amount"
+              type="number"
+              class="input"
+            >
+          </div>
         </div>
         @if (operationCreateForm.get('amount')?.touched && operationCreateForm.get('amount')?.hasError('required')) {
           <p class="help is-danger">

@@ -6,6 +6,8 @@ import dev.mednikov.expensetracking.users.models.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,7 +15,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "operations_operation")
-public class Operation implements Comparable<Operation> {
+public class Operation implements Comparable<Operation>, Monetary {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -52,6 +54,12 @@ public class Operation implements Comparable<Operation> {
     @Override
     public int compareTo(Operation o) {
         return this.operationDate.compareTo(o.operationDate);
+    }
+
+    @Override
+    public Money getMonetaryAmount() {
+        CurrencyUnit currency = CurrencyUnit.of(this.currency);
+        return Money.of(currency, this.amount);
     }
 
     @Override

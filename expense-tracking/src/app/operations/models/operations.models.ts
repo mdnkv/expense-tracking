@@ -32,4 +32,5 @@ export interface OperationResponse {
   amount: number
   type: string
   operationDate: Date
+  monetaryAmount: string
 }

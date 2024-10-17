@@ -17,6 +17,7 @@ public final class OperationResponseDtoMapper implements Function<Operation, Ope
     public OperationResponseDto apply(Operation operation) {
         AccountDto account = accountDtoMapper.apply(operation.getAccount());
         CategoryDto category = (operation.getCategory() != null) ? categoryDtoMapper.apply(operation.getCategory()) : null;
+        String monetaryAmount = operation.getMonetaryAmount().toString();
         return new OperationResponseDto(
                 operation.getId(),
                 account,
@@ -25,7 +26,8 @@ public final class OperationResponseDtoMapper implements Function<Operation, Ope
                 operation.getCurrency(),
                 operation.getAmount(),
                 operation.getType(),
-                operation.getOperationDate()
+                operation.getOperationDate(),
+                monetaryAmount
         );
     }
 }

@@ -79,16 +79,20 @@
         <!-- Amount -->
         <div class="field">
           <label class="label">Amount</label>
-          <div class="control">
-            <input
-              [class.is-skeleton]="operation == undefined"
-              [class.is-danger]="operationUpdateForm.get('amount')?.touched && !operationUpdateForm.get('amount')?.valid"
-              [class.is-success]="operationUpdateForm.get('amount')?.touched && operationUpdateForm.get('amount')?.valid"
-              formControlName="amount"
-              placeholder="Enter an amount"
-              type="number"
-              class="input"
-            >
+          <div class="field has-addons">
+            <div class="control">
+              <button class="button is-static">EUR</button>
+            </div>
+            <div class="control is-expanded">
+              <input
+                [class.is-danger]="operationUpdateForm.get('amount')?.touched && !operationUpdateForm.get('amount')?.valid"
+                [class.is-success]="operationUpdateForm.get('amount')?.touched && operationUpdateForm.get('amount')?.valid"
+                formControlName="amount"
+                placeholder="Enter an amount"
+                type="number"
+                class="input"
+              >
+            </div>
           </div>
           @if (operationUpdateForm.get('amount')?.touched && operationUpdateForm.get('amount')?.hasError('required')) {
             <p class="help is-danger">

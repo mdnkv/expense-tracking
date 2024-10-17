@@ -44,13 +44,13 @@ public class DashboardServiceImpl implements DashboardService {
         // calculate income
         Money income = operations.stream()
                 .filter(o -> o.getType() == OperationType.INCOME)
-                .map(o -> Money.of(CurrencyUnit.of(o.getCurrency()), o.getAmount()))
+                .map(Operation::getMonetaryAmount)
                 .reduce(Money.zero(defaultCurrency), Money::plus);
 
         // calculate expense
         Money expense = operations.stream()
                 .filter(o -> o.getType() == OperationType.EXPENSE)
-                .map(o -> Money.of(CurrencyUnit.of(o.getCurrency()), o.getAmount()))
+                .map(Operation::getMonetaryAmount)
                 .reduce(Money.zero(defaultCurrency), Money::plus);
 
         // create widget dto and return
