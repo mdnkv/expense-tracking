@@ -16,6 +16,7 @@ export class LoginViewComponent {
 
   isFormLoading: boolean = false
   isError: boolean = false
+  isShowPassword: boolean = false
 
   formBuilder: FormBuilder = inject(FormBuilder)
   form: FormGroup = this.formBuilder.group({

@@ -45,15 +45,22 @@
           <!-- Password -->
           <div class="field">
             <label class="label">Password</label>
-            <div class="control has-icons-left">
+            <div class="control has-icons-left has-icons-right">
               <input
                 [class.is-danger]="form.get('password')?.touched && !form.get('password')?.valid"
                 [class.is-success]="form.get('password')?.touched && form.get('password')?.valid"
                 formControlName="password"
-                type="password"
+                [type]="isShowPassword ? 'text' : 'password'"
                 class="input">
               <span class="icon is-left">
                 <i class="bx bx-lock-alt"></i>
+              </span>
+              <span class="icon is-right is-clickable" (click)="isShowPassword = !isShowPassword">
+                @if (isShowPassword) {
+                  <i class="bx bx-low-vision"></i>
+                } @else {
+                  <i class="bx bx-show"></i>
+                }
               </span>
             </div>
             @if (form.get('password')?.touched && form.get('password')?.hasError('required')) {

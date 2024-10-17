@@ -17,6 +17,7 @@ export class UpdatePasswordViewComponent {
   isFormLoading: boolean = false
   isSuccess: boolean = false
   isError: boolean = false
+  isShowPassword: boolean = false
 
   formBuilder: FormBuilder = inject(FormBuilder)
   userService: UserService = inject(UserService)
