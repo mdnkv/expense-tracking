@@ -1,0 +1,52 @@
+<div class="columns is-centered">
+  <div class="column is-5-desktop is-9-tablet is-full-mobile">
+
+    <!-- Error -->
+    @if (isError){
+      <div class="notification is-danger">
+        <p>Something went wrong. Please try again later</p>
+      </div>
+    }
+
+    <!-- Header -->
+    <div class="block">
+      <p class="title is-2">Hello!</p>
+    </div>
+
+    <!-- Income expense widget -->
+    <div class="block">
+      <div class="box">
+        <p class="title is-4">Income and expense</p>
+
+        <div class="columns is-mobile">
+          <div class="column">
+            <p class="has-text-grey">Income</p>
+            <p
+              class="is-size-3"
+              [class.is-skeleton]="incomeExpense == undefined">
+              @if (incomeExpense == undefined){
+                EUR 0.00
+              } @else {
+                {{ incomeExpense.income }}
+              }
+            </p>
+          </div>
+          <div class="column">
+            <p class="has-text-grey">Expense</p>
+            <p
+              class="is-size-3"
+              [class.is-skeleton]="incomeExpense == undefined">
+              @if (incomeExpense == undefined){
+                EUR 0.00
+              } @else {
+                {{ incomeExpense.expense }}
+              }
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

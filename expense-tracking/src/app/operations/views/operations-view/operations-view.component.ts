@@ -125,6 +125,7 @@ export class OperationsViewComponent implements OnInit{
 
   onCloseFormModal(){
     this.operationCreateForm.reset()
+    this.operationCreateForm.get("currency")?.setValue("EUR")
     this.isShowModal = false
   }
 

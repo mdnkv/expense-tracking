@@ -12,6 +12,7 @@ import {AccountsViewComponent} from "./accounts/views/accounts-view/accounts-vie
 import {EditAccountViewComponent} from "./accounts/views/edit-account-view/edit-account-view.component";
 import {OperationsViewComponent} from "./operations/views/operations-view/operations-view.component";
 import {EditOperationViewComponent} from "./operations/views/edit-operation-view/edit-operation-view.component";
+import {DashboardViewComponent} from "./dashboard/views/dashboard-view/dashboard-view.component";
 
 export const routes: Routes = [
   {
@@ -60,6 +61,11 @@ export const routes: Routes = [
   {
     path: 'operation/:id',
     component: EditOperationViewComponent,
+    canActivate: [IsAuthenticatedGuard()]
+  },
+  {
+    path: 'dashboard',
+    component: DashboardViewComponent,
     canActivate: [IsAuthenticatedGuard()]
   }
 ];
