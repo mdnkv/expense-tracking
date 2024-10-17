@@ -1,6 +1,20 @@
 <nav class="navbar has-shadow is-fixed-top">
-  <div class="navbar-brand"></div>
-  <div class="navbar-menu">
+  <div class="navbar-brand">
+    <a
+      role="button"
+      class="navbar-burger"
+      aria-label="menu"
+      aria-expanded="false"
+      (click)="isMenuActive = !isMenuActive"
+      [class.is-active]="isMenuActive"
+    >
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu" [class.is-active]="isMenuActive">
     @if (isAuthenticated){
       <div class="navbar-start">
         <a [routerLink]="['/dashboard']" class="navbar-item">Dashboard</a>
