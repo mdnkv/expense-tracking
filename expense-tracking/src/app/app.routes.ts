@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import {IsAuthenticatedGuard} from "./auth/guards/auth.guards";
+import {IsAuthenticatedGuard} from "./auth/utils/auth.guards";
 
 import {SignupViewComponent} from "./users/views/signup-view/signup-view.component";
 import {LoginViewComponent} from "./auth/views/login-view/login-view.component";

@@ -6,4 +6,6 @@ public interface TokenService {
 
     String getToken (User user);
 
+    String getUsernameFromToken (String token);
+
 }

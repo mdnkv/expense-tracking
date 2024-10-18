@@ -10,4 +10,4 @@ spring:
 
 application:
   security:
-    jwt-secret: r2rqf_22yrd_35n&%$o4zfh_7%tl%w0hcd)g6o-&&yw+kbgy8)
+    cors-origin: http://localhost:4200

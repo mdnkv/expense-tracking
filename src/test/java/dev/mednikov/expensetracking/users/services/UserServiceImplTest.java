@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -25,6 +26,7 @@ class UserServiceImplTest {
 
     private final static Faker faker = new Faker();
 
+    @Mock private PasswordEncoder passwordEncoder;
     @Mock private UserRepository userRepository;
     @InjectMocks private UserServiceImpl userService;
 
@@ -56,6 +58,7 @@ class UserServiceImplTest {
                 .withLastName(lastName)
                 .build();
 
+        Mockito.when(passwordEncoder.encode(password)).thenReturn(password);
         Mockito.when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
 

@@ -1,7 +1,5 @@
 package dev.mednikov.expensetracking.users.services;
 
-import com.password4j.Password;
-
 import dev.mednikov.expensetracking.users.dto.*;
 import dev.mednikov.expensetracking.users.exceptions.UserAlreadyExistsException;
 import dev.mednikov.expensetracking.users.exceptions.UserNotFoundException;
@@ -9,6 +7,7 @@ import dev.mednikov.expensetracking.users.models.User;
 import dev.mednikov.expensetracking.users.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,9 +17,11 @@ public class UserServiceImpl implements UserService {
 
     private final static UserDtoMapper mapper = new UserDtoMapper();
 
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
 
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException(email);
         }
         // hash password
-        String password = Password.hash(request.password()).addRandomSalt().withScrypt().getResult();
+        String password = this.passwordEncoder.encode(request.password());
 
         // check if the user is superuser
         // if the user is 1st created, then the user becomes a superuser by default
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changePassword(ChangePasswordRequestDto request) {
         // hash password before saving
-        String password = Password.hash(request.password()).addRandomSalt().withScrypt().getResult();
+        String password = this.passwordEncoder.encode(request.password());
 
         this.userRepository.updatePassword(request.id(), password);
     }

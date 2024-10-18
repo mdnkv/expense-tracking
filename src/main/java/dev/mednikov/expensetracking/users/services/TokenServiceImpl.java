@@ -13,9 +13,9 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -26,10 +26,14 @@ public class TokenServiceImpl implements TokenService {
     private final JWSVerifier verifier;
     private final JWSSigner signer;
 
-    public TokenServiceImpl(@Value("${application.security.jwt-secret}") String secret) throws Exception{
-        byte[] keyBytes = secret.getBytes();
-        this.signer = new MACSigner(keyBytes);
-        this.verifier = new MACVerifier(keyBytes);
+    public TokenServiceImpl() throws Exception{
+        // generate random 256 bit key
+        SecureRandom random = new SecureRandom();
+        byte[] secret = new byte[32];
+        random.nextBytes(secret);
+
+        this.signer = new MACSigner(secret);
+        this.verifier = new MACVerifier(secret);
     }
 
     @Override
@@ -48,6 +52,20 @@ public class TokenServiceImpl implements TokenService {
             signedJWT.sign(this.signer);
             return signedJWT.serialize();
         } catch (Exception e) {
+            throw new TokenException();
+        }
+    }
+
+    @Override
+    public String getUsernameFromToken(String token) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(token);
+            if (signedJWT.verify(this.verifier)) {
+                return signedJWT.getJWTClaimsSet().getSubject();
+            } else {
+                throw new TokenException();
+            }
+        } catch (Exception ex){
             throw new TokenException();
         }
     }

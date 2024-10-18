@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/categories")
-@CrossOrigin("*")
 public class CategoryRestController {
 
     private final CategoryService categoryService;
