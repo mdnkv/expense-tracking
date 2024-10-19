@@ -21,6 +21,26 @@
   <div class="block">
     @for (account of accountsList; track account.id!){
       <div class="media">
+
+        <div class="media-left">
+          <div class="image is-48x48">
+            @switch (account.type){
+              @case ('CASH') {
+                <img src="/img/account-type-cash.png" alt="Cash account">
+              }
+              @case ('CREDIT_CARD') {
+                <img src="/img/account-type-creditcard.png" alt="Credit Card account">
+              }
+              @case ('BANK_ACCOUNT') {
+                <img src="/img/account-type-bank.png" alt="Bank account">
+              }
+              @default {
+                <img src="/img/account-type-default.png" alt="Payment account">
+              }
+            }
+          </div>
+        </div>
+
         <div class="media-content">
           <p class="is-size-5">{{account.name}}</p>
         </div>
