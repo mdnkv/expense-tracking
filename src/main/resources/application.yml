@@ -1,0 +1,5 @@
+server:
+  port: 8080
+application:
+  security:
+    cors-origin: http://localhost:4200

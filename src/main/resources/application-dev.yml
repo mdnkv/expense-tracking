@@ -3,11 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/expense-tracking
     username: expense-tracking
     password: secret
-
   jpa:
     hibernate:
       ddl-auto: create-drop
-
-application:
-  security:
-    cors-origin: http://localhost:4200
