@@ -38,7 +38,6 @@ export class OperationsViewComponent implements OnInit{
     accountId: [null, [Validators.required]],
     categoryId: [null],
     amount: [0, [Validators.required, Validators.min(0)]],
-    currency: ['EUR', [Validators.required]],
     description: ['', [Validators.required]],
     operationDate: [null, [Validators.required]],
     type: ['EXPENSE', [Validators.required]]
@@ -93,7 +92,7 @@ export class OperationsViewComponent implements OnInit{
       userId: userId,
       accountId: this.operationCreateForm.get('accountId')?.value,
       amount: this.operationCreateForm.get('amount')?.value,
-      currency: this.operationCreateForm.get('currency')?.value,
+      currency: 'EUR',
       description: this.operationCreateForm.get('description')?.value,
       type: this.operationCreateForm.get('type')?.value,
       operationDate: this.operationCreateForm.get('operationDate')?.value
@@ -125,7 +124,6 @@ export class OperationsViewComponent implements OnInit{
 
   onCloseFormModal(){
     this.operationCreateForm.reset()
-    this.operationCreateForm.get("currency")?.setValue("EUR")
     this.isShowModal = false
   }
 

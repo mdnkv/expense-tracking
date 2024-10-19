@@ -39,7 +39,6 @@ export class EditOperationViewComponent implements OnInit{
     accountId: [null, [Validators.required]],
     categoryId: [null],
     amount: [0, [Validators.required, Validators.min(0)]],
-    currency: ['EUR', [Validators.required]],
     description: ['', [Validators.required]],
     operationDate: [null, [Validators.required]],
     type: ['EXPENSE', [Validators.required]]
