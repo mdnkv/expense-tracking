@@ -1,29 +1,32 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {RouterLink} from "@angular/router";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+
 import {Category} from "../../models/categories.models";
 import {CategoryService} from "../../services/category.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {AddCategoryComponent} from "../../components/add-category/add-category.component";
+import {
+  CategoriesSortDropdownComponent
+} from "../../components/categories-sort-dropdown/categories-sort-dropdown.component";
+import {CategoriesListComponent} from "../../components/categories-list/categories-list.component";
+import Swal from "sweetalert2";
+import {ErrorPlaceholderComponent} from "../../../core/components/error-placeholder/error-placeholder.component";
 
 @Component({
   selector: 'app-categories-view',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [
+    AddCategoryComponent,
+    CategoriesSortDropdownComponent,
+    CategoriesListComponent,
+    ErrorPlaceholderComponent
+  ],
   templateUrl: './categories-view.component.html',
   styleUrl: './categories-view.component.css'
 })
 export class CategoriesViewComponent implements OnInit {
 
-  isFormLoading: boolean = false
-  isShowModal: boolean = false
-  isError: boolean = false
+  isLoadingError: boolean = false
   categoriesList: Category[] = []
-
-  formBuilder: FormBuilder = inject(FormBuilder)
-  categoryCreateForm: FormGroup = this.formBuilder.group({
-    name: ['', [Validators.required]]
-  })
-
   categoryService: CategoryService = inject(CategoryService)
 
   ngOnInit() {
@@ -33,50 +36,31 @@ export class CategoriesViewComponent implements OnInit {
     this.categoryService.getAllCategoriesForUser(id).subscribe({
       next: result =>{
         this.categoriesList = result
+        this.isLoadingError = false
       },
       error: (err: HttpErrorResponse) => {
         console.log(err)
+        this.isLoadingError = true
       }
     })
 
   }
 
-  onFormSubmit(){
-    this.isFormLoading = true
-    this.isError = false
-
-    const userId = localStorage.getItem("userId") as string
-    const id = Number.parseInt(userId)
-
-    const payload: Category = {
-      name: this.categoryCreateForm.get('name')?.value,
-      userId: id
-    }
-
-    this.categoryService.createCategory(payload).subscribe({
+  createCategory(category: Category){
+    this.categoryService.createCategory(category).subscribe({
       next: result => {
         // add to the categories list
         this.categoriesList.push(result)
-
-        // reset form
-        this.categoryCreateForm.reset()
-        this.isShowModal = false
-        this.isFormLoading = false
       },
       error: (err: HttpErrorResponse) => {
         console.log(err)
-
-        this.isError = true
-        this.isFormLoading = false
+        // show error message
+        Swal.fire({
+          icon: 'error',
+          text: 'Something went wrong. Please try again later'
+        })
       }
     })
-
-
-  }
-
-  onCloseFormModal(){
-    this.categoryCreateForm.reset()
-    this.isShowModal = false
   }
 
   deleteCategory(id: number){
@@ -86,8 +70,25 @@ export class CategoriesViewComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) =>{
         console.log(err)
+        // show error message
+        Swal.fire({
+          icon: 'error',
+          text: 'Something went wrong. Please try again later'
+        })
       }
     })
+  }
+
+  sortCategories(order: string){
+    if (order == 'name-asc'){
+      this.categoriesList.sort((c1, c2) => {
+        return c1.name.localeCompare(c2.name)
+      })
+    } else {
+      this.categoriesList.sort((c1, c2) => {
+        return c2.name.localeCompare(c1.name)
+      })
+    }
   }
 
 }

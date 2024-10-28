@@ -1,130 +1,34 @@
 <!-- Header -->
 <div class="block">
-  <p class="title is-3">Categories</p>
+  <p class="title is-2">Categories</p>
 </div>
 
 <!-- Toolbar -->
 <div class="block">
-  <button
-    (click)="isShowModal = true"
-    type="button"
-    class="button is-primary">
-    <span class="icon">
-      <i class="bx bx-plus"></i>
-    </span>
-    <span>New category</span>
-  </button>
+  <div class="toolbar-container">
+    <div class="level">
+      <!-- Left sidebar -->
+      <div class="level-left">
+        <!-- Add button -->
+        <div class="level-item">
+          <app-add-category (onCreateCategory)="createCategory($event)"/>
+        </div>
+        <!-- Sort button -->
+        <div class="level-item">
+          <app-categories-sort-dropdown (onSortSelection)="sortCategories($event)"/>
+        </div>
+      </div>
+      <!-- Right sidebar -->
+      <div class="level-right"></div>
+    </div>
+  </div>
 </div>
 
 <!-- Items list -->
-@if (categoriesList.length > 0){
-  <div class="block">
-    @for (category of categoriesList; track category.id!){
-      <div class="media">
-        <div class="media-content">
-          <p class="is-size-5">{{category.name}}</p>
-        </div>
-
-        <div class="media-right">
-          <div class="dropdown is-right is-hoverable">
-            <div class="dropdown-trigger">
-              <button class="button" type="button">
-                <span class="icon">
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </span>
-              </button>
-            </div>
-            <div class="dropdown-menu">
-              <div class="dropdown-content">
-                <!-- Edit action -->
-                <a [routerLink]="['/category', category.id!]" class="dropdown-item">
-                  <span class="icon">
-                    <i class="bx bx-edit-alt"></i>
-                  </span>
-                  <span>Edit</span>
-                </a>
-                <!-- Delete action -->
-                <a class="dropdown-item" (click)="deleteCategory(category.id!)">
-                  <span class="icon">
-                    <i class="bx bx-trash-alt"></i>
-                  </span>
-                  <span class="has-text-danger">Delete</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    }
-  </div>
+@if (!isLoadingError){
+  <app-categories-list
+    [categories]="categoriesList"
+    (onRemoveClicked)="deleteCategory($event)"/>
+} @else {
+  <app-error-placeholder/>
 }
-
-<!-- Empty placeholder -->
-@if (categoriesList.length == 0){
-  <div class="block">
-    <div class="notification is-info">
-      <p>No categories found</p>
-    </div>
-  </div>
-}
-
-<!--  Modal -->
-
-<div class="modal" [class.is-active]="isShowModal">
-  <div class="modal-background"></div>
-  <form class="modal-card" (submit)="onFormSubmit()" [formGroup]="categoryCreateForm">
-    <div class="modal-card-head">
-      <p class="modal-card-title">New category</p>
-      <button class="delete" aria-label="close" type="button" (click)="onCloseFormModal()"></button>
-    </div>
-    <div class="modal-card-body">
-      @if (isError){
-        <div class="notification is-danger">
-          <p>Something went wrong. Please try again later</p>
-        </div>
-      }
-
-      <div class="field">
-        <label class="label">Category name</label>
-        <div class="control">
-          <input
-            [class.is-danger]="categoryCreateForm.get('name')?.touched && !categoryCreateForm.get('name')?.valid"
-            [class.is-success]="categoryCreateForm.get('name')?.touched && categoryCreateForm.get('name')?.valid"
-            formControlName="name"
-            placeholder="Enter a category name..."
-            type="text"
-            class="input"
-          >
-        </div>
-        @if (categoryCreateForm.get('name')?.touched && categoryCreateForm.get('name')?.hasError('required')) {
-          <p class="help is-danger">
-            <span class="icon">
-              <i class="bx bx-error"></i>
-            </span>
-            <span>This field cannot be empty</span>
-          </p>
-        }
-
-      </div>
-
-    </div>
-    <div class="modal-card-foot">
-      <div class="buttons">
-        <button
-          [disabled]="!categoryCreateForm.valid"
-          [class.is-loading]="isFormLoading"
-          type="submit"
-          class="button is-primary"
-        >Create</button>
-
-        <button
-          (click)="onCloseFormModal()"
-          type="button"
-          class="button">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </form>
-</div>

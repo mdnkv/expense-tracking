@@ -1,0 +1,27 @@
+@if (categories.length > 0){
+  @for (category of categories; track category.id!){
+    <div class="media">
+      <div class="media-content">
+        <p class="is-size-5">{{category.name}}</p>
+      </div>
+      <div class="media-right">
+        <div class="buttons">
+          <!-- Edit -->
+          <a [routerLink]="['/category', category.id!]" class="button">
+            <span class="icon">
+              <i class="bx bx-edit-alt"></i>
+            </span>
+          </a>
+          <!-- Delete -->
+          <button class="button is-outlined is-danger" (click)="removeCategory(category.id!)">
+            <span class="icon">
+              <i class="bx bx-trash-alt"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+} @else {
+  <app-empty-placeholder/>
+}
