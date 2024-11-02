@@ -1,0 +1,65 @@
+@if (accounts.length > 0){
+  <div class="block">
+    @for (account of accounts; track account.id!){
+      <div class="media">
+
+        <div class="media-left">
+          <div class="image is-48x48">
+            @switch (account.type){
+              @case ('CASH') {
+                <img src="/img/account-type-cash.png" alt="Cash account">
+              }
+              @case ('CREDIT_CARD') {
+                <img src="/img/account-type-creditcard.png" alt="Credit Card account">
+              }
+              @case ('BANK_ACCOUNT') {
+                <img src="/img/account-type-bank.png" alt="Bank account">
+              }
+              @default {
+                <img src="/img/account-type-default.png" alt="Payment account">
+              }
+            }
+          </div>
+        </div>
+
+        <div class="media-content">
+          <p class="is-size-5">{{account.name}}</p>
+        </div>
+
+        <div class="media-right">
+          <div class="dropdown is-right is-hoverable">
+            <div class="dropdown-trigger">
+              <button class="button" type="button">
+                <span class="icon">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu">
+              <div class="dropdown-content">
+                <!-- Edit action -->
+                <a [routerLink]="['/account', account.id!]" class="dropdown-item">
+                  <span class="icon">
+                    <i class="bx bx-edit-alt"></i>
+                  </span>
+                  <span>Edit</span>
+                </a>
+
+                <!-- Delete action -->
+                <a class="dropdown-item" (click)="removeAccount(account.id!)">
+                  <span class="icon">
+                    <i class="bx bx-trash-alt"></i>
+                  </span>
+                  <span class="has-text-danger">Delete</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    }
+  </div>
+} @else {
+  <app-empty-placeholder/>
+}

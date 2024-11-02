@@ -1,164 +1,26 @@
 <!-- Header -->
 <div class="block">
-  <p class="title is-3">Accounts</p>
+  <p class="title is-2">Accounts</p>
 </div>
 
 <!-- Toolbar -->
 <div class="block">
-  <button
-    (click)="isShowModal = true"
-    type="button"
-    class="button is-primary">
-    <span class="icon">
-      <i class="bx bx-plus"></i>
-    </span>
-    <span>New account</span>
-  </button>
+  <div class="toolbar-container">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <app-add-account (onCreateAccount)="createAccount($event)"/>
+        </div>
+        <div class="level-item">
+          <app-accounts-sort-dropdown (onSortSelection)="sortCategories($event)"/>
+        </div>
+      </div>
+      <div class="level-right"></div>
+    </div>
+  </div>
 </div>
 
 <!-- Items list -->
-@if (accountsList.length > 0){
-  <div class="block">
-    @for (account of accountsList; track account.id!){
-      <div class="media">
-
-        <div class="media-left">
-          <div class="image is-48x48">
-            @switch (account.type){
-              @case ('CASH') {
-                <img src="/img/account-type-cash.png" alt="Cash account">
-              }
-              @case ('CREDIT_CARD') {
-                <img src="/img/account-type-creditcard.png" alt="Credit Card account">
-              }
-              @case ('BANK_ACCOUNT') {
-                <img src="/img/account-type-bank.png" alt="Bank account">
-              }
-              @default {
-                <img src="/img/account-type-default.png" alt="Payment account">
-              }
-            }
-          </div>
-        </div>
-
-        <div class="media-content">
-          <p class="is-size-5">{{account.name}}</p>
-        </div>
-
-        <div class="media-right">
-          <div class="dropdown is-right is-hoverable">
-            <div class="dropdown-trigger">
-              <button class="button" type="button">
-                <span class="icon">
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </span>
-              </button>
-            </div>
-            <div class="dropdown-menu">
-              <div class="dropdown-content">
-                <!-- Edit action -->
-                <a [routerLink]="['/account', account.id!]" class="dropdown-item">
-                  <span class="icon">
-                    <i class="bx bx-edit-alt"></i>
-                  </span>
-                  <span>Edit</span>
-                </a>
-
-                <!-- Delete action -->
-                <a class="dropdown-item" (click)="deleteAccount(account.id!)">
-                  <span class="icon">
-                    <i class="bx bx-trash-alt"></i>
-                  </span>
-                  <span class="has-text-danger">Delete</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    }
-  </div>
-}
-
-<!-- Empty placeholder -->
-@if (accountsList.length == 0){
-  <div class="block">
-    <div class="notification is-info">
-      <p>No accounts found</p>
-    </div>
-  </div>
-}
-
-<!--  Modal -->
-
-<div class="modal" [class.is-active]="isShowModal">
-  <div class="modal-background"></div>
-  <form class="modal-card" (submit)="onFormSubmit()" [formGroup]="accountCreateForm">
-    <div class="modal-card-head">
-      <p class="modal-card-title">New account</p>
-      <button class="delete" aria-label="close" type="button" (click)="onCloseFormModal()"></button>
-    </div>
-    <div class="modal-card-body">
-      @if (isError){
-        <div class="notification is-danger">
-          <p>Something went wrong. Please try again later</p>
-        </div>
-      }
-
-      <div class="field">
-        <label class="label">Account name</label>
-        <div class="control">
-          <input
-            [class.is-danger]="accountCreateForm.get('name')?.touched && !accountCreateForm.get('name')?.valid"
-            [class.is-success]="accountCreateForm.get('name')?.touched && accountCreateForm.get('name')?.valid"
-            formControlName="name"
-            placeholder="Enter an account name..."
-            type="text"
-            class="input"
-          >
-        </div>
-        @if (accountCreateForm.get('name')?.touched && accountCreateForm.get('name')?.hasError('required')) {
-          <p class="help is-danger">
-            <span class="icon">
-              <i class="bx bx-error"></i>
-            </span>
-            <span>This field cannot be empty</span>
-          </p>
-        }
-
-      </div>
-
-      <div class="field">
-        <label class="label">Account type</label>
-        <div class="control">
-          <div class="select is-fullwidth">
-            <select formControlName="type">
-              @for (at of accountTypes; track at.value){
-                <option [value]="at.value">{{at.name}}</option>
-              }
-            </select>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div class="modal-card-foot">
-      <div class="buttons">
-        <button
-          [disabled]="!accountCreateForm.valid"
-          [class.is-loading]="isFormLoading"
-          type="submit"
-          class="button is-primary"
-        >Create</button>
-
-        <button
-          (click)="onCloseFormModal()"
-          type="button"
-          class="button">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </form>
-</div>
+<app-accounts-list
+  (onRemoveClicked)="deleteAccount($event)"
+  [accounts]="accountsList"/>

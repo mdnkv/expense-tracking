@@ -1,31 +1,25 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {RouterLink} from "@angular/router";
-import {Account, AccountTypes} from "../../models/accounts.models";
-import {AccountService} from "../../services/account.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {RouterLink} from "@angular/router";
+
+import {Account} from "../../models/accounts.models";
+import {AccountService} from "../../services/account.service";
+import {AddAccountComponent} from "../../components/add-account/add-account.component";
+import {AccountsSortDropdownComponent} from "../../components/accounts-sort-dropdown/accounts-sort-dropdown.component";
+import {AccountsListComponent} from "../../components/accounts-list/accounts-list.component";
+
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-accounts-view',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [RouterLink, AddAccountComponent, AccountsSortDropdownComponent, AccountsListComponent],
   templateUrl: './accounts-view.component.html',
   styleUrl: './accounts-view.component.css'
 })
 export class AccountsViewComponent implements OnInit{
 
-  isFormLoading: boolean = false
-  isShowModal: boolean = false
-  isError: boolean = false
-
-  accountTypes  = AccountTypes
   accountsList: Account[] = []
-
-  formBuilder: FormBuilder = inject(FormBuilder)
-  accountCreateForm: FormGroup = this.formBuilder.group({
-    name: ['', [Validators.required]],
-    type: ['CASH', [Validators.required]]
-  })
 
   accountService: AccountService = inject(AccountService)
 
@@ -45,44 +39,19 @@ export class AccountsViewComponent implements OnInit{
     })
   }
 
-  onFormSubmit(){
-    this.isFormLoading = true
-    this.isError = false
-
-    // get user id
-    const userId = localStorage.getItem("userId") as string
-    const id = Number.parseInt(userId)
-
-    // create payload
-    const payload: Account = {
-      userId: id,
-      name: this.accountCreateForm.get('name')?.value,
-      type: this.accountCreateForm.get('type')?.value
-    }
-
+  createAccount(account: Account){
     // execute request
-    this.accountService.createAccount(payload).subscribe({
+    this.accountService.createAccount(account).subscribe({
       next: result => {
         this.accountsList.push(result)
-
-        this.accountCreateForm.reset()
-
-        this.isFormLoading = false
-        this.isShowModal = false
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err)
-        this.isFormLoading = false
-        this.isError = true
+        Swal.fire({
+          icon: 'error',
+          text: 'Something went wrong. Please try again later'
+        })
       }
     })
-  }
-
-  onCloseFormModal(){
-    // reset form
-    this.accountCreateForm.reset()
-    // close modal
-    this.isShowModal = false
   }
 
   deleteAccount(id: number) {
@@ -92,8 +61,24 @@ export class AccountsViewComponent implements OnInit{
       },
       error: (err: HttpErrorResponse) => {
         console.log(err)
+        Swal.fire({
+          icon: 'error',
+          text: 'Something went wrong. Please try again later'
+        })
       }
     })
+  }
+
+  sortCategories(order: string){
+    if (order == 'name-asc'){
+      this.accountsList.sort((c1, c2) => {
+        return c1.name.localeCompare(c2.name)
+      })
+    } else {
+      this.accountsList.sort((c1, c2) => {
+        return c2.name.localeCompare(c1.name)
+      })
+    }
   }
 
 }

@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/expense-tracking
-    username: expense-tracking
+    url: jdbc:postgresql://localhost:5432/expense_tracking_db
+    username: expense_tracking_user
     password: secret
   jpa:
     hibernate:

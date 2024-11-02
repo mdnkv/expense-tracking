@@ -1,0 +1,73 @@
+<div class="modal" [class.is-active]="isShowModal">
+  <div class="modal-background"></div>
+  <form class="modal-card" (submit)="onFormSubmit()" [formGroup]="accountCreateForm">
+    <div class="modal-card-head">
+      <p class="modal-card-title">New account</p>
+      <button class="delete" aria-label="close" type="button" (click)="onCloseFormModal()"></button>
+    </div>
+    <div class="modal-card-body">
+      <div class="field">
+        <label class="label">Account name</label>
+        <div class="control">
+          <input
+            [class.is-danger]="accountCreateForm.get('name')?.touched && !accountCreateForm.get('name')?.valid"
+            [class.is-success]="accountCreateForm.get('name')?.touched && accountCreateForm.get('name')?.valid"
+            formControlName="name"
+            placeholder="Enter an account name..."
+            type="text"
+            class="input"
+          >
+        </div>
+        @if (accountCreateForm.get('name')?.touched && accountCreateForm.get('name')?.hasError('required')) {
+          <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+            <span>This field cannot be empty</span>
+          </p>
+        }
+
+      </div>
+
+      <div class="field">
+        <label class="label">Account type</label>
+        <div class="control">
+          <div class="select is-fullwidth">
+            <select formControlName="type">
+              @for (at of accountTypes; track at.value){
+                <option [value]="at.value">{{at.name}}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-card-foot">
+      <div class="buttons">
+        <button
+          [disabled]="!accountCreateForm.valid"
+          type="submit"
+          class="button is-primary"
+        >Create</button>
+
+        <button
+          (click)="onCloseFormModal()"
+          type="button"
+          class="button">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<button
+  (click)="isShowModal = true"
+  type="button"
+  class="button is-primary">
+    <span class="icon">
+      <i class="bx bx-plus"></i>
+    </span>
+  <span>New account</span>
+</button>
