@@ -4,8 +4,10 @@ import dev.mednikov.expensetracking.accounts.models.Account;
 import dev.mednikov.expensetracking.categories.models.Category;
 import dev.mednikov.expensetracking.users.models.User;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
@@ -36,7 +38,8 @@ public class Operation implements Comparable<Operation>, Monetary {
     private Account account;
 
     @Column(name = "operation_type", nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Enumerated
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     private OperationType type;
 
     @Column(name = "operation_description", nullable = false)
