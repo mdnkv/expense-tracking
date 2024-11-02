@@ -1,47 +1,26 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {OperationRequest, OperationResponse, OperationTypes} from "../../models/operations.models";
-import {Category} from "../../../categories/models/categories.models";
-import {Account} from "../../../accounts/models/accounts.models";
-import {CategoryService} from "../../../categories/services/category.service";
-import {AccountService} from "../../../accounts/services/account.service";
-import {OperationService} from "../../services/operation.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {RouterLink} from "@angular/router";
+import {OperationRequest, OperationResponse} from "../../models/operations.models";
+import {OperationService} from "../../services/operation.service";
+import {AddOperationComponent} from "../../components/add-operation/add-operation.component";
+import {
+  OperationsSortDropdownComponent
+} from "../../components/operations-sort-dropdown/operations-sort-dropdown.component";
+import {OperationsListComponent} from "../../components/operations-list/operations-list.component";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-operations-view',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [RouterLink, AddOperationComponent, OperationsSortDropdownComponent, OperationsListComponent],
   templateUrl: './operations-view.component.html',
   styleUrl: './operations-view.component.css'
 })
 export class OperationsViewComponent implements OnInit{
 
-  isFormLoading: boolean = false
-  isShowModal: boolean = false
-  isError: boolean = false
-
-  operationsList: OperationResponse[] = []
-  categoriesList: Category[] = []
-  accountsList: Account[] = []
-
-  operationTypes = OperationTypes
-
-  formBuilder: FormBuilder = inject(FormBuilder)
-
-  categoryService: CategoryService = inject(CategoryService)
-  accountService: AccountService = inject(AccountService)
   operationService: OperationService = inject(OperationService)
-
-  operationCreateForm: FormGroup = this.formBuilder.group({
-    accountId: [null, [Validators.required]],
-    categoryId: [null],
-    amount: [0, [Validators.required, Validators.min(0)]],
-    description: ['', [Validators.required]],
-    operationDate: [null, [Validators.required]],
-    type: ['EXPENSE', [Validators.required]]
-  })
+  operationsList: OperationResponse[] = []
 
   ngOnInit() {
     // get user id
@@ -57,75 +36,24 @@ export class OperationsViewComponent implements OnInit{
         console.log(err)
       }
     })
-
-    // get categories for user
-    this.categoryService.getAllCategoriesForUser(userId).subscribe({
-      next: result =>{
-        this.categoriesList = result
-      },
-      error: (err: HttpErrorResponse) => {
-        console.log(err)
-      }
-    })
-
-    // get accounts for user
-    this.accountService.getAllAccountsForUser(userId).subscribe({
-      next: result => {
-        this.accountsList = result
-      },
-      error: (err: HttpErrorResponse) => {
-        console.log(err)
-      }
-    })
   }
 
-  onFormSubmit(){
-    this.isFormLoading = true
-    this.isError = false
-
-    // obtain the user id from local storage
-    const userIdString = localStorage.getItem("userId") as string
-    const userId = Number.parseInt(userIdString)
-
-    // create payload
-    const payload: OperationRequest = {
-      userId: userId,
-      accountId: this.operationCreateForm.get('accountId')?.value,
-      amount: this.operationCreateForm.get('amount')?.value,
-      currency: 'EUR',
-      description: this.operationCreateForm.get('description')?.value,
-      type: this.operationCreateForm.get('type')?.value,
-      operationDate: this.operationCreateForm.get('operationDate')?.value
-    }
-
-    if (this.operationCreateForm.get('categoryId')?.value != null){
-      payload.categoryId = this.operationCreateForm.get('categoryId')?.value
-    }
-
-    // execute request
-    this.operationService.createOperation(payload).subscribe({
+  createOperation(operation: OperationRequest){
+    this.operationService.createOperation(operation).subscribe({
       next: result => {
         // add operation to operationsList
         this.operationsList.push(result)
-
-        this.operationCreateForm.reset()
-        this.isShowModal = false
-        this.isFormLoading = false
       },
       error: (err: HttpErrorResponse) => {
         console.log(err)
-
-        this.isError = true
-        this.isFormLoading = false
+        Swal.fire({
+          icon: 'error',
+          text: 'Something went wrong. Please try again later'
+        })
       }
     })
-
   }
 
-  onCloseFormModal(){
-    this.operationCreateForm.reset()
-    this.isShowModal = false
-  }
 
   deleteOperation(id: number){
     this.operationService.deleteOperation(id).subscribe({
@@ -134,8 +62,49 @@ export class OperationsViewComponent implements OnInit{
       },
       error: (err: HttpErrorResponse) =>{
         console.log(err)
+        Swal.fire({
+          icon: 'error',
+          text: 'Something went wrong. Please try again later'
+        })
       }
     })
+  }
+
+  sortOperations(order: string){
+    switch (order){
+      case 'amount-asc':
+        this.operationsList.sort((op1, op2) => {
+          return op1.amount - op2.amount
+        })
+        break
+      case 'amount-desc':
+        this.operationsList.sort((op1, op2) => {
+          return op2.amount - op1.amount
+        })
+        break
+      case 'date-asc':
+        this.operationsList.sort((op1, op2) => {
+          if (op1.operationDate > op2.operationDate){
+            return 1
+          } else if (op1.operationDate < op2.operationDate){
+            return -1
+          } else {
+            return 0
+          }
+        })
+        break
+      case 'date-desc':
+        this.operationsList.sort((op1, op2) => {
+          if (op1.operationDate < op2.operationDate){
+            return 1
+          } else if (op1.operationDate > op2.operationDate){
+            return -1
+          } else {
+            return 0
+          }
+        })
+        break
+    }
   }
 
 }

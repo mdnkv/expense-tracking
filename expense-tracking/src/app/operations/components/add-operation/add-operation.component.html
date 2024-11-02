@@ -1,0 +1,176 @@
+<div class="modal" [class.is-active]="isShowModal">
+  <div class="modal-background"></div>
+  <form class="modal-card" (submit)="onFormSubmit()" [formGroup]="operationCreateForm">
+    <div class="modal-card-head">
+      <p class="modal-card-title">New operation</p>
+      <button class="delete" aria-label="close" type="button" (click)="onCloseFormModal()"></button>
+    </div>
+    <div class="modal-card-body">
+      <!-- Form fields -->
+      <!-- Description -->
+      <div class="field">
+        <label class="label">Description</label>
+        <div class="control">
+          <input
+            [class.is-danger]="operationCreateForm.get('description')?.touched && !operationCreateForm.get('description')?.valid"
+            [class.is-success]="operationCreateForm.get('description')?.touched && operationCreateForm.get('description')?.valid"
+            formControlName="description"
+            placeholder="Enter a description for this operation"
+            type="text"
+            class="input"
+          >
+        </div>
+        @if (operationCreateForm.get('description')?.touched && operationCreateForm.get('description')?.hasError('required')) {
+          <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+            <span>This field cannot be empty</span>
+          </p>
+        }
+      </div>
+
+      <!-- Date -->
+      <div class="field">
+        <label class="label">Date</label>
+        <div class="control">
+          <input
+            [class.is-danger]="operationCreateForm.get('operationDate')?.touched && !operationCreateForm.get('operationDate')?.valid"
+            [class.is-success]="operationCreateForm.get('operationDate')?.touched && operationCreateForm.get('operationDate')?.valid"
+            formControlName="operationDate"
+            placeholder="When it was?"
+            type="date"
+            class="input"
+          >
+        </div>
+        @if (operationCreateForm.get('operationDate')?.touched && operationCreateForm.get('operationDate')?.hasError('required')) {
+          <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+            <span>This field cannot be empty</span>
+          </p>
+        }
+      </div>
+
+      <!-- Amount -->
+      <div class="field">
+        <label class="label">Amount</label>
+        <div class="field has-addons">
+          <div class="control">
+            <button class="button is-static">EUR</button>
+          </div>
+          <div class="control is-expanded">
+            <input
+              [class.is-danger]="operationCreateForm.get('amount')?.touched && !operationCreateForm.get('amount')?.valid"
+              [class.is-success]="operationCreateForm.get('amount')?.touched && operationCreateForm.get('amount')?.valid"
+              formControlName="amount"
+              placeholder="Enter an amount"
+              type="number"
+              class="input"
+            >
+          </div>
+        </div>
+        @if (operationCreateForm.get('amount')?.touched && operationCreateForm.get('amount')?.hasError('required')) {
+          <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+            <span>This field cannot be empty</span>
+          </p>
+        }
+        @if (operationCreateForm.get('amount')?.touched && operationCreateForm.get('amount')?.hasError('min')) {
+          <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+            <span>The operation amount cannot be negative</span>
+          </p>
+        }
+      </div>
+
+      <!-- Type -->
+      <div class="field">
+        <label class="label">Type of the operation</label>
+        <div class="control">
+          <div class="select is-fullwidth">
+            <select formControlName="type">
+              @for (ot of operationTypes; track ot.value){
+                <option [value]="ot.value">{{ot.name}}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account -->
+      <fieldset [disabled]="accountsList.length == 0">
+        <div class="field">
+          <label class="label">Account</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select formControlName="accountId">
+                @for (account of accountsList; track account.id!){
+                  <option [value]="account.id!">{{account.name}}</option>
+                }
+              </select>
+            </div>
+          </div>
+          @if (operationCreateForm.get('accountId')?.touched && operationCreateForm.get('accountId')?.hasError('required')) {
+            <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+              <span>This field cannot be empty</span>
+            </p>
+          }
+
+        </div>
+      </fieldset>
+
+      <!-- Category -->
+      <fieldset [disabled]="categoriesList.length == 0">
+        <div class="field">
+          <label class="label">Category</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select formControlName="categoryId">
+                @for (category of categoriesList; track category.id!){
+                  <option [value]="category.id!">{{category.name}}</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- -->
+    </div>
+    <div class="modal-card-foot">
+      <div class="buttons">
+        <button
+          [disabled]="!operationCreateForm.valid"
+          type="submit"
+          class="button is-primary"
+        >Create</button>
+
+        <button
+          (click)="onCloseFormModal()"
+          type="button"
+          class="button">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<button
+  (click)="isShowModal = true"
+  type="button"
+  class="button is-primary">
+    <span class="icon">
+      <i class="bx bx-plus"></i>
+    </span>
+  <span>New operation</span>
+</button>

@@ -1,0 +1,44 @@
+<div class="dropdown" [class.is-active]="isActive">
+  <div class="dropdown-trigger">
+    <button class="button is-light" type="button" (click)="isActive = !isActive">
+      <span class="icon">
+        <i class="bx bx-sort-alt-2"></i>
+      </span>
+      <span>Sort by...</span>
+    </button>
+  </div>
+  <div class="dropdown-menu">
+    <div class="dropdown-content">
+      <!-- Sort by date -->
+      <a (click)="selectSortOrder('date-asc')" class="dropdown-item">
+        <span class="icon">
+          <i class="bx bx-sort-up"></i>
+        </span>
+        <span>By operation date, old to recent</span>
+      </a>
+      <a (click)="selectSortOrder('date-desc')" class="dropdown-item">
+        <span class="icon">
+          <i class="bx bx-sort-down"></i>
+        </span>
+        <span>By operation date, recent to old</span>
+      </a>
+
+      <hr class="dropdown-divider">
+      <!-- Operation amount -->
+
+      <a (click)="selectSortOrder('amount-asc')" class="dropdown-item">
+        <span class="icon">
+          <i class="bx bx-sort-up"></i>
+        </span>
+        <span>By operation amount, low to high</span>
+      </a>
+      <a (click)="selectSortOrder('amount-desc')" class="dropdown-item">
+        <span class="icon">
+          <i class="bx bx-sort-down"></i>
+        </span>
+        <span>By operation amount, high to low</span>
+      </a>
+      <!-- -->
+    </div>
+  </div>
+</div>
