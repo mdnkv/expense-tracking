@@ -2,8 +2,10 @@ package dev.mednikov.expensetracking.accounts.models;
 
 import dev.mednikov.expensetracking.users.models.User;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.util.Objects;
 
@@ -23,7 +25,8 @@ public class Account implements Comparable<Account> {
     private String name;
 
     @Column(name = "account_type", nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Enumerated
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     private AccountType type;
 
     @Override

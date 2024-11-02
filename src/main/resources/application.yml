@@ -3,3 +3,7 @@ server:
 application:
   security:
     cors-origin: http://localhost:4200
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
