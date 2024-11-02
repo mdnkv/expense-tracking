@@ -1,0 +1,57 @@
+<div class="modal" [class.is-active]="isActive">
+  <div class="modal-background"></div>
+  <form class="modal-card" (submit)="formSubmit()" [formGroup]="categoryCreateForm">
+    <div class="modal-card-head">
+      <p class="modal-card-title">New category</p>
+      <button class="delete" aria-label="close" type="button" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-card-body">
+      <div class="field">
+        <label class="label">Category name</label>
+        <div class="control">
+          <input
+            [class.is-danger]="categoryCreateForm.get('name')?.touched && !categoryCreateForm.get('name')?.valid"
+            [class.is-success]="categoryCreateForm.get('name')?.touched && categoryCreateForm.get('name')?.valid"
+            formControlName="name"
+            placeholder="Enter a category name..."
+            type="text"
+            class="input"
+          >
+        </div>
+        @if (categoryCreateForm.get('name')?.touched && categoryCreateForm.get('name')?.hasError('required')) {
+          <p class="help is-danger">
+            <span class="icon">
+              <i class="bx bx-error"></i>
+            </span>
+            <span>This field cannot be empty</span>
+          </p>
+        }
+
+      </div>
+
+    </div>
+    <div class="modal-card-foot">
+      <div class="buttons">
+        <button
+          [disabled]="!categoryCreateForm.valid"
+          type="submit"
+          class="button is-primary"
+        >Create</button>
+
+        <button
+          (click)="closeModal()"
+          type="button"
+          class="button">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<button class="button is-primary" type="button" (click)="isActive = true">
+  <span class="icon">
+    <i class="bx bx-plus"></i>
+  </span>
+  <span>New category</span>
+</button>

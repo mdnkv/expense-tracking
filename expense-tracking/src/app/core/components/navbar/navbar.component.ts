@@ -1,6 +1,9 @@
 import {Component, inject} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
+
 import {AuthService} from "../../../auth/services/auth.service";
+
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-navbar',
@@ -24,8 +27,22 @@ export class NavbarComponent {
   }
 
   logout(){
-    this.authService.logout()
-    this.router.navigateByUrl('/auth/login')
+    // ask the user for the confirmation
+    Swal.fire({
+      title: 'Log out',
+      text: 'Do you want to logout?',
+      icon: 'question',
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Yes, log me out',
+      cancelButtonText: 'No, stay logged in'
+    }).then(result => {
+      if (result.isConfirmed){
+        // log out the user
+        this.authService.logout()
+        this.router.navigateByUrl('/auth/login')
+      }
+    })
   }
 
 }

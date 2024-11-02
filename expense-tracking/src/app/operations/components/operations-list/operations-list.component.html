@@ -1,0 +1,99 @@
+@if (operations.length > 0){
+  @for (operation of operations; track operation.id!){
+    <div>
+      <div class="columns is-vcentered">
+        <div class="column is-1">
+          <!-- Operation date -->
+          <p>{{operation.operationDate}}</p>
+        </div>
+        <div class="column">
+          <!-- Description and category -->
+          <p class="is-size-5">{{operation.description}}</p>
+          @if (operation.category) {
+            <p>
+              <span class="tag is-rounded is-info">
+                <span>{{ operation.category!.name }}</span>
+              </span>
+            </p>
+          } @else {
+            <p>
+              <span class="tag is-rounded">
+                <span>Uncategorized</span>
+              </span>
+            </p>
+          }
+        </div>
+        <div class="column">
+          <!-- Account -->
+          <p class="tag is-rounded">
+            <span class="icon">
+              @switch(operation.account.type) {
+                @case ('CASH') {
+                  <i class="bx bx-coin-stack"></i>
+                }
+                @case ('CREDIT_CARD') {
+                  <i class="bx bx-credit-card"></i>
+                }
+                @case ('BANK_ACCOUNT') {
+                  <i class="bx bxs-bank"></i>
+                }
+              }
+            </span>
+            <span>{{operation.account.name}}</span>
+          </p>
+        </div>
+        <div class="column is-2">
+          <!-- Amount -->
+          <p class="is-size-5">
+            @if (operation.type == 'INCOME') {
+              <span class="icon">
+                <i class="bx bx-arrow-to-bottom"></i>
+              </span>
+            } @else {
+              <span class="icon">
+                <i class="bx bx-arrow-from-bottom"></i>
+              </span>
+            }
+            <span>{{ operation.monetaryAmount }}</span>
+          </p>
+        </div>
+        <div class="column is-1">
+          <!-- Actions -->
+          <div class="buttons is-right">
+            <div class="dropdown is-right is-hoverable">
+              <div class="dropdown-trigger">
+                <button class="button" type="button">
+                <span class="icon">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </span>
+                </button>
+              </div>
+              <div class="dropdown-menu">
+                <div class="dropdown-content">
+                  <!-- Edit action -->
+                  <a [routerLink]="['/operation', operation.id!]" class="dropdown-item">
+                  <span class="icon">
+                    <i class="bx bx-edit-alt"></i>
+                  </span>
+                    <span>Edit</span>
+                  </a>
+
+                  <!-- Delete action -->
+                  <a class="dropdown-item" (click)="removeOperation(operation.id!)">
+                  <span class="icon">
+                    <i class="bx bx-trash-alt"></i>
+                  </span>
+                    <span class="has-text-danger">Delete</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+  }
+} @else {
+  <app-empty-placeholder/>
+}
