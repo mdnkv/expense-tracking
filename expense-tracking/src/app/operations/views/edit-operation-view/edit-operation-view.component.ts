@@ -1,13 +1,15 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
+import {HttpErrorResponse} from "@angular/common/http";
+
 import {CategoryService} from "../../../categories/services/category.service";
 import {AccountService} from "../../../accounts/services/account.service";
 import {OperationService} from "../../services/operation.service";
 import {Account} from "../../../accounts/models/accounts.models";
 import {Category} from "../../../categories/models/categories.models";
-import {OperationRequest, OperationResponse, OperationTypes} from "../../models/operations.models";
-import {HttpErrorResponse} from "@angular/common/http";
+import {OperationRequest, OperationResponse} from "../../models/operations.models";
+
 
 @Component({
   selector: 'app-edit-operation-view',
@@ -21,6 +23,7 @@ export class EditOperationViewComponent implements OnInit{
   isSuccess: boolean = false
   isError: boolean = false
   isFormLoading: boolean = false
+  operationType: string = 'INCOME'
 
   activatedRoute: ActivatedRoute = inject(ActivatedRoute)
   router: Router = inject(Router)
@@ -41,7 +44,6 @@ export class EditOperationViewComponent implements OnInit{
     amount: [0, [Validators.required, Validators.min(0)]],
     description: ['', [Validators.required]],
     operationDate: [null, [Validators.required]],
-    type: ['EXPENSE', [Validators.required]]
   })
 
   onFormSubmit(){
@@ -60,7 +62,7 @@ export class EditOperationViewComponent implements OnInit{
       amount: this.operationUpdateForm.get('amount')?.value,
       description: this.operationUpdateForm.get('description')?.value,
       operationDate: this.operationUpdateForm.get('operationDate')?.value,
-      type: this.operationUpdateForm.get('type')?.value,
+      type: this.operationType,
       currency: this.operation!.currency,
       userId
     }
@@ -109,9 +111,8 @@ export class EditOperationViewComponent implements OnInit{
           // update simple form fields
           this.operationUpdateForm.get('description')?.setValue(result.description)
           this.operationUpdateForm.get('amount')?.setValue(result.amount)
-          this.operationUpdateForm.get('type')?.setValue(result.type)
           this.operationUpdateForm.get('operationDate')?.setValue(result.operationDate)
-
+          this.operationType = result.type
           // set fields with relationships
           if (result.account != null){
             this.operationUpdateForm.get('accountId')?.setValue(result.account.id)
@@ -154,6 +155,4 @@ export class EditOperationViewComponent implements OnInit{
       this.isError = true
     }
   }
-
-  protected readonly operationTypes = OperationTypes;
 }

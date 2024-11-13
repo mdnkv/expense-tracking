@@ -1,6 +1,8 @@
 import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Account, AccountTypes} from "../../models/accounts.models";
+
+import {Account} from "../../models/accounts.models";
+
 import Swal from "sweetalert2";
 
 @Component({
@@ -15,12 +17,11 @@ export class AddAccountComponent {
   @Output() onCreateAccount = new EventEmitter<Account>()
 
   isShowModal: boolean = false
-  accountTypes  = AccountTypes
+  accountType: string = 'CASH'
 
   formBuilder: FormBuilder = inject(FormBuilder)
   accountCreateForm: FormGroup = this.formBuilder.group({
-    name: ['', [Validators.required]],
-    type: ['CASH', [Validators.required]]
+    name: ['', [Validators.required]]
   })
 
   onFormSubmit() {
@@ -32,7 +33,7 @@ export class AddAccountComponent {
     const payload: Account = {
       userId: id,
       name: this.accountCreateForm.get('name')?.value,
-      type: this.accountCreateForm.get('type')?.value
+      type: this.accountType
     }
 
     this.onCreateAccount.emit(payload)

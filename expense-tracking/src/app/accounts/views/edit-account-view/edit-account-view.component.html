@@ -51,16 +51,31 @@
 
         </div>
 
-        <div class="field">
-          <label class="label">Account type</label>
-          <div class="control">
-            <div class="select is-fullwidth">
-              <select formControlName="type">
-                @for (at of accountTypes; track at.value){
-                  <option [value]="at.value">{{at.name}}</option>
-                }
-              </select>
-            </div>
+        <div class="block">
+          <p class="label block">Account type</p>
+          <div class="tags">
+            <!-- Cash-->
+            <span
+              (click)="accountType = 'CASH'"
+              [class.is-link]="accountType == 'CASH'"
+              class="tag is-medium is-clickable is-rounded">
+              <span>Cash</span>
+            </span>
+            <!-- Bank account-->
+            <span
+              (click)="accountType = 'BANK_ACCOUNT'"
+              [class.is-link]="accountType == 'BANK_ACCOUNT'"
+              class="tag is-medium is-clickable is-rounded">
+              <span>Bank account</span>
+            </span>
+            <!-- Credit card-->
+            <span
+              (click)="accountType = 'CREDIT_CARD'"
+              [class.is-link]="accountType == 'CREDIT_CARD'"
+              class="tag is-medium is-clickable is-rounded">
+              <span>Credit card</span>
+            </span>
+            <!-- -->
           </div>
         </div>
 

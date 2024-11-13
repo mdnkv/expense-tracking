@@ -113,16 +113,17 @@
         </div>
 
         <!-- Type -->
-        <div class="field">
-          <label class="label">Type of the operation</label>
-          <div class="control">
-            <div class="select is-fullwidth">
-              <select formControlName="type">
-                @for (ot of operationTypes; track ot.value){
-                  <option [value]="ot.value">{{ot.name}}</option>
-                }
-              </select>
-            </div>
+        <div class="block">
+          <p class="label block">Operation type</p>
+          <div class="tags">
+          <span
+            (click)="operationType = 'INCOME'"
+            [class.is-link]="operationType == 'INCOME'"
+            class="tag is-medium is-clickable is-rounded">Income</span>
+            <span
+              (click)="operationType = 'EXPENSE'"
+              [class.is-link]="operationType == 'EXPENSE'"
+              class="tag is-medium is-clickable is-rounded">Expense</span>
           </div>
         </div>
 
