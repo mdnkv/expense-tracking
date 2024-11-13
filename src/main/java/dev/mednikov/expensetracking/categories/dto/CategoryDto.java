@@ -1,8 +1,11 @@
 package dev.mednikov.expensetracking.categories.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public record CategoryDto(
         Long id,
-        Long userId,
-        String name
+        @NotNull Long userId,
+        @NotNull @NotBlank String name
 ) {
 }

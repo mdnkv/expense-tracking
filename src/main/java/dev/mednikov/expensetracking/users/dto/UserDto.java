@@ -1,9 +1,12 @@
 package dev.mednikov.expensetracking.users.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public record UserDto(
-        Long id,
+        @NotNull Long id,
         String email,
-        String firstName,
-        String lastName
+        @NotNull @NotBlank String firstName,
+        @NotNull @NotBlank String lastName
 ) {
 }

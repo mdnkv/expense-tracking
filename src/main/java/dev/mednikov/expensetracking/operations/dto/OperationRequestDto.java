@@ -1,20 +1,23 @@
 package dev.mednikov.expensetracking.operations.dto;
 
 import dev.mednikov.expensetracking.operations.models.OperationType;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record OperationRequestDto(
         Long id,
-        Long userId,
-        Long accountId,
+        @NotNull Long userId,
+        @NotNull Long accountId,
         Long categoryId,
-        String description,
-        String currency,
-        BigDecimal amount,
-        OperationType type,
-        LocalDate operationDate
+        @NotNull @NotBlank String description,
+        @NotNull @NotBlank String currency,
+        @NotNull BigDecimal amount,
+        @NotNull OperationType type,
+        @NotNull LocalDate operationDate
 ) {
     public static final class OperationRequestDtoBuilder {
         private Long id;

@@ -1,4 +1,10 @@
 package dev.mednikov.expensetracking.users.dto;
 
-public record ChangePasswordRequestDto(Long id, String password) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record ChangePasswordRequestDto(
+        @NotNull Long id,
+        @NotNull @NotBlank String password)
+{
 }

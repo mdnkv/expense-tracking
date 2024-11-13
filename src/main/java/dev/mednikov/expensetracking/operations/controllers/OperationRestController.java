@@ -3,6 +3,7 @@ package dev.mednikov.expensetracking.operations.controllers;
 import dev.mednikov.expensetracking.operations.dto.OperationRequestDto;
 import dev.mednikov.expensetracking.operations.dto.OperationResponseDto;
 import dev.mednikov.expensetracking.operations.services.OperationService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +23,12 @@ public class OperationRestController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody OperationResponseDto createOperation (@RequestBody OperationRequestDto body){
+    public @ResponseBody OperationResponseDto createOperation (@RequestBody @Valid OperationRequestDto body){
         return this.operationService.createOperation(body);
     }
 
     @PutMapping("/update")
-    public @ResponseBody OperationResponseDto updateOperation (@RequestBody OperationRequestDto body){
+    public @ResponseBody OperationResponseDto updateOperation (@RequestBody @Valid OperationRequestDto body){
         return this.operationService.updateOperation(body);
     }
 

@@ -3,6 +3,7 @@ package dev.mednikov.expensetracking.users.controllers;
 import dev.mednikov.expensetracking.users.dto.LoginRequestDto;
 import dev.mednikov.expensetracking.users.dto.LoginResponseDto;
 import dev.mednikov.expensetracking.users.services.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,7 +17,7 @@ public class AuthRestController {
     }
 
     @PostMapping("/login")
-    public @ResponseBody LoginResponseDto login (@RequestBody LoginRequestDto body){
+    public @ResponseBody LoginResponseDto login (@RequestBody @Valid LoginRequestDto body){
         return this.authService.login(body);
     }
 
