@@ -2,11 +2,13 @@ import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
 
-import {OperationRequest, OperationTypes} from "../../models/operations.models";
+import {OperationRequest} from "../../models/operations.models";
 import {Category} from "../../../categories/models/categories.models";
 import {Account} from "../../../accounts/models/accounts.models";
 import {CategoryService} from "../../../categories/services/category.service";
 import {AccountService} from "../../../accounts/services/account.service";
+
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-add-operation',
@@ -20,7 +22,7 @@ export class AddOperationComponent implements OnInit{
   isShowModal: boolean = false
   categoriesList: Category[] = []
   accountsList: Account[] = []
-  operationTypes = OperationTypes
+  operationType: string = 'INCOME'
 
   formBuilder: FormBuilder = inject(FormBuilder)
   categoryService: CategoryService = inject(CategoryService)
@@ -31,8 +33,7 @@ export class AddOperationComponent implements OnInit{
     categoryId: [null],
     amount: [0, [Validators.required, Validators.min(0)]],
     description: ['', [Validators.required]],
-    operationDate: [null, [Validators.required]],
-    type: ['EXPENSE', [Validators.required]]
+    operationDate: [null, [Validators.required]]
   })
 
   @Output() onCreateOperation = new EventEmitter<OperationRequest>()
@@ -75,7 +76,7 @@ export class AddOperationComponent implements OnInit{
       amount: this.operationCreateForm.get('amount')?.value,
       currency: 'EUR',
       description: this.operationCreateForm.get('description')?.value,
-      type: this.operationCreateForm.get('type')?.value,
+      type: this.operationType,
       operationDate: this.operationCreateForm.get('operationDate')?.value
     }
 
@@ -88,6 +89,27 @@ export class AddOperationComponent implements OnInit{
     this.operationCreateForm.reset()
   }
 
-  onCloseFormModal(){}
+  onCloseFormModal(){
+    if (this.operationCreateForm.touched){
+      // ask the user, if the user wants to close the modal and lost all data
+      Swal.fire({
+        title: 'Close the window',
+        text: 'Do you want to close the window and lost all entered data?',
+        icon: 'info',
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Yes, close',
+        cancelButtonText: 'No, keep it'
+      }).then(result => {
+        if (result.isConfirmed){
+          this.operationCreateForm.reset()
+          this.isShowModal = false
+        }
+      })
+    } else {
+      // close modal
+      this.isShowModal = false
+    }
+  }
 
 }

@@ -2,6 +2,7 @@ import {Component, inject} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 
 import {AuthService} from "../../../auth/services/auth.service";
+import {UserService} from "../../../users/services/user.service";
 
 import Swal from "sweetalert2";
 
@@ -16,13 +17,18 @@ export class NavbarComponent {
 
   isMenuActive: boolean = false
   isAuthenticated: boolean = false
+  currentUserName: string = ''
 
   authService: AuthService = inject(AuthService)
+  userService: UserService = inject(UserService)
   router: Router = inject(Router)
 
   constructor() {
     this.authService.authenticated.subscribe({
       next: result => this.isAuthenticated = result
+    })
+    this.userService.currentUserName.subscribe({
+      next: result => this.currentUserName = result
     })
   }
 

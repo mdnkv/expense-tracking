@@ -9,10 +9,15 @@
     }
 
     <!-- Header -->
-    <div class="block">
-      <p class="title is-2">Hello!</p>
-    </div>
-
+    @if (user != undefined){
+      <div class="block">
+        <p class="title is-2">Hello, {{user!.firstName}}!</p>
+      </div>
+    } @else {
+      <div class="block">
+        <p class="title is-2">Hello!</p>
+      </div>
+    }
     <!-- Income expense widget -->
     <div class="block">
       <div class="box">

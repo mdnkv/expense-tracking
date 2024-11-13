@@ -23,7 +23,16 @@
         <a [routerLink]="['/accounts']" class="navbar-item">Accounts</a>
       </div>
       <div class="navbar-end">
-        <a (click)="logout()" class="navbar-item">Logout</a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">{{currentUserName}}</a>
+          <div class="navbar-dropdown">
+            <a [routerLink]="['/users/user']" class="navbar-item">My profile</a>
+            <a (click)="logout()" class="navbar-item">Logout</a>
+          </div>
+        </div>
+
+
       </div>
     } @else {
       <div class="navbar-end">

@@ -1,6 +1,18 @@
 @import "../node_modules/bulma/css/bulma.css";
 @import "../node_modules/boxicons/css/boxicons.css";
 
+body {
+  font-family: "Outfit", sans-serif;
+}
+
+.input {
+  font-family: "Outfit", sans-serif;
+}
+
+.textarea {
+  font-family: "Outfit", sans-serif;
+}
+
 /* App styles */
 
 .toolbar-container {

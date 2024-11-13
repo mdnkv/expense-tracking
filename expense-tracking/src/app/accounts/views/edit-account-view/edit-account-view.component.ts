@@ -1,9 +1,9 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AccountService} from "../../services/account.service";
-import {Account, AccountTypes} from "../../models/accounts.models";
-import {HttpErrorResponse} from "@angular/common/http";
+import {Account} from "../../models/accounts.models";
 
 @Component({
   selector: 'app-edit-account-view',
@@ -23,11 +23,10 @@ export class EditAccountViewComponent implements OnInit{
   isError: boolean = false
   account: Account | undefined
 
-  accountTypes = AccountTypes
+  accountType: string = 'CASH'
 
   accountUpdateForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required]],
-    type: ['', [Validators.required]]
   })
   accountService: AccountService = inject(AccountService)
 
@@ -44,7 +43,7 @@ export class EditAccountViewComponent implements OnInit{
     const payload: Account = {
       ...this.account!,
       name: this.accountUpdateForm.get('name')?.value,
-      type: this.accountUpdateForm.get('type')?.value
+      type: this.accountType
     }
 
     // execute the service method
@@ -69,8 +68,8 @@ export class EditAccountViewComponent implements OnInit{
       this.accountService.getAccountById(id).subscribe({
         next: (result) => {
           this.account = result
+          this.accountType = result.type
           this.accountUpdateForm.get('name')?.setValue(result.name)
-          this.accountUpdateForm.get('type')?.setValue(result.type)
         },
         error: (err: HttpErrorResponse) => {
           console.log(err)

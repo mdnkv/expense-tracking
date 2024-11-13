@@ -13,16 +13,6 @@ export interface OperationRequest {
   operationDate: Date
 }
 
-export interface OperationType {
-  name: string
-  value: string
-}
-
-export const OperationTypes: OperationType[] = [
-  {name : 'Expense', value: 'EXPENSE'},
-  {name : 'Income', value: 'INCOME'}
-]
-
 export interface OperationResponse {
   id: number
   account: Account
