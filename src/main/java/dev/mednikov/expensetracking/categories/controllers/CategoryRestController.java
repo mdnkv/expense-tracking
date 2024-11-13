@@ -3,6 +3,7 @@ package dev.mednikov.expensetracking.categories.controllers;
 import dev.mednikov.expensetracking.categories.dto.CategoryDto;
 import dev.mednikov.expensetracking.categories.services.CategoryService;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +23,12 @@ public class CategoryRestController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody CategoryDto createCategory(@RequestBody CategoryDto body){
+    public @ResponseBody CategoryDto createCategory(@RequestBody @Valid CategoryDto body){
         return this.categoryService.createCategory(body);
     }
 
     @PutMapping("/update")
-    public @ResponseBody CategoryDto updateCategory(@RequestBody CategoryDto body){
+    public @ResponseBody CategoryDto updateCategory(@RequestBody @Valid CategoryDto body){
         return this.categoryService.updateCategory(body);
     }
 

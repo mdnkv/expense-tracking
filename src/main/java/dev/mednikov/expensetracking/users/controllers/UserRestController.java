@@ -6,6 +6,7 @@ import dev.mednikov.expensetracking.users.dto.CreateUserResponseDto;
 import dev.mednikov.expensetracking.users.dto.UserDto;
 import dev.mednikov.expensetracking.users.services.UserService;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +24,12 @@ public class UserRestController {
     }
 
     @PostMapping("/create")
-    public @ResponseBody CreateUserResponseDto createUser (@RequestBody CreateUserRequestDto body){
+    public @ResponseBody CreateUserResponseDto createUser (@RequestBody @Valid CreateUserRequestDto body){
         return this.userService.createUser(body);
     }
 
     @PutMapping("/update/user")
-    public @ResponseBody UserDto updateUser (@RequestBody UserDto body){
+    public @ResponseBody UserDto updateUser (@RequestBody @Valid UserDto body){
         return this.userService.updateUser(body);
     }
 
@@ -40,7 +41,7 @@ public class UserRestController {
 
     @PostMapping("/update/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void changePassword (@RequestBody ChangePasswordRequestDto body){
+    public void changePassword (@RequestBody @Valid ChangePasswordRequestDto body){
         this.userService.changePassword(body);
     }
 

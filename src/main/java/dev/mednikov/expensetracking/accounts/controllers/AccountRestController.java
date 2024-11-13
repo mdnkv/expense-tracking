@@ -2,6 +2,7 @@ package dev.mednikov.expensetracking.accounts.controllers;
 
 import dev.mednikov.expensetracking.accounts.dto.AccountDto;
 import dev.mednikov.expensetracking.accounts.services.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +22,12 @@ public class AccountRestController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody AccountDto createAccount(@RequestBody AccountDto body) {
+    public @ResponseBody AccountDto createAccount(@RequestBody @Valid AccountDto body) {
         return this.accountService.createAccount(body);
     }
 
     @PutMapping("/update")
-    public @ResponseBody AccountDto updateAccount(@RequestBody AccountDto body) {
+    public @ResponseBody AccountDto updateAccount(@RequestBody @Valid AccountDto body) {
         return this.accountService.updateAccount(body);
     }
 
