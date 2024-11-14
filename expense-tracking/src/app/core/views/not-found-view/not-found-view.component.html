@@ -1,0 +1,18 @@
+<div class="not-found-container">
+  <div class="block">
+    <div class="image is-128x128">
+      <img src="/img/error-not-found.png" alt="Page not found">
+    </div>
+  </div>
+  <div class="block has-text-centered">
+    <p class="title is-4">Page not found</p>
+    <p class="subtitle is-6 has-text-grey">This page does not exist or was removed</p>
+  </div>
+  <div class="block has-text-centered">
+    @if (isAuthenticated) {
+      <a [routerLink]="['/dashboard']">Go to dashboard</a>
+    } @else {
+      <a [routerLink]="['/auth/login']">Go to login page</a>
+    }
+  </div>
+</div>

@@ -13,6 +13,7 @@ import {EditAccountViewComponent} from "./accounts/views/edit-account-view/edit-
 import {OperationsViewComponent} from "./operations/views/operations-view/operations-view.component";
 import {EditOperationViewComponent} from "./operations/views/edit-operation-view/edit-operation-view.component";
 import {DashboardViewComponent} from "./dashboard/views/dashboard-view/dashboard-view.component";
+import {NotFoundViewComponent} from "./core/views/not-found-view/not-found-view.component";
 
 export const routes: Routes = [
   {
@@ -67,5 +68,14 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardViewComponent,
     canActivate: [IsAuthenticatedGuard()]
+  },
+  {
+    path: '',
+    redirectTo: '/dashboard',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    component: NotFoundViewComponent
   }
 ];
