@@ -1,6 +1,13 @@
 <div class="columns is-centered">
   <div class="column is-4-desktop is-8-tablet is-full-mobile">
     <!-- Errors -->
+    @if(isAlreadyExist){
+      <div class="block">
+        <div class="notification is-danger">
+          <p>The user with a given email address already exist!</p>
+        </div>
+      </div>
+    }
     <!-- Error: general error -->
     @if(isError){
       <div class="block">

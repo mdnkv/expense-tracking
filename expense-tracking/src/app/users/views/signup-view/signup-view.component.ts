@@ -17,6 +17,7 @@ export class SignupViewComponent {
   isFormLoading: boolean = false
   isError: boolean = false
   isShowPassword: boolean = false
+  isAlreadyExist: boolean = false
 
   formBuilder: FormBuilder = inject(FormBuilder)
   form: FormGroup = this.formBuilder.group({
@@ -50,7 +51,7 @@ export class SignupViewComponent {
         if (err.status == 400) {
           // user email is already registered
           this.form.reset()
-          this.isError = true
+          this.isAlreadyExist = true
         } else {
           // any other generic error
           this.isError = true
