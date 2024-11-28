@@ -3,3 +3,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/expense_tracking
     username: expense_tracking
     password: secret
+  flyway:
+    user: expense_tracking
+    password: secret
+server:
+  port: 8080

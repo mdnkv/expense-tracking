@@ -8,41 +8,88 @@
 ![](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
 
-The application “Expense tracking” can be utilized by users in order to track personal finance situation: expenses and income, as well operations across various accounts (bank cards, cash etc.)
+The application “Expense tracking” can be used by users in order to track personal finance situation: expenses and income, as well operations across various accounts (bank cards, cash etc.)
 
 ## Project description
 
-The target audience of this project are people who want to track their expenses and income and have an overview of the current financial situation. They are not satisfied by existing solutions and want to have more clear and user friendly interface and synchronization between different devices (web, mobile). The usage of the project provides following of benefits: operations are categorized and recorded in a clear manner; different reports are generated to present an actual situation etc.
+The target audience of this project are people who want to track their expenses and income and have an overview of the current financial situation. They are not satisfied by existing solutions and want to have more clear and user-friendly interface and synchronization between different devices (web, mobile). The usage of the project provides following of benefits: operations are categorized and recorded in a clear manner; different reports are generated to present an actual situation etc.
+
 From a domain driven design perspective, the application is divided into 4 core domains: Users, Payment accounts, Categories, Operations.
 
-## Installation instructions
+## How to run the project
 
-The application is implemented using a monolith design and is packed as a standard fat jar Java application - that means it can be executed at any environment that supports Java 21. In order to run the application, you first have to _build it_. As frontend and backend are bundled in the single Jar file, you have a single artifact to run.
+The application is a standard Java application that is packaged as fat jar and therefore can run on any environment where you can install Java (local, popular PaaS solutions, any cloud server).
 
-In order to build the application, please make sure that you have following components installed before building the project from source:
+System requirements are:
 
-- JDK 21 or higher
-- Maven
+- Java JDK v.21+
+- PostgreSQL server v.16+
 
-The next step is to prepare the PostgreSQL database instance. You need to provide following environemnt variables:
+This section describes how to run application using the development configuration (for local testing) and the production configuration
 
-- ```DATABASE_URL``` - the [JDBC url](https://www.baeldung.com/java-jdbc-url-format) for your database
-- ```DATABASE_USER``` - the username
-- ```DATABASE_PASSWORD``` - the password
+### Quick run
 
-You need to complete these steps to build the project:
+In order to quickly run the application locally:
 
-1. Navigate to the root project folder
-2. Execute ```mvn clean install``` in your terminal
+1. Create the PostgreSQL database
+    - Database name ```expense_tracking```
+    - Username ```expense_tracking```
+    - Password: ```secret```
+2. Open terminal and navigate to the root folder of the project
+3. Run Maven to generate a fat jar
+    - If you have a local Maven installation: ```mvn clean install```
+    - If you do not have a local Maven installation: ```./mvnw clean install```
 
-In order to run the project:
+![](docs_phase3/images/installation-1.png)
 
-1. Navigate to the root project folder
-2. Run ```java -jar -Dspring.profiles.active=prod -DDATABASE_URL={jdbc_url} -DDATABASE_USER={user} -DDATABASE_PASSWORD={password} target/expense-tracking-0.0.1-SNAPSHOT.jar``` in your terminal
-3. Navigate to [http://localhost:8080](http://localhost:8080) in your browser
+4. Run the fat jar ```java -jar target/expense-tracking-0.0.1-SNAPSHOT.jar```
+
+![](docs_phase3/images/installation-2.png)
+
+5. Open your browser and navigate to ```http://localhost:8080```
+
+![](docs_phase3/images/installation-3.png)
+
+### Run in a production mode
+
+The previous section shows how to quickly get the application up and running. If you want to run the application in _production mode_ (for example, deploy it to the VPS), you need to run the ```prod``` profile.
+
+In order to do this please first set following environment variables:
+
+- ```DATABASE_URL``` = the [jdbc url](https://docs.oracle.com/javase/tutorial/jdbc/basics/connecting.html) to the PostgreSQL database
+- ```DATABASE_USER```= the database username 
+- ```DATABASE_PASSWORD``` = the database password 
+- ```FLYWAY_USER``` = the username used by Flyway to run migrations
+- ```FLYWAY_SECRET``` = the password used by Flyway to run migrations
+- ```HTTP_PORT``` = the HTTP port number for the application server
+
+Once all these values are provided, the same sequence of steps applies:
+
+1. Navigate to the root folder for the project
+2. Run Maven to generate a fat jar
+   - If you have a local Maven installation: ```mvn clean install```
+   - If you do not have a local Maven installation: ```./mvnw clean install```
+3. Run the fat jar ```java -Dspring.profiles.active=prod -jar target/expense-tracking-0.0.1-SNAPSHOT.jar```
+4. Open your browser and navigate to ```http://localhost:{YourPortNumber}```
+
+## Test data
+
+The application comes with some mock data that you can use. There are 5 mock users that have some data populated (such as accounts and operations). All data was created using [FakeNameGenerator.com](https://fakenamegenerator.com) and [Email Generator](https://generator.email/) websites and these are users are not real people!
+
+Test data is integrated into the project using migrations. This means that you do not need to complete any additional steps in order to import it! Just use any of these email accounts to log in to the app:
+
+- el96grafiti@auhit.com
+- tysonusarmy@trimart.xyz
+- chrihurs@likebaiviet.com
+- tdstasa@nelcoapps.com
+- osamu0926@shopcobe.com
+
+All users have the password ```secret1234```.
+
+If you do not use any mock data to be imported, just remove the ```src/main/resources/db/migration/V2__testdata.sql``` file before running the application against the database.
 
 ## Author
 
-(C) 2024 Iurii Mednikov
+(C) 2024 Iurii Mednikov <iurii.mednikov@iu-study.org>
 
 The code is delivered under terms of the MIT software license. For more information, check the ```LICENSE.txt``` file.
