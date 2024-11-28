@@ -1,4 +1,4 @@
-@import "../node_modules/bulma/css/bulma.css";
+@import "../node_modules/bulma/css/versions/bulma-no-dark-mode.css";
 @import "../node_modules/boxicons/css/boxicons.css";
 
 body {

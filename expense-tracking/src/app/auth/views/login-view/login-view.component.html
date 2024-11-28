@@ -26,6 +26,7 @@
                 [class.is-danger]="form.get('email')?.touched && !form.get('email')?.valid"
                 [class.is-success]="form.get('email')?.touched && form.get('email')?.valid"
                 formControlName="email"
+                placeholder="Enter your email address"
                 type="text"
                 class="input">
               <span class="icon is-left">
@@ -50,6 +51,7 @@
                 [class.is-danger]="form.get('password')?.touched && !form.get('password')?.valid"
                 [class.is-success]="form.get('password')?.touched && form.get('password')?.valid"
                 formControlName="password"
+                placeholder="Enter your password"
                 [type]="isShowPassword ? 'text' : 'password'"
                 class="input">
               <span class="icon is-left">
