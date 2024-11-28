@@ -1,7 +1,6 @@
 package dev.mednikov.expensetracking.users.config;
 
 import dev.mednikov.expensetracking.users.filters.TokenFilter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -22,20 +21,14 @@ import java.util.List;
 public class AuthenticationConfig {
 
     private final TokenFilter tokenFilter;
-    private final String corsOrigin;
 
-    public AuthenticationConfig(
-            TokenFilter tokenFilter,
-            @Value("${application.security.cors-origin}") String corsOrigin) {
-        this.tokenFilter = tokenFilter;
-        this.corsOrigin = corsOrigin;
-    }
+    public AuthenticationConfig(TokenFilter tokenFilter) {this.tokenFilter = tokenFilter;}
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin(corsOrigin);
+        configuration.addAllowedOrigin("*");
         configuration.setAllowedMethods(List.of("POST", "PUT", "GET", "OPTIONS", "DELETE"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Access-Control-Allow-Origin"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -53,7 +46,7 @@ public class AuthenticationConfig {
                 .authorizeHttpRequests(req ->
                         req
                                 .requestMatchers("/error/**").permitAll()
-                                .requestMatchers("/", "/index.html**", "/*.css", "/*.js", "/media/**").permitAll()
+                                .requestMatchers("/", "/index.html**", "/*.css", "/*.js", "/media/**", "/images/**").permitAll()
                                 .requestMatchers("/api/users/create", "/api/auth/login").permitAll()
                                 .requestMatchers("/api/**").authenticated())
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)

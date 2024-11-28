@@ -1,9 +1,6 @@
-server:
-  port: 8080
-application:
-  security:
-    cors-origin: http://localhost:4200
 spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  profiles:
+    default: dev
