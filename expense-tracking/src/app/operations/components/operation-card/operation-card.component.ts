@@ -3,11 +3,10 @@ import {OperationResponse} from "../../models/operations.models";
 import {RouterLink} from "@angular/router";
 
 @Component({
-  selector: 'app-operation-card',
-  standalone: true,
-  imports: [RouterLink],
-  templateUrl: './operation-card.component.html',
-  styleUrl: './operation-card.component.css'
+    selector: 'app-operation-card',
+    imports: [RouterLink],
+    templateUrl: './operation-card.component.html',
+    styleUrl: './operation-card.component.css'
 })
 export class OperationCardComponent {
 

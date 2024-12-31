@@ -8,11 +8,10 @@ import {OperationCardComponent} from "../operation-card/operation-card.component
 import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-operations-list',
-  standalone: true,
-  imports: [RouterLink, EmptyPlaceholderComponent, OperationCardComponent],
-  templateUrl: './operations-list.component.html',
-  styleUrl: './operations-list.component.css'
+    selector: 'app-operations-list',
+    imports: [RouterLink, EmptyPlaceholderComponent, OperationCardComponent],
+    templateUrl: './operations-list.component.html',
+    styleUrl: './operations-list.component.css'
 })
 export class OperationsListComponent {
 

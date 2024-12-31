@@ -6,11 +6,10 @@ import {Category} from "../../models/categories.models";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
-  selector: 'app-edit-category-view',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './edit-category-view.component.html',
-  styleUrl: './edit-category-view.component.css'
+    selector: 'app-edit-category-view',
+    imports: [ReactiveFormsModule],
+    templateUrl: './edit-category-view.component.html',
+    styleUrl: './edit-category-view.component.css'
 })
 export class EditCategoryViewComponent implements OnInit{
 

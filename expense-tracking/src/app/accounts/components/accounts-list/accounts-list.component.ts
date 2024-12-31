@@ -5,11 +5,10 @@ import Swal from "sweetalert2";
 import {EmptyPlaceholderComponent} from "../../../core/components/empty-placeholder/empty-placeholder.component";
 
 @Component({
-  selector: 'app-accounts-list',
-  standalone: true,
-  imports: [RouterLink, EmptyPlaceholderComponent],
-  templateUrl: './accounts-list.component.html',
-  styleUrl: './accounts-list.component.css'
+    selector: 'app-accounts-list',
+    imports: [RouterLink, EmptyPlaceholderComponent],
+    templateUrl: './accounts-list.component.html',
+    styleUrl: './accounts-list.component.css'
 })
 export class AccountsListComponent {
 

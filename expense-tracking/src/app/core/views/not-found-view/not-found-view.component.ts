@@ -4,11 +4,10 @@ import {RouterLink} from "@angular/router";
 import {AuthService} from "../../../auth/services/auth.service";
 
 @Component({
-  selector: 'app-not-found-view',
-  standalone: true,
-  imports: [RouterLink],
-  templateUrl: './not-found-view.component.html',
-  styleUrl: './not-found-view.component.css'
+    selector: 'app-not-found-view',
+    imports: [RouterLink],
+    templateUrl: './not-found-view.component.html',
+    styleUrl: './not-found-view.component.css'
 })
 export class NotFoundViewComponent {
 

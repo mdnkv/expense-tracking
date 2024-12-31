@@ -1,11 +1,10 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-operations-sort-dropdown',
-  standalone: true,
-  imports: [],
-  templateUrl: './operations-sort-dropdown.component.html',
-  styleUrl: './operations-sort-dropdown.component.css'
+    selector: 'app-operations-sort-dropdown',
+    imports: [],
+    templateUrl: './operations-sort-dropdown.component.html',
+    styleUrl: './operations-sort-dropdown.component.css'
 })
 export class OperationsSortDropdownComponent {
 

@@ -11,11 +11,10 @@ import {AccountService} from "../../../accounts/services/account.service";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-add-operation',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './add-operation.component.html',
-  styleUrl: './add-operation.component.css'
+    selector: 'app-add-operation',
+    imports: [ReactiveFormsModule],
+    templateUrl: './add-operation.component.html',
+    styleUrl: './add-operation.component.css'
 })
 export class AddOperationComponent implements OnInit{
 
