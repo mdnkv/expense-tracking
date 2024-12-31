@@ -7,11 +7,10 @@ import {UserService} from "../../../users/services/user.service";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [RouterLink],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+    selector: 'app-navbar',
+    imports: [RouterLink],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
 

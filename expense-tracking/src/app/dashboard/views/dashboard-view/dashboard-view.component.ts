@@ -7,11 +7,10 @@ import {UserService} from "../../../users/services/user.service";
 import {User} from "../../../users/models/users.models";
 
 @Component({
-  selector: 'app-dashboard-view',
-  standalone: true,
-  imports: [],
-  templateUrl: './dashboard-view.component.html',
-  styleUrl: './dashboard-view.component.css'
+    selector: 'app-dashboard-view',
+    imports: [],
+    templateUrl: './dashboard-view.component.html',
+    styleUrl: './dashboard-view.component.css'
 })
 export class DashboardViewComponent implements OnInit{
 

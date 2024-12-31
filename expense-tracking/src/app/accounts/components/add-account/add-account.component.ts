@@ -6,11 +6,10 @@ import {Account} from "../../models/accounts.models";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-add-account',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './add-account.component.html',
-  styleUrl: './add-account.component.css'
+    selector: 'app-add-account',
+    imports: [ReactiveFormsModule],
+    templateUrl: './add-account.component.html',
+    styleUrl: './add-account.component.css'
 })
 export class AddAccountComponent {
 

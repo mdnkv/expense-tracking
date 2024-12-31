@@ -11,11 +11,10 @@ import {OperationsListComponent} from "../../components/operations-list/operatio
 import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-operations-view',
-  standalone: true,
-  imports: [RouterLink, AddOperationComponent, OperationsSortDropdownComponent, OperationsListComponent],
-  templateUrl: './operations-view.component.html',
-  styleUrl: './operations-view.component.css'
+    selector: 'app-operations-view',
+    imports: [RouterLink, AddOperationComponent, OperationsSortDropdownComponent, OperationsListComponent],
+    templateUrl: './operations-view.component.html',
+    styleUrl: './operations-view.component.css'
 })
 export class OperationsViewComponent implements OnInit{
 

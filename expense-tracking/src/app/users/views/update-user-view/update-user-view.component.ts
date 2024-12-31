@@ -6,11 +6,10 @@ import {UserService} from "../../services/user.service";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
-  selector: 'app-update-user-view',
-  standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
-  templateUrl: './update-user-view.component.html',
-  styleUrl: './update-user-view.component.css'
+    selector: 'app-update-user-view',
+    imports: [RouterLink, ReactiveFormsModule],
+    templateUrl: './update-user-view.component.html',
+    styleUrl: './update-user-view.component.css'
 })
 export class UpdateUserViewComponent implements OnInit{
 

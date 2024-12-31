@@ -4,11 +4,10 @@ import {Category} from "../../models/categories.models";
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-add-category',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './add-category.component.html',
-  styleUrl: './add-category.component.css'
+    selector: 'app-add-category',
+    imports: [ReactiveFormsModule],
+    templateUrl: './add-category.component.html',
+    styleUrl: './add-category.component.css'
 })
 export class AddCategoryComponent {
 

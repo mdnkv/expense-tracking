@@ -11,11 +11,10 @@ import {AccountsListComponent} from "../../components/accounts-list/accounts-lis
 import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-accounts-view',
-  standalone: true,
-  imports: [RouterLink, AddAccountComponent, AccountsSortDropdownComponent, AccountsListComponent],
-  templateUrl: './accounts-view.component.html',
-  styleUrl: './accounts-view.component.css'
+    selector: 'app-accounts-view',
+    imports: [RouterLink, AddAccountComponent, AccountsSortDropdownComponent, AccountsListComponent],
+    templateUrl: './accounts-view.component.html',
+    styleUrl: './accounts-view.component.css'
 })
 export class AccountsViewComponent implements OnInit{
 

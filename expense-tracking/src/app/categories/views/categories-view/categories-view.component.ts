@@ -12,16 +12,15 @@ import Swal from "sweetalert2";
 import {ErrorPlaceholderComponent} from "../../../core/components/error-placeholder/error-placeholder.component";
 
 @Component({
-  selector: 'app-categories-view',
-  standalone: true,
-  imports: [
-    AddCategoryComponent,
-    CategoriesSortDropdownComponent,
-    CategoriesListComponent,
-    ErrorPlaceholderComponent
-  ],
-  templateUrl: './categories-view.component.html',
-  styleUrl: './categories-view.component.css'
+    selector: 'app-categories-view',
+    imports: [
+        AddCategoryComponent,
+        CategoriesSortDropdownComponent,
+        CategoriesListComponent,
+        ErrorPlaceholderComponent
+    ],
+    templateUrl: './categories-view.component.html',
+    styleUrl: './categories-view.component.css'
 })
 export class CategoriesViewComponent implements OnInit {
 

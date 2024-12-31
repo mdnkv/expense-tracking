@@ -12,11 +12,10 @@ import {OperationRequest, OperationResponse} from "../../models/operations.model
 
 
 @Component({
-  selector: 'app-edit-operation-view',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './edit-operation-view.component.html',
-  styleUrl: './edit-operation-view.component.css'
+    selector: 'app-edit-operation-view',
+    imports: [ReactiveFormsModule],
+    templateUrl: './edit-operation-view.component.html',
+    styleUrl: './edit-operation-view.component.css'
 })
 export class EditOperationViewComponent implements OnInit{
 

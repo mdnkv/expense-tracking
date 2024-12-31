@@ -6,11 +6,10 @@ import {UserService} from "../../services/user.service";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
-  selector: 'app-signup-view',
-  standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
-  templateUrl: './signup-view.component.html',
-  styleUrl: './signup-view.component.css'
+    selector: 'app-signup-view',
+    imports: [RouterLink, ReactiveFormsModule],
+    templateUrl: './signup-view.component.html',
+    styleUrl: './signup-view.component.css'
 })
 export class SignupViewComponent {
 

@@ -6,11 +6,10 @@ import {LoginRequest} from "../../models/auth.models";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
-  selector: 'app-login-view',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './login-view.component.html',
-  styleUrl: './login-view.component.css'
+    selector: 'app-login-view',
+    imports: [ReactiveFormsModule, RouterLink],
+    templateUrl: './login-view.component.html',
+    styleUrl: './login-view.component.css'
 })
 export class LoginViewComponent {
 

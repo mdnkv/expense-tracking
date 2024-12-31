@@ -6,11 +6,10 @@ import {AccountService} from "../../services/account.service";
 import {Account} from "../../models/accounts.models";
 
 @Component({
-  selector: 'app-edit-account-view',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './edit-account-view.component.html',
-  styleUrl: './edit-account-view.component.css'
+    selector: 'app-edit-account-view',
+    imports: [ReactiveFormsModule],
+    templateUrl: './edit-account-view.component.html',
+    styleUrl: './edit-account-view.component.css'
 })
 export class EditAccountViewComponent implements OnInit{
 

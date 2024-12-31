@@ -1,11 +1,10 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-accounts-sort-dropdown',
-  standalone: true,
-  imports: [],
-  templateUrl: './accounts-sort-dropdown.component.html',
-  styleUrl: './accounts-sort-dropdown.component.css'
+    selector: 'app-accounts-sort-dropdown',
+    imports: [],
+    templateUrl: './accounts-sort-dropdown.component.html',
+    styleUrl: './accounts-sort-dropdown.component.css'
 })
 export class AccountsSortDropdownComponent {
 

@@ -6,11 +6,10 @@ import {ChangePasswordRequest} from "../../models/users.models";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
-  selector: 'app-update-password-view',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './update-password-view.component.html',
-  styleUrl: './update-password-view.component.css'
+    selector: 'app-update-password-view',
+    imports: [ReactiveFormsModule, RouterLink],
+    templateUrl: './update-password-view.component.html',
+    styleUrl: './update-password-view.component.css'
 })
 export class UpdatePasswordViewComponent {
 

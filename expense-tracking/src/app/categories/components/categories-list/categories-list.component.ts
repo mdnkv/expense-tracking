@@ -7,11 +7,10 @@ import {Category} from "../../models/categories.models";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-categories-list',
-  standalone: true,
-  imports: [RouterLink, EmptyPlaceholderComponent],
-  templateUrl: './categories-list.component.html',
-  styleUrl: './categories-list.component.css'
+    selector: 'app-categories-list',
+    imports: [RouterLink, EmptyPlaceholderComponent],
+    templateUrl: './categories-list.component.html',
+    styleUrl: './categories-list.component.css'
 })
 export class CategoriesListComponent {
 
