@@ -1,7 +1,6 @@
 package dev.mednikov.expensetracking.operations.controllers;
 
-import dev.mednikov.expensetracking.operations.dto.OperationRequestDto;
-import dev.mednikov.expensetracking.operations.dto.OperationResponseDto;
+import dev.mednikov.expensetracking.operations.dto.OperationDto;
 import dev.mednikov.expensetracking.operations.services.OperationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -23,12 +22,12 @@ public class OperationRestController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody OperationResponseDto createOperation (@RequestBody @Valid OperationRequestDto body){
+    public @ResponseBody OperationDto createOperation (@RequestBody @Valid OperationDto body){
         return this.operationService.createOperation(body);
     }
 
     @PutMapping("/update")
-    public @ResponseBody OperationResponseDto updateOperation (@RequestBody @Valid OperationRequestDto body){
+    public @ResponseBody OperationDto updateOperation (@RequestBody @Valid OperationDto body){
         return this.operationService.updateOperation(body);
     }
 
@@ -39,13 +38,13 @@ public class OperationRestController {
     }
 
     @GetMapping("/operation/{id}")
-    public ResponseEntity<OperationResponseDto> getOperationById (@PathVariable Long id){
-        Optional<OperationResponseDto> result = this.operationService.findOperationById(id);
+    public ResponseEntity<OperationDto> getOperationById (@PathVariable Long id){
+        Optional<OperationDto> result = this.operationService.findOperationById(id);
         return ResponseEntity.of(result);
     }
 
     @GetMapping("/user/{userId}")
-    public @ResponseBody List<OperationResponseDto> getAllOperationsForUser(@PathVariable Long userId){
+    public @ResponseBody List<OperationDto> getAllOperationsForUser(@PathVariable Long userId){
         return this.operationService.findAllOperationsForUser(userId);
     }
 

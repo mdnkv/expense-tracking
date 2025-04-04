@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface OperationRepository extends JpaRepository<Operation, Long> {
 
+    @Query("""
+    SELECT op FROM Operation op where op.user.id=:userId ORDER BY op.operationDate DESC
+    """)
     List<Operation> findAllByUserId (Long userId);
 
     @Query("""

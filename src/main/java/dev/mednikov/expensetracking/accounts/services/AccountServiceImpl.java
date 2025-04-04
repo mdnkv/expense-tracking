@@ -28,11 +28,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDto createAccount(AccountDto request) {
-        User user = this.userRepository.getReferenceById(request.userId());
+        User user = this.userRepository.getReferenceById(request.getUserId());
         Account account = new Account.AccountBuilder()
                 .withUser(user)
-                .withName(request.name())
-                .withType(request.type())
+                .withName(request.getName())
+                .withType(request.getType())
                 .build();
         Account result  = this.accountRepository.save(account);
         return mapper.apply(result);
@@ -41,11 +41,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto updateAccount(AccountDto request) {
         Account account = this.accountRepository
-                .findById(request.id())
+                .findById(request.getId())
                 .orElseThrow(AccountNotFoundException::new);
 
-        account.setName(request.name());
-        account.setType(request.type());
+        account.setName(request.getName());
+        account.setType(request.getType());
 
         Account result = this.accountRepository.save(account);
         return mapper.apply(result);

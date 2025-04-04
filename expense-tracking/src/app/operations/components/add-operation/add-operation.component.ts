@@ -2,7 +2,7 @@ import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
 
-import {OperationRequest} from "../../models/operations.models";
+import {Operation} from "../../models/operations.models";
 import {Category} from "../../../categories/models/categories.models";
 import {Account} from "../../../accounts/models/accounts.models";
 import {CategoryService} from "../../../categories/services/category.service";
@@ -35,7 +35,7 @@ export class AddOperationComponent implements OnInit{
     operationDate: [null, [Validators.required]]
   })
 
-  @Output() onCreateOperation = new EventEmitter<OperationRequest>()
+  @Output() onCreateOperation = new EventEmitter<Operation>()
 
   ngOnInit() {
     // get user id
@@ -69,14 +69,14 @@ export class AddOperationComponent implements OnInit{
     const userId = Number.parseInt(userIdString)
 
     // create payload
-    const payload: OperationRequest = {
+    const payload: Operation = {
       userId: userId,
       accountId: this.operationCreateForm.get('accountId')?.value,
       amount: this.operationCreateForm.get('amount')?.value,
       currency: 'EUR',
       description: this.operationCreateForm.get('description')?.value,
-      type: this.operationType,
-      operationDate: this.operationCreateForm.get('operationDate')?.value
+      operationType: this.operationType,
+      date: this.operationCreateForm.get('operationDate')?.value
     }
 
     if (this.operationCreateForm.get('categoryId')?.value != null){

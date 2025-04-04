@@ -1,8 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../environments/environment";
-import {OperationRequest, OperationResponse} from "../models/operations.models";
 import {Observable} from "rxjs";
+
+import {environment} from "../../../environments/environment";
+import {Operation} from "../models/operations.models";
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,12 @@ export class OperationService {
   http: HttpClient = inject(HttpClient)
   serverUrl = environment.serverUrl
 
-  createOperation(body: OperationRequest): Observable<OperationResponse>{
-    return this.http.post<OperationResponse>(`${this.serverUrl}operations/create`, body)
+  createOperation(body: Operation): Observable<Operation>{
+    return this.http.post<Operation>(`${this.serverUrl}operations/create`, body)
   }
 
-  updateOperation(body: OperationRequest): Observable<OperationResponse>{
-    return this.http.put<OperationResponse>(`${this.serverUrl}operations/update`, body)
+  updateOperation(body: Operation): Observable<Operation>{
+    return this.http.put<Operation>(`${this.serverUrl}operations/update`, body)
   }
 
 
@@ -25,12 +26,12 @@ export class OperationService {
     return this.http.delete<void>(`${this.serverUrl}operations/delete/${id}`)
   }
 
-  getAllOperationsForUser(userId: number): Observable<OperationResponse[]>{
-    return this.http.get<OperationResponse[]>(`${this.serverUrl}operations/user/${userId}`)
+  getAllOperationsForUser(userId: number): Observable<Operation[]>{
+    return this.http.get<Operation[]>(`${this.serverUrl}operations/user/${userId}`)
   }
 
-  getOperationById(id: number): Observable<OperationResponse>{
-    return this.http.get<OperationResponse>(`${this.serverUrl}operations/operation/${id}`)
+  getOperationById(id: number): Observable<Operation>{
+    return this.http.get<Operation>(`${this.serverUrl}operations/operation/${id}`)
   }
 
 

@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {RouterLink} from "@angular/router";
 
 import {EmptyPlaceholderComponent} from "../../../core/components/empty-placeholder/empty-placeholder.component";
-import {OperationResponse} from "../../models/operations.models";
+import {Operation } from "../../models/operations.models";
 import {OperationCardComponent} from "../operation-card/operation-card.component";
 
 import Swal from "sweetalert2";
@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 })
 export class OperationsListComponent {
 
-  @Input() operations: OperationResponse[] = []
+  @Input() operations: Operation[] = []
   @Output() onRemoveClicked = new EventEmitter<number>()
 
   removeOperation(id: number){

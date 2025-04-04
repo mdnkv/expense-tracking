@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {HttpErrorResponse} from "@angular/common/http";
 import {RouterLink} from "@angular/router";
-import {OperationRequest, OperationResponse} from "../../models/operations.models";
+import {Operation} from "../../models/operations.models";
 import {OperationService} from "../../services/operation.service";
 import {AddOperationComponent} from "../../components/add-operation/add-operation.component";
 import {
@@ -19,7 +19,7 @@ import Swal from "sweetalert2";
 export class OperationsViewComponent implements OnInit{
 
   operationService: OperationService = inject(OperationService)
-  operationsList: OperationResponse[] = []
+  operationsList: Operation[] = []
 
   ngOnInit() {
     // get user id
@@ -37,7 +37,7 @@ export class OperationsViewComponent implements OnInit{
     })
   }
 
-  createOperation(operation: OperationRequest){
+  createOperation(operation: Operation){
     this.operationService.createOperation(operation).subscribe({
       next: result => {
         // add operation to operationsList
@@ -83,9 +83,9 @@ export class OperationsViewComponent implements OnInit{
         break
       case 'date-asc':
         this.operationsList.sort((op1, op2) => {
-          if (op1.operationDate > op2.operationDate){
+          if (op1.date > op2.date){
             return 1
-          } else if (op1.operationDate < op2.operationDate){
+          } else if (op1.date < op2.date){
             return -1
           } else {
             return 0
@@ -94,9 +94,9 @@ export class OperationsViewComponent implements OnInit{
         break
       case 'date-desc':
         this.operationsList.sort((op1, op2) => {
-          if (op1.operationDate < op2.operationDate){
+          if (op1.date < op2.date){
             return 1
-          } else if (op1.operationDate > op2.operationDate){
+          } else if (op1.date > op2.date){
             return -1
           } else {
             return 0

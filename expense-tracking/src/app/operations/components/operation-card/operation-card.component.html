@@ -11,16 +11,16 @@
             <!-- Date and amount -->
             <p>
               <span
-                [class.has-text-danger]="operation.type == 'EXPENSE'"
-                [class.has-text-success]="operation.type == 'INCOME'"
-                class="has-text-weight-semibold">{{operation.monetaryAmount}}</span>
+                [class.has-text-danger]="operation.operationType == 'EXPENSE'"
+                [class.has-text-success]="operation.operationType == 'INCOME'"
+                class="has-text-weight-semibold">{{operation.amount|currency:operation.currency}}</span>
               <span> - </span>
-              <span>{{operation.operationDate}}</span>
+              <span>{{operation.date}}</span>
             </p>
             <!-- Account -->
             <p>
               <span class="tag is-medium">
-                {{operation.account.name}}
+                {{operation.account?.name}}
               </span>
             </p>
           </div>

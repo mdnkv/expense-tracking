@@ -64,7 +64,7 @@ class UserServiceImplTest {
 
         CreateUserRequestDto request = new CreateUserRequestDto(email, password, firstName, lastName);
         CreateUserResponseDto result = userService.createUser(request);
-        Assertions.assertThat(result.id()).isEqualTo(userId);
+        Assertions.assertThat(result.getId()).isEqualTo(userId);
 
     }
 
