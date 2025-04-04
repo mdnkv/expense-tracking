@@ -8,7 +8,7 @@ import {AccountService} from "../../../accounts/services/account.service";
 import {OperationService} from "../../services/operation.service";
 import {Account} from "../../../accounts/models/accounts.models";
 import {Category} from "../../../categories/models/categories.models";
-import {OperationRequest, OperationResponse} from "../../models/operations.models";
+import {Operation} from "../../models/operations.models";
 
 
 @Component({
@@ -35,7 +35,7 @@ export class EditOperationViewComponent implements OnInit{
   accountsList: Account[] = []
   categoriesList: Category[] = []
 
-  operation: OperationResponse | undefined
+  operation: Operation | undefined
 
   operationUpdateForm: FormGroup = this.formBuilder.group({
     accountId: [null, [Validators.required]],
@@ -55,13 +55,13 @@ export class EditOperationViewComponent implements OnInit{
     const userId = Number.parseInt(userIdString)
 
     // create payload
-    const payload: OperationRequest = {
+    const payload: Operation = {
       id: this.operation!.id!,
       accountId: this.operationUpdateForm.get('accountId')?.value,
       amount: this.operationUpdateForm.get('amount')?.value,
       description: this.operationUpdateForm.get('description')?.value,
-      operationDate: this.operationUpdateForm.get('operationDate')?.value,
-      type: this.operationType,
+      date: this.operationUpdateForm.get('operationDate')?.value,
+      operationType: this.operationType,
       currency: this.operation!.currency,
       userId
     }
@@ -110,8 +110,8 @@ export class EditOperationViewComponent implements OnInit{
           // update simple form fields
           this.operationUpdateForm.get('description')?.setValue(result.description)
           this.operationUpdateForm.get('amount')?.setValue(result.amount)
-          this.operationUpdateForm.get('operationDate')?.setValue(result.operationDate)
-          this.operationType = result.type
+          this.operationUpdateForm.get('operationDate')?.setValue(result.date)
+          this.operationType = result.operationType
           // set fields with relationships
           if (result.account != null){
             this.operationUpdateForm.get('accountId')?.setValue(result.account.id)

@@ -27,8 +27,8 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
 
     @Override
     public LoginResponseDto login(LoginRequestDto request) {
-        String email = request.email();
-        String password = request.password();
+        String email = request.getEmail();
+        String password = request.getPassword();
         User user = this.userRepository.findByEmail(email).orElseThrow(BadCredentialsException::new);
         if (!this.passwordEncoder.matches(password, user.getPassword())){
             throw new BadCredentialsException();

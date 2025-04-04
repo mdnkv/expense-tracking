@@ -8,10 +8,10 @@ public final class CategoryDtoMapper implements Function<Category, CategoryDto> 
 
     @Override
     public CategoryDto apply(Category category) {
-        return new CategoryDto(
-                category.getId(),
-                category.getUser().getId(),
-                category.getName()
-        );
+        CategoryDto result = new CategoryDto();
+        result.setId(category.getId());
+        result.setName(category.getName());
+        result.setUserId(category.getUser().getId());
+        return result;
     }
 }

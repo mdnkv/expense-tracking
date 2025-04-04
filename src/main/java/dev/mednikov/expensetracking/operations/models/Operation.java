@@ -14,6 +14,7 @@ import org.joda.money.Money;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "operations_operation")
@@ -85,8 +86,8 @@ public class Operation implements Comparable<Operation>, Monetary {
         return user;
     }
 
-    public Category getCategory() {
-        return category;
+    public Optional<Category> getCategory() {
+        return Optional.ofNullable(this.category);
     }
 
     public Account getAccount() {

@@ -27,10 +27,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto createCategory(CategoryDto request) {
-        User user = this.userRepository.getReferenceById(request.userId());
+        User user = this.userRepository.getReferenceById(request.getUserId());
         Category category = new Category.CategoryBuilder()
                 .withUser(user)
-                .withName(request.name())
+                .withName(request.getName())
                 .build();
         Category result = this.categoryRepository.save(category);
         return mapper.apply(result);
@@ -39,9 +39,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto updateCategory(CategoryDto request) {
         Category category = this.categoryRepository
-                .findById(request.id())
+                .findById(request.getId())
                 .orElseThrow(CategoryNotFoundException::new);
-        category.setName(request.name());
+        category.setName(request.getName());
 
         Category result = this.categoryRepository.save(category);
         return mapper.apply(result);

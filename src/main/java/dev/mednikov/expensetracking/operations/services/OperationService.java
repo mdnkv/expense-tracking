@@ -1,21 +1,20 @@
 package dev.mednikov.expensetracking.operations.services;
 
-import dev.mednikov.expensetracking.operations.dto.OperationRequestDto;
-import dev.mednikov.expensetracking.operations.dto.OperationResponseDto;
+import dev.mednikov.expensetracking.operations.dto.OperationDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OperationService {
 
-    OperationResponseDto createOperation (OperationRequestDto request);
+    OperationDto createOperation (OperationDto request);
 
-    OperationResponseDto updateOperation (OperationRequestDto request);
+    OperationDto updateOperation (OperationDto request);
 
     void deleteOperation (Long id);
 
-    Optional<OperationResponseDto> findOperationById (Long id);
+    Optional<OperationDto> findOperationById (Long id);
 
-    List<OperationResponseDto> findAllOperationsForUser (Long userId);
+    List<OperationDto> findAllOperationsForUser (Long userId);
 
 }

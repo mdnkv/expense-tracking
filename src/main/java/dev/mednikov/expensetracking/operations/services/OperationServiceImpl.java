@@ -4,9 +4,7 @@ import dev.mednikov.expensetracking.accounts.models.Account;
 import dev.mednikov.expensetracking.accounts.repositories.AccountRepository;
 import dev.mednikov.expensetracking.categories.models.Category;
 import dev.mednikov.expensetracking.categories.repositories.CategoryRepository;
-import dev.mednikov.expensetracking.operations.dto.OperationRequestDto;
-import dev.mednikov.expensetracking.operations.dto.OperationResponseDto;
-import dev.mednikov.expensetracking.operations.dto.OperationResponseDtoMapper;
+import dev.mednikov.expensetracking.operations.dto.*;
 import dev.mednikov.expensetracking.operations.exceptions.OperationNotFoundException;
 import dev.mednikov.expensetracking.operations.models.Operation;
 import dev.mednikov.expensetracking.operations.repositories.OperationRepository;
@@ -15,14 +13,13 @@ import dev.mednikov.expensetracking.users.repositories.UserRepository;
 
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OperationServiceImpl implements OperationService {
 
-    private final static OperationResponseDtoMapper responseDtoMapper = new OperationResponseDtoMapper();
+    private final static OperationDtoMapper mapper = new OperationDtoMapper();
 
     private final OperationRepository operationRepository;
     private final UserRepository userRepository;
@@ -37,54 +34,53 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public OperationResponseDto createOperation(OperationRequestDto request) {
-        User user = this.userRepository.getReferenceById(request.userId());
-        Account account = this.accountRepository.getReferenceById(request.accountId());
+    public OperationDto createOperation(OperationDto request) {
+        User user = this.userRepository.getReferenceById(request.getUserId());
+        Account account = this.accountRepository.getReferenceById(request.getAccountId());
 
         Operation operation = new Operation.OperationBuilder()
                 .withUser(user)
                 .withAccount(account)
-                .withAmount(request.amount())
-                .withDescription(request.description())
-                .withCurrency(request.currency())
-                .withType(request.type())
-                .withOperationDate(request.operationDate())
+                .withAmount(request.getAmount())
+                .withDescription(request.getDescription())
+                .withCurrency(request.getCurrency())
+                .withType(request.getOperationType())
+                .withOperationDate(request.getDate())
                 .build();
 
-        if (request.categoryId() != null){
-            Category category = this.categoryRepository.getReferenceById(request.categoryId());
+        if (request.getCategoryId() != null){
+            Category category = this.categoryRepository.getReferenceById(request.getCategoryId());
             operation.setCategory(category);
         }
 
         Operation result = this.operationRepository.save(operation);
-        return responseDtoMapper.apply(result);
+        return mapper.apply(result);
 
     }
 
     @Override
-    public OperationResponseDto updateOperation(OperationRequestDto request) {
+    public OperationDto updateOperation(OperationDto request) {
         Operation operation = this.operationRepository
-                .findById(request.id())
+                .findById(request.getId())
                 .orElseThrow(OperationNotFoundException::new);
 
-        operation.setAmount(request.amount());
-        operation.setDescription(request.description());
-        operation.setCurrency(request.currency());
-        operation.setType(request.type());
-        operation.setOperationDate(request.operationDate());
+        operation.setAmount(request.getAmount());
+        operation.setDescription(request.getDescription());
+        operation.setCurrency(request.getCurrency());
+        operation.setType(request.getOperationType());
+        operation.setOperationDate(request.getDate());
 
-        if (request.categoryId() != null){
-            Category category = this.categoryRepository.getReferenceById(request.categoryId());
+        Account account = this.accountRepository.getReferenceById(request.getAccountId());
+        operation.setAccount(account);
+
+        if (request.getCategoryId() != null){
+            Category category = this.categoryRepository.getReferenceById(request.getCategoryId());
             operation.setCategory(category);
         }
 
-        if (request.accountId() != null){
-            Account account = this.accountRepository.getReferenceById(request.accountId());
-            operation.setAccount(account);
-        }
 
         Operation result = this.operationRepository.save(operation);
-        return responseDtoMapper.apply(result);
+        return mapper.apply(result);
     }
 
     @Override
@@ -93,16 +89,15 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public Optional<OperationResponseDto> findOperationById(Long id) {
-        return this.operationRepository.findById(id).map(responseDtoMapper);
+    public Optional<OperationDto> findOperationById(Long id) {
+        return this.operationRepository.findById(id).map(mapper);
     }
 
     @Override
-    public List<OperationResponseDto> findAllOperationsForUser(Long userId) {
+    public List<OperationDto> findAllOperationsForUser(Long userId) {
         return this.operationRepository
                 .findAllByUserId(userId)
                 .stream()
-                .sorted(Comparator.reverseOrder())
-                .map(responseDtoMapper).toList();
+                .map(mapper).toList();
     }
 }

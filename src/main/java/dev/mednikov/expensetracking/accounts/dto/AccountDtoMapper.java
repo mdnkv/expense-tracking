@@ -8,11 +8,12 @@ public final class AccountDtoMapper implements Function<Account, AccountDto> {
 
     @Override
     public AccountDto apply(Account account) {
-        return new AccountDto(
-                account.getId(),
-                account.getUser().getId(),
-                account.getName(),
-                account.getType()
-        );
+        AccountDto result = new AccountDto();
+        result.setId(account.getId());
+        result.setName(account.getName());
+        result.setType(account.getType());
+        result.setUserId(account.getUser().getId());
+        return result;
     }
+
 }

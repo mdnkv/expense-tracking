@@ -7,8 +7,7 @@ import dev.mednikov.expensetracking.accounts.models.AccountType;
 import dev.mednikov.expensetracking.accounts.repositories.AccountRepository;
 import dev.mednikov.expensetracking.categories.models.Category;
 import dev.mednikov.expensetracking.categories.repositories.CategoryRepository;
-import dev.mednikov.expensetracking.operations.dto.OperationRequestDto;
-import dev.mednikov.expensetracking.operations.dto.OperationResponseDto;
+import dev.mednikov.expensetracking.operations.dto.OperationDto;
 import dev.mednikov.expensetracking.operations.exceptions.OperationNotFoundException;
 import dev.mednikov.expensetracking.operations.models.Operation;
 import dev.mednikov.expensetracking.operations.models.OperationType;
@@ -68,22 +67,30 @@ class OperationServiceImplTest {
         Mockito.when(accountRepository.getReferenceById(accountId)).thenReturn(account);
         Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
 
-        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
-                .withAccountId(accountId)
-                .withUserId(userId)
-                .withAmount(BigDecimal.valueOf(100))
-                .withCurrency("EUR")
-                .withOperationDate(LocalDate.now())
-                .withType(OperationType.EXPENSE)
-                .withDescription(faker.lorem().fixedString(200))
-                .build();
+//        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
+//                .withAccountId(accountId)
+//                .withUserId(userId)
+//                .withAmount(BigDecimal.valueOf(100))
+//                .withCurrency("EUR")
+//                .withOperationDate(LocalDate.now())
+//                .withType(OperationType.EXPENSE)
+//                .withDescription(faker.lorem().fixedString(200))
+//                .build();
+//
+        OperationDto request = new OperationDto();
+        request.setAmount(BigDecimal.valueOf(100));
+        request.setCurrency("EUR");
+        request.setOperationType(OperationType.EXPENSE);
+        request.setDescription(faker.lorem().fixedString(200));
+        request.setAccountId(accountId);
+        request.setUserId(userId);
+        request.setDate(LocalDate.now());
 
-        OperationResponseDto result = operationService.createOperation(request);
+        OperationDto result = operationService.createOperation(request);
         Assertions
                 .assertThat(result)
                 .hasFieldOrPropertyWithValue("id", operationId)
-                .hasFieldOrProperty("account")
-                .hasFieldOrPropertyWithValue("monetaryAmount", "EUR 100.00");
+                .hasFieldOrProperty("account");
     }
 
     @Test
@@ -118,30 +125,38 @@ class OperationServiceImplTest {
                 .withDescription(faker.lorem().fixedString(200))
                 .withCategory(category)
                 .build();
+        OperationDto request = new OperationDto();
+        request.setCategoryId(categoryId);
+        request.setAmount(BigDecimal.valueOf(100));
+        request.setCurrency("EUR");
+        request.setOperationType(OperationType.EXPENSE);
+        request.setDescription(faker.lorem().fixedString(200));
+        request.setAccountId(accountId);
+        request.setUserId(userId);
+        request.setDate(LocalDate.now());
 
         Mockito.when(userRepository.getReferenceById(userId)).thenReturn(user);
         Mockito.when(accountRepository.getReferenceById(accountId)).thenReturn(account);
         Mockito.when(categoryRepository.getReferenceById(categoryId)).thenReturn(category);
         Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
 
-        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
-                .withAccountId(accountId)
-                .withUserId(userId)
-                .withAmount(BigDecimal.valueOf(100))
-                .withCurrency("EUR")
-                .withOperationDate(LocalDate.now())
-                .withType(OperationType.EXPENSE)
-                .withCategoryId(categoryId)
-                .withDescription(faker.lorem().fixedString(200))
-                .build();
+//        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
+//                .withAccountId(accountId)
+//                .withUserId(userId)
+//                .withAmount(BigDecimal.valueOf(100))
+//                .withCurrency("EUR")
+//                .withOperationDate(LocalDate.now())
+//                .withType(OperationType.EXPENSE)
+//                .withCategoryId(categoryId)
+//                .withDescription(faker.lorem().fixedString(200))
+//                .build();
 
-        OperationResponseDto result = operationService.createOperation(request);
+        OperationDto result = operationService.createOperation(request);
         Assertions
                 .assertThat(result)
                 .hasFieldOrPropertyWithValue("id", operationId)
                 .hasFieldOrProperty("account")
-                .hasFieldOrProperty("category")
-                .hasFieldOrPropertyWithValue("monetaryAmount", "EUR 100.00");
+                .hasFieldOrProperty("category");
     }
 
     @Test
@@ -150,17 +165,26 @@ class OperationServiceImplTest {
         Long accountId = faker.number().randomNumber();
         Long operationId = faker.number().randomNumber();
         Long categoryId = faker.number().randomNumber();
-        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
-                .withId(operationId)
-                .withAccountId(accountId)
-                .withUserId(userId)
-                .withAmount(BigDecimal.valueOf(100))
-                .withCurrency("EUR")
-                .withOperationDate(LocalDate.now())
-                .withType(OperationType.EXPENSE)
-                .withCategoryId(categoryId)
-                .withDescription(faker.lorem().fixedString(200))
-                .build();
+//        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
+//                .withId(operationId)
+//                .withAccountId(accountId)
+//                .withUserId(userId)
+//                .withAmount(BigDecimal.valueOf(100))
+//                .withCurrency("EUR")
+//                .withOperationDate(LocalDate.now())
+//                .withType(OperationType.EXPENSE)
+//                .withCategoryId(categoryId)
+//                .withDescription(faker.lorem().fixedString(200))
+//                .build();
+        OperationDto request = new OperationDto();
+        request.setId(operationId);
+        request.setAmount(BigDecimal.valueOf(100));
+        request.setCurrency("EUR");
+        request.setOperationType(OperationType.EXPENSE);
+        request.setDescription(faker.lorem().fixedString(200));
+        request.setAccountId(accountId);
+        request.setUserId(userId);
+        request.setDate(LocalDate.now());
 
         Mockito.when(operationRepository.findById(operationId)).thenReturn(Optional.empty());
 
@@ -198,21 +222,29 @@ class OperationServiceImplTest {
         Mockito.when(accountRepository.getReferenceById(accountId)).thenReturn(account);
         Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
 
-        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
-                .withId(operationId)
-                .withAccountId(accountId)
-                .withUserId(userId)
-                .withAmount(BigDecimal.valueOf(250))
-                .withCurrency("EUR")
-                .withOperationDate(LocalDate.now())
-                .withType(OperationType.EXPENSE)
-                .withDescription(faker.lorem().fixedString(200))
-                .build();
+//        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
+//                .withId(operationId)
+//                .withAccountId(accountId)
+//                .withUserId(userId)
+//                .withAmount(BigDecimal.valueOf(250))
+//                .withCurrency("EUR")
+//                .withOperationDate(LocalDate.now())
+//                .withType(OperationType.EXPENSE)
+//                .withDescription(faker.lorem().fixedString(200))
+//                .build();
+        OperationDto request = new OperationDto();
+        request.setId(operationId);
+        request.setAmount(BigDecimal.valueOf(100));
+        request.setCurrency("EUR");
+        request.setOperationType(OperationType.EXPENSE);
+        request.setDescription(faker.lorem().fixedString(200));
+        request.setAccountId(accountId);
+        request.setUserId(userId);
+        request.setDate(LocalDate.now());
 
-        OperationResponseDto result = operationService.updateOperation(request);
+        OperationDto result = operationService.updateOperation(request);
         Assertions.assertThat(result)
                 .hasFieldOrPropertyWithValue("id", operationId)
-                .hasFieldOrPropertyWithValue("monetaryAmount", "EUR 250.00")
                 .hasFieldOrProperty("account");
     }
 
@@ -254,22 +286,31 @@ class OperationServiceImplTest {
         Mockito.when(categoryRepository.getReferenceById(categoryId)).thenReturn(category);
         Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
 
-        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
-                .withId(operationId)
-                .withAccountId(accountId)
-                .withCategoryId(categoryId)
-                .withUserId(userId)
-                .withAmount(BigDecimal.valueOf(300))
-                .withCurrency("EUR")
-                .withOperationDate(LocalDate.now())
-                .withType(OperationType.EXPENSE)
-                .withDescription(faker.lorem().fixedString(200))
-                .build();
+//        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
+//                .withId(operationId)
+//                .withAccountId(accountId)
+//                .withCategoryId(categoryId)
+//                .withUserId(userId)
+//                .withAmount(BigDecimal.valueOf(300))
+//                .withCurrency("EUR")
+//                .withOperationDate(LocalDate.now())
+//                .withType(OperationType.EXPENSE)
+//                .withDescription(faker.lorem().fixedString(200))
+//                .build();
+        OperationDto request = new OperationDto();
+        request.setId(operationId);
+        request.setAmount(BigDecimal.valueOf(100));
+        request.setCurrency("EUR");
+        request.setOperationType(OperationType.EXPENSE);
+        request.setDescription(faker.lorem().fixedString(200));
+        request.setAccountId(accountId);
+        request.setUserId(userId);
+        request.setDate(LocalDate.now());
+        request.setCategoryId(categoryId);
 
-        OperationResponseDto result = operationService.updateOperation(request);
+        OperationDto result = operationService.updateOperation(request);
         Assertions.assertThat(result)
                 .hasFieldOrPropertyWithValue("id", operationId)
-                .hasFieldOrPropertyWithValue("monetaryAmount", "EUR 300.00")
                 .hasFieldOrProperty("account");
     }
 
@@ -307,7 +348,7 @@ class OperationServiceImplTest {
                 .build();
 
         Mockito.when(operationRepository.findById(operationId)).thenReturn(Optional.of(operation));
-        Optional<OperationResponseDto> result = operationService.findOperationById(operationId);
+        Optional<OperationDto> result = operationService.findOperationById(operationId);
         Assertions.assertThat(result).isPresent();
     }
 
@@ -315,7 +356,7 @@ class OperationServiceImplTest {
     void findOperationById_doesNotExistTest(){
         Long id = faker.number().randomNumber();
         Mockito.when(operationRepository.findById(id)).thenReturn(Optional.empty());
-        Optional<OperationResponseDto> result = operationService.findOperationById(id);
+        Optional<OperationDto> result = operationService.findOperationById(id);
         Assertions.assertThat(result).isEmpty();
     }
 

@@ -1,7 +1,7 @@
 import {Account} from "../../accounts/models/accounts.models";
 import {Category} from "../../categories/models/categories.models";
 
-export interface OperationRequest {
+export interface Operation {
   id?: number
   userId: number
   accountId: number
@@ -9,18 +9,8 @@ export interface OperationRequest {
   description: string
   currency: string
   amount: number
-  type: string
-  operationDate: Date
-}
-
-export interface OperationResponse {
-  id: number
-  account: Account
-  category: Category
-  description: string
-  currency: string
-  amount: number
-  type: string
-  operationDate: Date
-  monetaryAmount: string
+  operationType: string
+  date: Date
+  category?: Category
+  account?: Account
 }
