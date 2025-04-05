@@ -22,7 +22,7 @@ The application is a standard Java application that is packaged as fat jar and t
 
 System requirements are:
 
-- Java JDK v.21+
+- Java JDK v.24+
 - PostgreSQL server v.16+
 
 This section describes how to run application using the development configuration (for local testing) and the production configuration
