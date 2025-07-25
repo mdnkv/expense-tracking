@@ -1,6 +1,5 @@
 package dev.mednikov.expensetracking.accounts.services;
 
-import com.github.javafaker.Faker;
 import dev.mednikov.expensetracking.accounts.dto.AccountDto;
 import dev.mednikov.expensetracking.accounts.exceptions.AccountNotFoundException;
 import dev.mednikov.expensetracking.accounts.models.Account;
@@ -22,19 +21,17 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 class AccountServiceImplTest {
 
-    private final static Faker faker = new Faker();
-
     @Mock private AccountRepository accountRepository;
     @Mock private UserRepository userRepository;
     @InjectMocks private AccountServiceImpl accountService;
 
     @Test
     void createAccountTest(){
-        Long userId = faker.number().randomNumber();
+        Long userId = 1L;
         User user = new User.UserBuilder().withId(userId).build();
 
-        Long accountId = faker.number().randomNumber();
-        String accountName = faker.lorem().fixedString(100);
+        Long accountId = 1L;
+        String accountName = "Cash account";
         Account account = new Account.AccountBuilder()
                 .withUser(user)
                 .withId(accountId)
@@ -45,7 +42,11 @@ class AccountServiceImplTest {
         Mockito.when(userRepository.getReferenceById(userId)).thenReturn(user);
         Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
 
-        AccountDto request = new AccountDto(null, userId, accountName, AccountType.CASH);
+        AccountDto request = new AccountDto();
+        request.setUserId(userId);
+        request.setName(accountName);
+        request.setType(AccountType.CASH);
+
         AccountDto result = accountService.createAccount(request);
 
         Assertions
@@ -57,12 +58,16 @@ class AccountServiceImplTest {
 
     @Test
     void updateAccount_notFoundTest(){
-        Long userId = faker.number().randomNumber();
-        Long accountId = faker.number().randomNumber();
+        Long userId = 1L;
+        Long accountId = 1L;
 
         Mockito.when(accountRepository.findById(accountId)).thenReturn(Optional.empty());
 
-        AccountDto request = new AccountDto(accountId, userId, faker.lorem().fixedString(100), AccountType.CASH);
+        AccountDto request = new AccountDto();
+        request.setId(accountId);
+        request.setUserId(userId);
+        request.setName("My card account");
+        request.setType(AccountType.CREDIT_CARD);
         Assertions
                 .assertThatThrownBy(() -> accountService.updateAccount(request))
                 .isInstanceOf(AccountNotFoundException.class);
@@ -70,36 +75,41 @@ class AccountServiceImplTest {
 
     @Test
     void updateAccount_successTest(){
-        Long userId = faker.number().randomNumber();
+        Long userId = 1L;
         User user = new User.UserBuilder().withId(userId).build();
-        Long accountId = faker.number().randomNumber();
-        String accountName = faker.lorem().fixedString(100);
+        Long accountId = 1L;
+        String accountName = "My credit card account";
         Account account = new Account.AccountBuilder()
                 .withUser(user)
                 .withId(accountId)
-                .withType(AccountType.CASH)
+                .withType(AccountType.CREDIT_CARD)
                 .withName(accountName)
                 .build();
 
         Mockito.when(accountRepository.findById(accountId)).thenReturn(Optional.of(account));
         Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
 
-        AccountDto request = new AccountDto(accountId, userId, accountName, AccountType.CASH);
+        AccountDto request = new AccountDto();
+        request.setId(accountId);
+        request.setUserId(userId);
+        request.setName(accountName);
+        request.setType(AccountType.CREDIT_CARD);
+
         AccountDto result = accountService.updateAccount(request);
 
         Assertions
                 .assertThat(result)
                 .hasFieldOrPropertyWithValue("id", accountId)
                 .hasFieldOrPropertyWithValue("name", accountName)
-                .hasFieldOrPropertyWithValue("type", AccountType.CASH);
+                .hasFieldOrPropertyWithValue("type", AccountType.CREDIT_CARD);
     }
 
     @Test
     void findAccountById_existsTest(){
-        Long userId = faker.number().randomNumber();
+        Long userId = 1L;
         User user = new User.UserBuilder().withId(userId).build();
-        Long accountId = faker.number().randomNumber();
-        String accountName = faker.lorem().fixedString(100);
+        Long accountId = 1L;
+        String accountName = "My cash account";
         Account account = new Account.AccountBuilder()
                 .withUser(user)
                 .withId(accountId)
@@ -115,7 +125,7 @@ class AccountServiceImplTest {
 
     @Test
     void findAccountById_doesNotExistTest(){
-        Long accountId = faker.number().randomNumber();
+        Long accountId = 1L;
         Mockito.when(accountRepository.findById(accountId)).thenReturn(Optional.empty());
         Optional<AccountDto> result = accountService.findAccountById(accountId);
         Assertions.assertThat(result).isEmpty();
@@ -123,27 +133,27 @@ class AccountServiceImplTest {
 
     @Test
     void findAllAccountsForUserTest(){
-        Long userId = faker.number().randomNumber();
+        Long userId = 1L;
         User user = new User.UserBuilder().withId(userId).build();
 
         List<Account> accounts = List.of(
                 new Account.AccountBuilder()
                         .withUser(user)
-                        .withId(faker.number().randomNumber())
+                        .withId(1L)
                         .withType(AccountType.CASH)
-                        .withName(faker.lorem().fixedString(50))
+                        .withName("Cash account")
                         .build(),
                 new Account.AccountBuilder()
                         .withUser(user)
-                        .withId(faker.number().randomNumber())
-                        .withType(AccountType.CASH)
-                        .withName(faker.lorem().fixedString(50))
+                        .withId(2L)
+                        .withType(AccountType.CREDIT_CARD)
+                        .withName("Credit card account")
                         .build(),
                 new Account.AccountBuilder()
                         .withUser(user)
-                        .withId(faker.number().randomNumber())
-                        .withType(AccountType.CASH)
-                        .withName(faker.lorem().fixedString(50))
+                        .withId(3L)
+                        .withType(AccountType.BANK_ACCOUNT)
+                        .withName("My bank account")
                         .build()
         );
 

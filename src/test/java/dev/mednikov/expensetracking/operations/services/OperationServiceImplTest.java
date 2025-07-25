@@ -1,7 +1,5 @@
 package dev.mednikov.expensetracking.operations.services;
 
-import com.github.javafaker.Faker;
-
 import dev.mednikov.expensetracking.accounts.models.Account;
 import dev.mednikov.expensetracking.accounts.models.AccountType;
 import dev.mednikov.expensetracking.accounts.repositories.AccountRepository;
@@ -30,8 +28,6 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 class OperationServiceImplTest {
 
-    private final static Faker faker = new Faker();
-
     @Mock private UserRepository userRepository;
     @Mock private OperationRepository operationRepository;
     @Mock private AccountRepository accountRepository;
@@ -41,13 +37,14 @@ class OperationServiceImplTest {
 
     @Test
     void createOperation_withAccountTest(){
-        Long userId = faker.number().randomNumber();
-        Long accountId = faker.number().randomNumber();
-        Long operationId = faker.number().randomNumber();
+        Long userId = 1L;
+        Long accountId = 1L;
+        Long operationId = 1L;
 
         User user = new User.UserBuilder().withId(userId).build();
+        String description = "Sed lectus nibh, mattis quis tempor";
         Account account = new Account.AccountBuilder()
-                .withName(faker.lorem().fixedString(50))
+                .withName("Cash account")
                 .withId(accountId)
                 .withUser(user)
                 .withType(AccountType.CASH)
@@ -60,28 +57,18 @@ class OperationServiceImplTest {
                 .withCurrency("EUR")
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
-                .withDescription(faker.lorem().fixedString(200))
+                .withDescription(description)
                 .build();
 
         Mockito.when(userRepository.getReferenceById(userId)).thenReturn(user);
         Mockito.when(accountRepository.getReferenceById(accountId)).thenReturn(account);
         Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
 
-//        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
-//                .withAccountId(accountId)
-//                .withUserId(userId)
-//                .withAmount(BigDecimal.valueOf(100))
-//                .withCurrency("EUR")
-//                .withOperationDate(LocalDate.now())
-//                .withType(OperationType.EXPENSE)
-//                .withDescription(faker.lorem().fixedString(200))
-//                .build();
-//
         OperationDto request = new OperationDto();
         request.setAmount(BigDecimal.valueOf(100));
         request.setCurrency("EUR");
         request.setOperationType(OperationType.EXPENSE);
-        request.setDescription(faker.lorem().fixedString(200));
+        request.setDescription(description);
         request.setAccountId(accountId);
         request.setUserId(userId);
         request.setDate(LocalDate.now());
@@ -95,14 +82,14 @@ class OperationServiceImplTest {
 
     @Test
     void createOperation_withAccountAndCategoryTest(){
-        Long userId = faker.number().randomNumber();
-        Long accountId = faker.number().randomNumber();
-        Long operationId = faker.number().randomNumber();
-        Long categoryId = faker.number().randomNumber();
+        Long userId = 1L;
+        Long accountId = 1L;
+        Long operationId = 1L;
+        Long categoryId = 1L;
 
         User user = new User.UserBuilder().withId(userId).build();
         Account account = new Account.AccountBuilder()
-                .withName(faker.lorem().fixedString(50))
+                .withName("Cash account")
                 .withId(accountId)
                 .withUser(user)
                 .withType(AccountType.CASH)
@@ -110,10 +97,11 @@ class OperationServiceImplTest {
 
         Category category = new Category.CategoryBuilder()
                 .withId(categoryId)
-                .withName(faker.lorem().fixedString(15))
+                .withName("Expenses")
                 .withUser(user)
                 .build();
 
+        String description = "Sed lectus nibh, mattis quis tempor";
         Operation operation = new Operation.OperationBuilder()
                 .withId(operationId)
                 .withUser(user)
@@ -122,7 +110,7 @@ class OperationServiceImplTest {
                 .withCurrency("EUR")
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
-                .withDescription(faker.lorem().fixedString(200))
+                .withDescription(description)
                 .withCategory(category)
                 .build();
         OperationDto request = new OperationDto();
@@ -130,7 +118,7 @@ class OperationServiceImplTest {
         request.setAmount(BigDecimal.valueOf(100));
         request.setCurrency("EUR");
         request.setOperationType(OperationType.EXPENSE);
-        request.setDescription(faker.lorem().fixedString(200));
+        request.setDescription(description);
         request.setAccountId(accountId);
         request.setUserId(userId);
         request.setDate(LocalDate.now());
@@ -139,17 +127,6 @@ class OperationServiceImplTest {
         Mockito.when(accountRepository.getReferenceById(accountId)).thenReturn(account);
         Mockito.when(categoryRepository.getReferenceById(categoryId)).thenReturn(category);
         Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
-
-//        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
-//                .withAccountId(accountId)
-//                .withUserId(userId)
-//                .withAmount(BigDecimal.valueOf(100))
-//                .withCurrency("EUR")
-//                .withOperationDate(LocalDate.now())
-//                .withType(OperationType.EXPENSE)
-//                .withCategoryId(categoryId)
-//                .withDescription(faker.lorem().fixedString(200))
-//                .build();
 
         OperationDto result = operationService.createOperation(request);
         Assertions
@@ -161,27 +138,17 @@ class OperationServiceImplTest {
 
     @Test
     void updateOperation_notFoundTest(){
-        Long userId = faker.number().randomNumber();
-        Long accountId = faker.number().randomNumber();
-        Long operationId = faker.number().randomNumber();
-        Long categoryId = faker.number().randomNumber();
-//        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
-//                .withId(operationId)
-//                .withAccountId(accountId)
-//                .withUserId(userId)
-//                .withAmount(BigDecimal.valueOf(100))
-//                .withCurrency("EUR")
-//                .withOperationDate(LocalDate.now())
-//                .withType(OperationType.EXPENSE)
-//                .withCategoryId(categoryId)
-//                .withDescription(faker.lorem().fixedString(200))
-//                .build();
+        Long userId = 1L;
+        Long accountId = 1L;
+        Long operationId = 1L;
+
+        String description = "Sed lectus nibh, mattis quis tempor";
         OperationDto request = new OperationDto();
         request.setId(operationId);
         request.setAmount(BigDecimal.valueOf(100));
         request.setCurrency("EUR");
         request.setOperationType(OperationType.EXPENSE);
-        request.setDescription(faker.lorem().fixedString(200));
+        request.setDescription(description);
         request.setAccountId(accountId);
         request.setUserId(userId);
         request.setDate(LocalDate.now());
@@ -195,18 +162,19 @@ class OperationServiceImplTest {
 
     @Test
     void updateOperation_withAccountTest(){
-        Long userId = faker.number().randomNumber();
-        Long accountId = faker.number().randomNumber();
-        Long operationId = faker.number().randomNumber();
+        Long userId = 1L;
+        Long accountId = 1L;
+        Long operationId = 1L;
 
         User user = new User.UserBuilder().withId(userId).build();
         Account account = new Account.AccountBuilder()
-                .withName(faker.lorem().fixedString(50))
+                .withName("My credit card")
                 .withId(accountId)
                 .withUser(user)
-                .withType(AccountType.CASH)
+                .withType(AccountType.CREDIT_CARD)
                 .build();
 
+        String description = "Sed lectus nibh, mattis quis tempor";
         Operation operation = new Operation.OperationBuilder()
                 .withId(operationId)
                 .withUser(user)
@@ -215,29 +183,18 @@ class OperationServiceImplTest {
                 .withCurrency("EUR")
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
-                .withDescription(faker.lorem().fixedString(200))
+                .withDescription(description)
                 .build();
 
         Mockito.when(operationRepository.findById(operationId)).thenReturn(Optional.of(operation));
         Mockito.when(accountRepository.getReferenceById(accountId)).thenReturn(account);
         Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
-
-//        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
-//                .withId(operationId)
-//                .withAccountId(accountId)
-//                .withUserId(userId)
-//                .withAmount(BigDecimal.valueOf(250))
-//                .withCurrency("EUR")
-//                .withOperationDate(LocalDate.now())
-//                .withType(OperationType.EXPENSE)
-//                .withDescription(faker.lorem().fixedString(200))
-//                .build();
         OperationDto request = new OperationDto();
         request.setId(operationId);
         request.setAmount(BigDecimal.valueOf(100));
         request.setCurrency("EUR");
         request.setOperationType(OperationType.EXPENSE);
-        request.setDescription(faker.lorem().fixedString(200));
+        request.setDescription(description);
         request.setAccountId(accountId);
         request.setUserId(userId);
         request.setDate(LocalDate.now());
@@ -250,14 +207,14 @@ class OperationServiceImplTest {
 
     @Test
     void updateOperation_withAccountAndCategoryTest(){
-        Long userId = faker.number().randomNumber();
-        Long accountId = faker.number().randomNumber();
-        Long operationId = faker.number().randomNumber();
-        Long categoryId = faker.number().randomNumber();
+        Long userId = 1L;
+        Long accountId = 1L;
+        Long operationId = 1L;
+        Long categoryId = 1L;
 
         User user = new User.UserBuilder().withId(userId).build();
         Account account = new Account.AccountBuilder()
-                .withName(faker.lorem().fixedString(50))
+                .withName("My cash account")
                 .withId(accountId)
                 .withUser(user)
                 .withType(AccountType.CASH)
@@ -265,10 +222,11 @@ class OperationServiceImplTest {
 
         Category category = new Category.CategoryBuilder()
                 .withId(categoryId)
-                .withName(faker.lorem().fixedString(15))
+                .withName("Expenses")
                 .withUser(user)
                 .build();
 
+        String description = "Sed lectus nibh, mattis quis tempor";
         Operation operation = new Operation.OperationBuilder()
                 .withId(operationId)
                 .withUser(user)
@@ -278,7 +236,7 @@ class OperationServiceImplTest {
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
                 .withCategory(category)
-                .withDescription(faker.lorem().fixedString(200))
+                .withDescription(description)
                 .build();
 
         Mockito.when(operationRepository.findById(operationId)).thenReturn(Optional.of(operation));
@@ -286,23 +244,12 @@ class OperationServiceImplTest {
         Mockito.when(categoryRepository.getReferenceById(categoryId)).thenReturn(category);
         Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
 
-//        OperationRequestDto request = new OperationRequestDto.OperationRequestDtoBuilder()
-//                .withId(operationId)
-//                .withAccountId(accountId)
-//                .withCategoryId(categoryId)
-//                .withUserId(userId)
-//                .withAmount(BigDecimal.valueOf(300))
-//                .withCurrency("EUR")
-//                .withOperationDate(LocalDate.now())
-//                .withType(OperationType.EXPENSE)
-//                .withDescription(faker.lorem().fixedString(200))
-//                .build();
         OperationDto request = new OperationDto();
         request.setId(operationId);
         request.setAmount(BigDecimal.valueOf(100));
         request.setCurrency("EUR");
         request.setOperationType(OperationType.EXPENSE);
-        request.setDescription(faker.lorem().fixedString(200));
+        request.setDescription(description);
         request.setAccountId(accountId);
         request.setUserId(userId);
         request.setDate(LocalDate.now());
@@ -316,22 +263,22 @@ class OperationServiceImplTest {
 
     @Test
     void findOperationById_existsTest(){
-        Long userId = faker.number().randomNumber();
-        Long accountId = faker.number().randomNumber();
-        Long operationId = faker.number().randomNumber();
-        Long categoryId = faker.number().randomNumber();
+        Long userId = 1L;
+        Long accountId = 1L;
+        Long operationId = 1L;
+        Long categoryId = 1L;
 
         User user = new User.UserBuilder().withId(userId).build();
         Account account = new Account.AccountBuilder()
-                .withName(faker.lorem().fixedString(50))
+                .withName("My bank account")
                 .withId(accountId)
                 .withUser(user)
-                .withType(AccountType.CASH)
+                .withType(AccountType.BANK_ACCOUNT)
                 .build();
 
         Category category = new Category.CategoryBuilder()
                 .withId(categoryId)
-                .withName(faker.lorem().fixedString(15))
+                .withName("Expenses")
                 .withUser(user)
                 .build();
 
@@ -344,7 +291,7 @@ class OperationServiceImplTest {
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
                 .withCategory(category)
-                .withDescription(faker.lorem().fixedString(200))
+                .withDescription("Nam orci purus, scelerisque quis eleifend vitae")
                 .build();
 
         Mockito.when(operationRepository.findById(operationId)).thenReturn(Optional.of(operation));
@@ -354,7 +301,7 @@ class OperationServiceImplTest {
 
     @Test
     void findOperationById_doesNotExistTest(){
-        Long id = faker.number().randomNumber();
+        Long id = 1L;
         Mockito.when(operationRepository.findById(id)).thenReturn(Optional.empty());
         Optional<OperationDto> result = operationService.findOperationById(id);
         Assertions.assertThat(result).isEmpty();

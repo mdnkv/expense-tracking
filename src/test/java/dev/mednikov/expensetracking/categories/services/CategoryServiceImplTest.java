@@ -1,7 +1,5 @@
 package dev.mednikov.expensetracking.categories.services;
 
-import com.github.javafaker.Faker;
-
 import dev.mednikov.expensetracking.categories.dto.CategoryDto;
 import dev.mednikov.expensetracking.categories.exceptions.CategoryNotFoundException;
 import dev.mednikov.expensetracking.categories.models.Category;
@@ -23,18 +21,16 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceImplTest {
 
-    private final static Faker faker = new Faker();
-
     @Mock private UserRepository userRepository;
     @Mock private CategoryRepository categoryRepository;
     @InjectMocks private CategoryServiceImpl categoryService;
 
     @Test
     void createCategoryTest(){
-        Long userId = faker.number().randomNumber();
+        Long userId = 1L;
         User user = new User.UserBuilder().withId(userId).build();
         String categoryName = "Expenses";
-        Long categoryId = faker.number().randomNumber();
+        Long categoryId = 1L;
         Category category = new Category.CategoryBuilder()
                 .withUser(user)
                 .withId(categoryId)
@@ -53,9 +49,9 @@ class CategoryServiceImplTest {
 
     @Test
     void updateCategory_doesNotExistTest(){
-        Long userId = faker.number().randomNumber();
+        Long userId = 1L;
         String categoryName = "Expenses";
-        Long categoryId = faker.number().randomNumber();
+        Long categoryId = 1L;
 
         Mockito.when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty());
 
@@ -67,10 +63,10 @@ class CategoryServiceImplTest {
 
     @Test
     void updateCategory_successTest(){
-        Long userId = faker.number().randomNumber();
+        Long userId = 1L;
         User user = new User.UserBuilder().withId(userId).build();
         String categoryName = "Expenses";
-        Long categoryId = faker.number().randomNumber();
+        Long categoryId = 1L;
         Category category = new Category.CategoryBuilder()
                 .withUser(user)
                 .withId(categoryId)
@@ -89,10 +85,10 @@ class CategoryServiceImplTest {
 
     @Test
     void findCategoryById_existsTest(){
-        Long userId = faker.number().randomNumber();
+        Long userId = 1L;
         User user = new User.UserBuilder().withId(userId).build();
         String categoryName = "Expenses";
-        Long categoryId = faker.number().randomNumber();
+        Long categoryId = 1L;
         Category category = new Category.CategoryBuilder()
                 .withUser(user)
                 .withId(categoryId)
@@ -107,7 +103,7 @@ class CategoryServiceImplTest {
 
     @Test
     void findCategoryById_doesNotExistTest(){
-        Long categoryId = faker.number().randomNumber();
+        Long categoryId = 1L;
         Mockito.when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty());
 
         Optional<CategoryDto> result = categoryService.findCategoryById(categoryId);
@@ -116,24 +112,24 @@ class CategoryServiceImplTest {
 
     @Test
     void findAllCategoriesForUserTest(){
-        Long userId = faker.number().randomNumber();
+        Long userId = 1L;
         User user = new User.UserBuilder().withId(userId).build();
 
         List<Category> categories = List.of(
                 new Category.CategoryBuilder()
                         .withUser(user)
-                        .withId(faker.number().randomNumber())
-                        .withName(faker.lorem().fixedString(50))
+                        .withId(1L)
+                        .withName("Rent")
                         .build(),
                 new Category.CategoryBuilder()
                         .withUser(user)
-                        .withId(faker.number().randomNumber())
-                        .withName(faker.lorem().fixedString(50))
+                        .withId(2L)
+                        .withName("Food")
                         .build(),
                 new Category.CategoryBuilder()
                         .withUser(user)
-                        .withId(faker.number().randomNumber())
-                        .withName(faker.lorem().fixedString(50))
+                        .withId(3L)
+                        .withName("Income")
                         .build()
         );
 

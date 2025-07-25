@@ -1,7 +1,5 @@
 package dev.mednikov.expensetracking.users.services;
 
-import com.github.javafaker.Faker;
-
 import dev.mednikov.expensetracking.users.dto.CreateUserRequestDto;
 import dev.mednikov.expensetracking.users.dto.CreateUserResponseDto;
 import dev.mednikov.expensetracking.users.dto.UserDto;
@@ -24,19 +22,17 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
 
-    private final static Faker faker = new Faker();
-
     @Mock private PasswordEncoder passwordEncoder;
     @Mock private UserRepository userRepository;
     @InjectMocks private UserServiceImpl userService;
 
     @Test
     void createUser_alreadyExistsTest(){
-        String email = faker.internet().emailAddress();
+        String email = "11x54x6v4ksllg14g1@ymail.com";
         User user = new User.UserBuilder().withEmail(email).build();
 
         CreateUserRequestDto request = new CreateUserRequestDto(
-                email, faker.internet().password(), faker.name().firstName(), faker.name().lastName()
+                email, "secret", "Sophie","Hofmann-Stutz"
         );
 
         Mockito.when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
@@ -46,11 +42,11 @@ class UserServiceImplTest {
 
     @Test
     void createUser_successTest(){
-        Long userId = faker.number().randomNumber();
-        String email = faker.internet().emailAddress();
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
-        String password = faker.internet().password();
+        Long userId = 1L;
+        String email = "cwnbookyuuytsdc85by@ymail.com";
+        String firstName = "Theresia";
+        String lastName = "Kuster";
+        String password = "secret";
         User user = new User.UserBuilder()
                 .withId(userId)
                 .withEmail(email)
@@ -70,10 +66,10 @@ class UserServiceImplTest {
 
     @Test
     void updateUser_doesNotExistTest(){
-        Long userId = faker.number().randomNumber();
-        String email = faker.internet().emailAddress();
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
+        Long userId = 1L;
+        String email = "3fhmrmopo4mosckwz@googlemail.com";
+        String firstName = "Leonie";
+        String lastName = "Bürki";
 
         UserDto request = new UserDto(userId, email, firstName, lastName);
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.empty());
@@ -83,10 +79,10 @@ class UserServiceImplTest {
 
     @Test
     void updateUser_successTest(){
-        Long userId = faker.number().randomNumber();
-        String email = faker.internet().emailAddress();
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
+        Long userId = 1L;
+        String email = "ab5ihd7pptj@hotmail.com";
+        String firstName = "Selina";
+        String lastName = "Mathys";
         User user = new User.UserBuilder()
                 .withId(userId)
                 .withEmail(email)
@@ -109,7 +105,7 @@ class UserServiceImplTest {
 
     @Test
     void getUser_doesNotExistTest(){
-        Long userId = faker.number().randomNumber();
+        Long userId = 1L;
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.empty());
         Optional<UserDto> result = userService.getUser(userId);
         Assertions.assertThat(result).isEmpty();
@@ -117,10 +113,10 @@ class UserServiceImplTest {
 
     @Test
     void getUser_existsTest(){
-        Long userId = faker.number().randomNumber();
-        String email = faker.internet().emailAddress();
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
+        Long userId = 1L;
+        String email = "k53v3u1lr0q10@msn.com";
+        String firstName = "Julia";
+        String lastName = "Wirth-Tanner";
         User user = new User.UserBuilder()
                 .withId(userId)
                 .withEmail(email)
