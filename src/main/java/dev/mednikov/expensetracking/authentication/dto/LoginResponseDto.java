@@ -1,8 +1,11 @@
-package dev.mednikov.expensetracking.users.dto;
+package dev.mednikov.expensetracking.authentication.dto;
 
 public class LoginResponseDto{
     private Long id;
     private String token;
+
+    public LoginResponseDto() {
+    }
 
     public LoginResponseDto(Long id, String token) {
         this.id = id;

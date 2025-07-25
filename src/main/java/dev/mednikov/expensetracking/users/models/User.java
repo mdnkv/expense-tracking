@@ -74,6 +74,18 @@ public class User {
         this.email = email;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setSuperuser(boolean superuser) {
+        this.superuser = superuser;
+    }
+
     public static final class UserBuilder {
         private Long id;
         private String email;

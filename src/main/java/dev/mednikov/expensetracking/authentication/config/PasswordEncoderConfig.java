@@ -1,4 +1,4 @@
-package dev.mednikov.expensetracking.users.config;
+package dev.mednikov.expensetracking.authentication.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

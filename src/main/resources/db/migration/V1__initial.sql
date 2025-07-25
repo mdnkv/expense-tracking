@@ -1,4 +1,4 @@
-create table users_user (
+create table if not exists users_user (
     id bigserial primary key,
     email varchar(512) not null unique,
     password_hash varchar(512) not null,
@@ -7,9 +7,16 @@ create table users_user (
     is_superuser boolean not null default false
 );
 
+create table if not exists authentication_token (
+    id bigserial primary key,
+    token varchar(255) not null unique,
+    user_id bigint not null,
+    expires_at timestamp not null
+);
+
 create type ACCOUNTS_ACCOUNT_TYPE as enum('CASH', 'CREDIT_CARD', 'BANK_ACCOUNT');
 
-create table accounts_account (
+create table if not exists accounts_account (
     id bigserial primary key,
     account_name varchar(512) not null,
     account_type ACCOUNTS_ACCOUNT_TYPE not null,
@@ -21,7 +28,7 @@ create table accounts_account (
             on delete cascade
 );
 
-create table categories_category (
+create table if not exists categories_category (
     id bigserial primary key,
     user_id bigint not null,
     category_name varchar(512) not null,
@@ -34,7 +41,7 @@ create table categories_category (
 
 create type OPERATIONS_OPERATION_TYPE as enum('EXPENSE', 'INCOME');
 
-create table operations_operation (
+create table if not exists operations_operation (
     id bigserial primary key,
     user_id bigint not null,
     account_id bigint not null,

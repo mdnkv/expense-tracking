@@ -29,7 +29,7 @@ export class CategoriesViewComponent implements OnInit {
   categoryService: CategoryService = inject(CategoryService)
 
   ngOnInit() {
-    const userId = localStorage.getItem("userId") as string
+    const userId = localStorage.getItem("UserId") as string
     const id = Number.parseInt(userId)
 
     this.categoryService.getAllCategoriesForUser(id).subscribe({
