@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.4</version>
+		<version>3.5.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>dev.mednikov</groupId>
@@ -15,10 +15,18 @@
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
-		<license/>
+		<license>
+			<name>MIT License</name>
+		</license>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<name>Iurii Mednikov</name>
+			<email>iurii.mednikov@iu-study.org</email>
+			<organization>
+				IU International University of Applied Sciences
+			</organization>
+		</developer>
 	</developers>
 	<scm>
 		<connection/>
@@ -84,7 +92,7 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-database-postgresql</artifactId>
-			<version>11.1.0</version>
+			<version>11.10.4</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
