@@ -32,8 +32,8 @@ This section describes how to run application using the development configuratio
 In order to quickly run the application locally:
 
 1. Create the PostgreSQL database
-    - Database name ```expense_tracking```
-    - Username ```expense_tracking```
+    - Database name ```expense_tracking_db```
+    - Username ```expense_tracking_user```
     - Password: ```secret```
 2. Open terminal and navigate to the root folder of the project
 3. Run Maven to generate a fat jar
