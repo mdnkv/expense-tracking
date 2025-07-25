@@ -1,6 +1,6 @@
-package dev.mednikov.expensetracking.users.config;
+package dev.mednikov.expensetracking.authentication.config;
 
-import dev.mednikov.expensetracking.users.filters.TokenFilter;
+import dev.mednikov.expensetracking.authentication.filters.AuthenticationFilterImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -20,9 +20,11 @@ import java.util.List;
 @Configuration
 public class AuthenticationConfig {
 
-    private final TokenFilter tokenFilter;
+    private final AuthenticationFilterImpl authenticationFilter;
 
-    public AuthenticationConfig(TokenFilter tokenFilter) {this.tokenFilter = tokenFilter;}
+    public AuthenticationConfig(AuthenticationFilterImpl authenticationFilter) {
+        this.authenticationFilter = authenticationFilter;
+    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -48,7 +50,7 @@ public class AuthenticationConfig {
                                 .requestMatchers("/", "/index.html**", "/*.css", "/*.js", "/media/**", "/images/**").permitAll()
                                 .requestMatchers("/api/users/create", "/api/auth/login").permitAll()
                                 .requestMatchers("/api/**").authenticated())
-                .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

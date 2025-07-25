@@ -38,9 +38,6 @@ export class LoginViewComponent {
     // execute request
     this.authService.login(payload).subscribe({
       next: (result) => {
-        // save data
-        localStorage.setItem("userId", result.id.toString())
-        localStorage.setItem("token", result.token)
 
         // set is authenticated
         this.authService.authenticated.next(true)

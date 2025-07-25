@@ -1,4 +1,4 @@
-package dev.mednikov.expensetracking.users.dto;
+package dev.mednikov.expensetracking.authentication.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

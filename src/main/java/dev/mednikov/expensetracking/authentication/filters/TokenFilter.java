@@ -1,4 +1,4 @@
-package dev.mednikov.expensetracking.users.filters;
+package dev.mednikov.expensetracking.authentication.filters;
 
 import jakarta.servlet.Filter;
 

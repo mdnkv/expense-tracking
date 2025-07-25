@@ -1,4 +1,4 @@
-package dev.mednikov.expensetracking.users.exceptions;
+package dev.mednikov.expensetracking.authentication.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

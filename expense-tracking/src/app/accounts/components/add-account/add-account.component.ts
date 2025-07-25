@@ -25,7 +25,7 @@ export class AddAccountComponent {
 
   onFormSubmit() {
     // get user id
-    const userId = localStorage.getItem("userId") as string
+    const userId = localStorage.getItem("UserId") as string
     const id = Number.parseInt(userId)
 
     // create payload

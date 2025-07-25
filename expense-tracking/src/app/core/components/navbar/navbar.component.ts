@@ -44,8 +44,10 @@ export class NavbarComponent {
     }).then(result => {
       if (result.isConfirmed){
         // log out the user
-        this.authService.logout()
-        this.router.navigateByUrl('/auth/login')
+        this.authService.logout().subscribe({
+          next: result => this.router.navigateByUrl('/auth/login')
+        })
+
       }
     })
   }

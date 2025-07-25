@@ -28,7 +28,7 @@ export class UpdateUserViewComponent implements OnInit{
   userService: UserService = inject(UserService)
 
   ngOnInit() {
-    const userId = localStorage.getItem("userId") as string
+    const userId = localStorage.getItem("UserId") as string
     const id = Number.parseInt(userId)
     this.userService.getUserById(id).subscribe({
       next: result => {

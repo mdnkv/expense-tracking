@@ -31,7 +31,7 @@ export class UpdatePasswordViewComponent {
     this.isSuccess = false
 
     // get user id from local storage
-    const userId = localStorage.getItem("userId") as string
+    const userId = localStorage.getItem("UserId") as string
     const id = Number.parseInt(userId)
 
     // create payload

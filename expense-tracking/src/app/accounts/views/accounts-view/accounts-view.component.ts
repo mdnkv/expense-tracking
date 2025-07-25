@@ -24,7 +24,7 @@ export class AccountsViewComponent implements OnInit{
 
   ngOnInit() {
     // get current user id
-    const userId = localStorage.getItem("userId") as string
+    const userId = localStorage.getItem("UserId") as string
     const id = Number.parseInt(userId)
 
     // retrieve accounts for user

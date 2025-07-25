@@ -1,5 +1,6 @@
-package dev.mednikov.expensetracking.users.models;
+package dev.mednikov.expensetracking.authentication.models;
 
+import dev.mednikov.expensetracking.users.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,6 +13,10 @@ public class AuthenticatedUser implements UserDetails {
 
     public AuthenticatedUser(User user) {
         this.user = user;
+    }
+
+    public Long getId() {
+        return user.getId();
     }
 
     @Override

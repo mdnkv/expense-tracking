@@ -23,7 +23,7 @@ export class DashboardViewComponent implements OnInit{
 
   ngOnInit() {
     // get user id
-    const userIdString = localStorage.getItem("userId") as string
+    const userIdString = localStorage.getItem("UserId") as string
     const userId = Number.parseInt(userIdString)
 
     // call dashboard service
