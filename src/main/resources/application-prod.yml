@@ -1,10 +1,6 @@
-spring:
-  datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USER}
-    password: ${DATABASE_PASSWORD}
-  flyway:
-    user: ${FLYWAY_USER}
-    password: ${FLYWAY_PASSWORD}
 server:
-  port: ${HTTP_PORT}
+  port: ${PORT}
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
