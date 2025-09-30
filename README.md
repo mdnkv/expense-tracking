@@ -1,5 +1,7 @@
 # Expense tracking application
 
+[LIVE DEMO](https://expensetracking.mednikov.dev)
+
 ![](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
@@ -16,7 +18,7 @@ The application “Expense tracking” can be used by users in order to track pe
 
 The target audience of this project are people who want to track their expenses and income and have an overview of the current financial situation. They are not satisfied by existing solutions and want to have more clear and user-friendly interface and synchronization between different devices (web, mobile). The usage of the project provides following of benefits: operations are categorized and recorded in a clear manner; different reports are generated to present an actual situation etc.
 
-From a domain driven design perspective, the application is divided into 4 core domains: Users, Payment accounts, Categories, Operations.
+From a domain driven design perspective, the application is divided into 5 core domains: Users, Payment accounts, Categories, Operations, and Currencies.
 
 ## How to run the project
 
