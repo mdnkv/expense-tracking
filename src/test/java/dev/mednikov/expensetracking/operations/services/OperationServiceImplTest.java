@@ -5,6 +5,8 @@ import dev.mednikov.expensetracking.accounts.models.AccountType;
 import dev.mednikov.expensetracking.accounts.repositories.AccountRepository;
 import dev.mednikov.expensetracking.categories.models.Category;
 import dev.mednikov.expensetracking.categories.repositories.CategoryRepository;
+import dev.mednikov.expensetracking.currencies.models.Currency;
+import dev.mednikov.expensetracking.currencies.repositories.CurrencyRepository;
 import dev.mednikov.expensetracking.operations.dto.OperationDto;
 import dev.mednikov.expensetracking.operations.exceptions.OperationNotFoundException;
 import dev.mednikov.expensetracking.operations.models.Operation;
@@ -32,6 +34,7 @@ class OperationServiceImplTest {
     @Mock private OperationRepository operationRepository;
     @Mock private AccountRepository accountRepository;
     @Mock private CategoryRepository categoryRepository;
+    @Mock private CurrencyRepository currencyRepository;
 
     @InjectMocks private OperationServiceImpl operationService;
 
@@ -40,8 +43,16 @@ class OperationServiceImplTest {
         Long userId = 1L;
         Long accountId = 1L;
         Long operationId = 1L;
+        Long currencyId = 1L;
 
         User user = new User.UserBuilder().withId(userId).build();
+
+        Currency currency = new Currency();
+        currency.setId(1L);
+        currency.setName("Euro");
+        currency.setCode("EUR");
+        currency.setUser(user);
+
         String description = "Sed lectus nibh, mattis quis tempor";
         Account account = new Account.AccountBuilder()
                 .withName("Cash account")
@@ -54,19 +65,20 @@ class OperationServiceImplTest {
                 .withUser(user)
                 .withAccount(account)
                 .withAmount(BigDecimal.valueOf(100))
-                .withCurrency("EUR")
+                .withCurrency(currency)
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
                 .withDescription(description)
                 .build();
 
+        Mockito.when(currencyRepository.findById(currencyId)).thenReturn(Optional.of(currency));
         Mockito.when(userRepository.getReferenceById(userId)).thenReturn(user);
         Mockito.when(accountRepository.getReferenceById(accountId)).thenReturn(account);
         Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
 
         OperationDto request = new OperationDto();
         request.setAmount(BigDecimal.valueOf(100));
-        request.setCurrency("EUR");
+        request.setCurrencyId(currencyId);
         request.setOperationType(OperationType.EXPENSE);
         request.setDescription(description);
         request.setAccountId(accountId);
@@ -86,8 +98,16 @@ class OperationServiceImplTest {
         Long accountId = 1L;
         Long operationId = 1L;
         Long categoryId = 1L;
+        Long currencyId = 1L;
 
         User user = new User.UserBuilder().withId(userId).build();
+
+        Currency currency = new Currency();
+        currency.setId(currencyId);
+        currency.setName("Euro");
+        currency.setCode("EUR");
+        currency.setUser(user);
+
         Account account = new Account.AccountBuilder()
                 .withName("Cash account")
                 .withId(accountId)
@@ -107,7 +127,7 @@ class OperationServiceImplTest {
                 .withUser(user)
                 .withAccount(account)
                 .withAmount(BigDecimal.valueOf(100))
-                .withCurrency("EUR")
+                .withCurrency(currency)
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
                 .withDescription(description)
@@ -116,13 +136,14 @@ class OperationServiceImplTest {
         OperationDto request = new OperationDto();
         request.setCategoryId(categoryId);
         request.setAmount(BigDecimal.valueOf(100));
-        request.setCurrency("EUR");
+        request.setCurrencyId(currencyId);
         request.setOperationType(OperationType.EXPENSE);
         request.setDescription(description);
         request.setAccountId(accountId);
         request.setUserId(userId);
         request.setDate(LocalDate.now());
 
+        Mockito.when(currencyRepository.findById(currencyId)).thenReturn(Optional.of(currency));
         Mockito.when(userRepository.getReferenceById(userId)).thenReturn(user);
         Mockito.when(accountRepository.getReferenceById(accountId)).thenReturn(account);
         Mockito.when(categoryRepository.getReferenceById(categoryId)).thenReturn(category);
@@ -146,7 +167,7 @@ class OperationServiceImplTest {
         OperationDto request = new OperationDto();
         request.setId(operationId);
         request.setAmount(BigDecimal.valueOf(100));
-        request.setCurrency("EUR");
+        request.setCurrencyId(1L);
         request.setOperationType(OperationType.EXPENSE);
         request.setDescription(description);
         request.setAccountId(accountId);
@@ -174,13 +195,19 @@ class OperationServiceImplTest {
                 .withType(AccountType.CREDIT_CARD)
                 .build();
 
+        Currency currency = new Currency();
+        currency.setId(1L);
+        currency.setName("Euro");
+        currency.setCode("EUR");
+        currency.setUser(user);
+
         String description = "Sed lectus nibh, mattis quis tempor";
         Operation operation = new Operation.OperationBuilder()
                 .withId(operationId)
                 .withUser(user)
                 .withAccount(account)
                 .withAmount(BigDecimal.valueOf(100))
-                .withCurrency("EUR")
+                .withCurrency(currency)
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
                 .withDescription(description)
@@ -192,7 +219,7 @@ class OperationServiceImplTest {
         OperationDto request = new OperationDto();
         request.setId(operationId);
         request.setAmount(BigDecimal.valueOf(100));
-        request.setCurrency("EUR");
+        request.setCurrencyId(1L);
         request.setOperationType(OperationType.EXPENSE);
         request.setDescription(description);
         request.setAccountId(accountId);
@@ -220,6 +247,12 @@ class OperationServiceImplTest {
                 .withType(AccountType.CASH)
                 .build();
 
+        Currency currency = new Currency();
+        currency.setId(1L);
+        currency.setName("Euro");
+        currency.setCode("EUR");
+        currency.setUser(user);
+
         Category category = new Category.CategoryBuilder()
                 .withId(categoryId)
                 .withName("Expenses")
@@ -232,7 +265,7 @@ class OperationServiceImplTest {
                 .withUser(user)
                 .withAccount(account)
                 .withAmount(BigDecimal.valueOf(100))
-                .withCurrency("EUR")
+                .withCurrency(currency)
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
                 .withCategory(category)
@@ -247,7 +280,7 @@ class OperationServiceImplTest {
         OperationDto request = new OperationDto();
         request.setId(operationId);
         request.setAmount(BigDecimal.valueOf(100));
-        request.setCurrency("EUR");
+        request.setCurrencyId(1L);
         request.setOperationType(OperationType.EXPENSE);
         request.setDescription(description);
         request.setAccountId(accountId);
@@ -276,6 +309,12 @@ class OperationServiceImplTest {
                 .withType(AccountType.BANK_ACCOUNT)
                 .build();
 
+        Currency currency = new Currency();
+        currency.setId(1L);
+        currency.setName("Euro");
+        currency.setCode("EUR");
+        currency.setUser(user);
+
         Category category = new Category.CategoryBuilder()
                 .withId(categoryId)
                 .withName("Expenses")
@@ -287,7 +326,7 @@ class OperationServiceImplTest {
                 .withUser(user)
                 .withAccount(account)
                 .withAmount(BigDecimal.valueOf(100))
-                .withCurrency("EUR")
+                .withCurrency(currency)
                 .withOperationDate(LocalDate.now())
                 .withType(OperationType.EXPENSE)
                 .withCategory(category)

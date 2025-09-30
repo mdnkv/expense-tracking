@@ -39,22 +39,40 @@ create table if not exists categories_category (
             on delete cascade
 );
 
+create table if not exists currencies_currency (
+    id bigserial primary key,
+    user_id bigint not null,
+    currency_name varchar(255) not null,
+    currency_code varchar(3) not null,
+    unique (user_id, currency_code),
+    constraint
+        fk_currencies_user
+        foreign key (user_id)
+            references users_user(id)
+            on delete cascade
+);
+
 create type OPERATIONS_OPERATION_TYPE as enum('EXPENSE', 'INCOME');
 
 create table if not exists operations_operation (
     id bigserial primary key,
     user_id bigint not null,
     account_id bigint not null,
+    currency_id bigint not null,
     category_id bigint,
     operation_type OPERATIONS_OPERATION_TYPE not null,
     operation_description text not null,
-    operation_currency varchar(3) not null,
     operation_amount decimal(12,2) not null default 0.0,
     operation_date date not null,
     constraint
         fk_operations_user
         foreign key (user_id)
             references users_user(id)
+            on delete cascade,
+    constraint
+        fk_operations_currency
+        foreign key (currency_id)
+            references currencies_currency(id)
             on delete cascade,
     constraint
         fk_operations_account

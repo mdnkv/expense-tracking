@@ -13,9 +13,9 @@
               <span
                 [class.has-text-danger]="operation.operationType == 'EXPENSE'"
                 [class.has-text-success]="operation.operationType == 'INCOME'"
-                class="has-text-weight-semibold">{{operation.amount|currency:operation.currency}}</span>
+                class="has-text-weight-semibold">{{operation.amount|currency:operation.currency!.code}}</span>
               <span> - </span>
-              <span>{{operation.date}}</span>
+              <span>{{operation.date|date}}</span>
             </p>
             <!-- Account -->
             <p>

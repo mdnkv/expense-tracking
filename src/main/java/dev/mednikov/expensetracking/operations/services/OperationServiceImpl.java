@@ -4,6 +4,9 @@ import dev.mednikov.expensetracking.accounts.models.Account;
 import dev.mednikov.expensetracking.accounts.repositories.AccountRepository;
 import dev.mednikov.expensetracking.categories.models.Category;
 import dev.mednikov.expensetracking.categories.repositories.CategoryRepository;
+import dev.mednikov.expensetracking.currencies.exceptions.CurrencyNotFoundException;
+import dev.mednikov.expensetracking.currencies.models.Currency;
+import dev.mednikov.expensetracking.currencies.repositories.CurrencyRepository;
 import dev.mednikov.expensetracking.operations.dto.*;
 import dev.mednikov.expensetracking.operations.exceptions.OperationNotFoundException;
 import dev.mednikov.expensetracking.operations.models.Operation;
@@ -25,12 +28,19 @@ public class OperationServiceImpl implements OperationService {
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
     private final CategoryRepository categoryRepository;
+    private final CurrencyRepository currencyRepository;
 
-    public OperationServiceImpl(OperationRepository operationRepository, UserRepository userRepository, AccountRepository accountRepository, CategoryRepository categoryRepository) {
+    public OperationServiceImpl(
+            OperationRepository operationRepository,
+            UserRepository userRepository,
+            AccountRepository accountRepository,
+            CategoryRepository categoryRepository,
+            CurrencyRepository currencyRepository) {
         this.operationRepository = operationRepository;
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
         this.categoryRepository = categoryRepository;
+        this.currencyRepository = currencyRepository;
     }
 
     @Override
@@ -38,12 +48,15 @@ public class OperationServiceImpl implements OperationService {
         User user = this.userRepository.getReferenceById(request.getUserId());
         Account account = this.accountRepository.getReferenceById(request.getAccountId());
 
+        Currency currency = this.currencyRepository.findById(request.getCurrencyId())
+                .orElseThrow(CurrencyNotFoundException::new);
+
         Operation operation = new Operation.OperationBuilder()
                 .withUser(user)
                 .withAccount(account)
                 .withAmount(request.getAmount())
                 .withDescription(request.getDescription())
-                .withCurrency(request.getCurrency())
+                .withCurrency(currency)
                 .withType(request.getOperationType())
                 .withOperationDate(request.getDate())
                 .build();
@@ -66,7 +79,6 @@ public class OperationServiceImpl implements OperationService {
 
         operation.setAmount(request.getAmount());
         operation.setDescription(request.getDescription());
-        operation.setCurrency(request.getCurrency());
         operation.setType(request.getOperationType());
         operation.setOperationDate(request.getDate());
 
@@ -77,6 +89,7 @@ public class OperationServiceImpl implements OperationService {
             Category category = this.categoryRepository.getReferenceById(request.getCategoryId());
             operation.setCategory(category);
         }
+
 
 
         Operation result = this.operationRepository.save(operation);
