@@ -58,7 +58,14 @@
         <label class="label">Amount</label>
         <div class="field has-addons">
           <div class="control">
-            <button class="button is-static">EUR</button>
+            <!-- Currency -->
+            <span class="select">
+              <select formControlName="currencyId">
+                @for (currency of currenciesList; track currency.id!) {
+                  <option [value]="currency.id!">{{currency.name}}</option>
+                }
+              </select>
+            </span>
           </div>
           <div class="control is-expanded">
             <input

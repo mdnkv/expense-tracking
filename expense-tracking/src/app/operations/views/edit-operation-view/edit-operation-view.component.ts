@@ -51,11 +51,12 @@ export class EditOperationViewComponent implements OnInit{
     this.isError = false
 
     // get user id
-    const userIdString = localStorage.getItem("userId") as string
+    const userIdString = localStorage.getItem("UserId") as string
     const userId = Number.parseInt(userIdString)
 
     // create payload
     const payload: Operation = {
+      ...this.operation!,
       id: this.operation!.id!,
       accountId: this.operationUpdateForm.get('accountId')?.value,
       amount: this.operationUpdateForm.get('amount')?.value,

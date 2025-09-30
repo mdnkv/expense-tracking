@@ -9,6 +9,8 @@ import {CategoryService} from "../../../categories/services/category.service";
 import {AccountService} from "../../../accounts/services/account.service";
 
 import Swal from "sweetalert2";
+import {Currency} from "../../../currencies/models/currencies.models";
+import {CurrencyService} from "../../../currencies/services/currency.service";
 
 @Component({
     selector: 'app-add-operation',
@@ -21,15 +23,18 @@ export class AddOperationComponent implements OnInit{
   isShowModal: boolean = false
   categoriesList: Category[] = []
   accountsList: Account[] = []
+  currenciesList: Currency[] = []
   operationType: string = 'INCOME'
 
   formBuilder: FormBuilder = inject(FormBuilder)
   categoryService: CategoryService = inject(CategoryService)
+  currencyService: CurrencyService = inject(CurrencyService)
   accountService: AccountService = inject(AccountService)
 
   operationCreateForm: FormGroup = this.formBuilder.group({
     accountId: [null, [Validators.required]],
     categoryId: [null],
+    currencyId: [null, [Validators.required]],
     amount: [0, [Validators.required, Validators.min(0)]],
     description: ['', [Validators.required]],
     operationDate: [null, [Validators.required]]
@@ -56,6 +61,24 @@ export class AddOperationComponent implements OnInit{
     this.accountService.getAllAccountsForUser(userId).subscribe({
       next: result => {
         this.accountsList = result
+        if (this.accountsList.length > 0){
+          const account = this.accountsList[0]
+          this.operationCreateForm.get('accountId')?.setValue(account.id!)
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err)
+      }
+    })
+
+    // get currencies for user
+    this.currencyService.getAllCurrenciesForUser(userId).subscribe({
+      next: result => {
+        this.currenciesList = result
+        if (this.currenciesList.length > 0){
+          const currency = this.currenciesList[0]
+          this.operationCreateForm.get('currencyId')?.setValue(currency.id!)
+        }
       },
       error: (err: HttpErrorResponse) => {
         console.log(err)
@@ -73,7 +96,7 @@ export class AddOperationComponent implements OnInit{
       userId: userId,
       accountId: this.operationCreateForm.get('accountId')?.value,
       amount: this.operationCreateForm.get('amount')?.value,
-      currency: 'EUR',
+      currencyId: this.operationCreateForm.get('currencyId')?.value,
       description: this.operationCreateForm.get('description')?.value,
       operationType: this.operationType,
       date: this.operationCreateForm.get('operationDate')?.value

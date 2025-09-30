@@ -1,12 +1,14 @@
 package dev.mednikov.expensetracking.users.services;
 
 import dev.mednikov.expensetracking.users.dto.*;
+import dev.mednikov.expensetracking.users.events.NewUserCreatedEvent;
 import dev.mednikov.expensetracking.users.exceptions.UserAlreadyExistsException;
 import dev.mednikov.expensetracking.users.exceptions.UserNotFoundException;
 import dev.mednikov.expensetracking.users.models.User;
 import dev.mednikov.expensetracking.users.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +21,12 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, ApplicationEventPublisher eventPublisher) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
@@ -50,6 +54,10 @@ public class UserServiceImpl implements UserService {
 
         // save user into db
         User result = this.userRepository.save(user);
+
+        // Publish new user created event
+        NewUserCreatedEvent event = new NewUserCreatedEvent(this, result);
+        this.eventPublisher.publishEvent(event);
 
         // return result
         return new CreateUserResponseDto(result.getId());

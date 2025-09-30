@@ -2,6 +2,7 @@ package dev.mednikov.expensetracking.operations.dto;
 
 import dev.mednikov.expensetracking.accounts.dto.AccountDto;
 import dev.mednikov.expensetracking.categories.dto.CategoryDto;
+import dev.mednikov.expensetracking.currencies.dto.CurrencyDto;
 import dev.mednikov.expensetracking.operations.models.OperationType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,13 +16,14 @@ public class OperationDto {
     @NotNull private Long userId;
     @NotNull private Long accountId;
     private Long categoryId;
-    @NotNull @NotBlank private String currency;
+    @NotNull private Long currencyId;
     @NotNull @NotBlank private String description;
     @NotNull private BigDecimal amount;
     @NotNull private LocalDate date;
     @NotNull private OperationType operationType;
     private CategoryDto category;
     private AccountDto account;
+    private CurrencyDto currency;
 
     public Long getId() {
         return id;
@@ -55,12 +57,12 @@ public class OperationDto {
         this.categoryId = categoryId;
     }
 
-    public String getCurrency() {
-        return currency;
+    public Long getCurrencyId() {
+        return currencyId;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setCurrencyId(Long currencyId) {
+        this.currencyId = currencyId;
     }
 
     public String getDescription() {
@@ -109,5 +111,13 @@ public class OperationDto {
 
     public void setAccount(AccountDto account) {
         this.account = account;
+    }
+
+    public CurrencyDto getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(CurrencyDto currency) {
+        this.currency = currency;
     }
 }

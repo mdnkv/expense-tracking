@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {RouterLink} from "@angular/router";
-import {CurrencyPipe} from "@angular/common";
+import {CurrencyPipe, DatePipe} from "@angular/common";
 
 import {Operation} from "../../models/operations.models";
 
 @Component({
     selector: 'app-operation-card',
-    imports: [RouterLink, CurrencyPipe],
+    imports: [RouterLink, CurrencyPipe, DatePipe],
     templateUrl: './operation-card.component.html',
     styleUrl: './operation-card.component.css'
 })

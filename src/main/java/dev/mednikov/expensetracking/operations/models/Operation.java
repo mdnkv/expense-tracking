@@ -2,6 +2,7 @@ package dev.mednikov.expensetracking.operations.models;
 
 import dev.mednikov.expensetracking.accounts.models.Account;
 import dev.mednikov.expensetracking.categories.models.Category;
+import dev.mednikov.expensetracking.currencies.models.Currency;
 import dev.mednikov.expensetracking.users.models.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcType;
@@ -46,8 +47,10 @@ public class Operation implements Comparable<Operation>, Monetary {
     @Column(name = "operation_description", nullable = false)
     private String description;
 
-    @Column(name = "operation_currency", nullable = false)
-    private String currency;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "currency_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Currency currency;
 
     @Column(name = "operation_amount", nullable = false)
     private BigDecimal amount;
@@ -62,7 +65,7 @@ public class Operation implements Comparable<Operation>, Monetary {
 
     @Override
     public Money getMonetaryAmount() {
-        CurrencyUnit currency = CurrencyUnit.of(this.currency);
+        CurrencyUnit currency = CurrencyUnit.of(this.currency.getCode());
         return Money.of(currency, this.amount);
     }
 
@@ -102,10 +105,6 @@ public class Operation implements Comparable<Operation>, Monetary {
         return description;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
@@ -130,16 +129,20 @@ public class Operation implements Comparable<Operation>, Monetary {
         this.description = description;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
     public void setOperationDate(LocalDate operationDate) {
         this.operationDate = operationDate;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
 
@@ -150,7 +153,7 @@ public class Operation implements Comparable<Operation>, Monetary {
         private Account account;
         private OperationType type;
         private String description;
-        private String currency;
+        private Currency currency;
         private BigDecimal amount;
         private LocalDate operationDate;
 
@@ -167,6 +170,10 @@ public class Operation implements Comparable<Operation>, Monetary {
             this.currency = other.currency;
             this.amount = other.amount;
             this.operationDate = other.operationDate;
+        }
+
+        public static OperationBuilder anOperation() {
+            return new OperationBuilder();
         }
 
         public OperationBuilder withId(Long id) {
@@ -199,7 +206,7 @@ public class Operation implements Comparable<Operation>, Monetary {
             return this;
         }
 
-        public OperationBuilder withCurrency(String currency) {
+        public OperationBuilder withCurrency(Currency currency) {
             this.currency = currency;
             return this;
         }
@@ -228,5 +235,4 @@ public class Operation implements Comparable<Operation>, Monetary {
             return operation;
         }
     }
-
 }
