@@ -11,7 +11,12 @@ create table if not exists authentication_token (
     id bigserial primary key,
     token varchar(255) not null unique,
     user_id bigint not null,
-    expires_at timestamp not null
+    expires_at timestamp not null,
+    constraint
+        fk_authentication_token_user
+        foreign key (user_id)
+            references users_user(id)
+            on delete cascade
 );
 
 create type ACCOUNTS_ACCOUNT_TYPE as enum('CASH', 'CREDIT_CARD', 'BANK_ACCOUNT');
