@@ -1,5 +1,5 @@
 create table if not exists users_user (
-    id bigserial primary key,
+    id bigint primary key,
     email varchar(512) not null unique,
     password_hash varchar(512) not null,
     first_name varchar(512) not null,
@@ -22,7 +22,7 @@ create table if not exists authentication_token (
 create type ACCOUNTS_ACCOUNT_TYPE as enum('CASH', 'CREDIT_CARD', 'BANK_ACCOUNT');
 
 create table if not exists accounts_account (
-    id bigserial primary key,
+    id bigint primary key,
     account_name varchar(512) not null,
     account_type ACCOUNTS_ACCOUNT_TYPE not null,
     user_id bigint not null,
@@ -34,7 +34,7 @@ create table if not exists accounts_account (
 );
 
 create table if not exists categories_category (
-    id bigserial primary key,
+    id bigint primary key,
     user_id bigint not null,
     category_name varchar(512) not null,
     constraint
@@ -45,7 +45,7 @@ create table if not exists categories_category (
 );
 
 create table if not exists currencies_currency (
-    id bigserial primary key,
+    id bigint primary key,
     user_id bigint not null,
     currency_name varchar(255) not null,
     currency_code varchar(3) not null,
@@ -60,7 +60,7 @@ create table if not exists currencies_currency (
 create type OPERATIONS_OPERATION_TYPE as enum('EXPENSE', 'INCOME');
 
 create table if not exists operations_operation (
-    id bigserial primary key,
+    id bigint primary key,
     user_id bigint not null,
     account_id bigint not null,
     currency_id bigint not null,

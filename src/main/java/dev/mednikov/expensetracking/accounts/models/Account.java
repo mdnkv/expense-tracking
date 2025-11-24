@@ -13,7 +13,7 @@ import java.util.Objects;
 @Table(name = "accounts_account")
 public class Account implements Comparable<Account> {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @ManyToOne

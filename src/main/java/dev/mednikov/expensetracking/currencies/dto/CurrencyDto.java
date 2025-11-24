@@ -5,16 +5,16 @@ import jakarta.validation.constraints.NotNull;
 
 public final class CurrencyDto {
 
-    private Long id;
+    private String id;
     @NotNull private Long userId;
     @NotNull @NotBlank private String name;
     @NotNull @NotBlank private String code;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

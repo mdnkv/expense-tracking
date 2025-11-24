@@ -12,7 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 )
 public class Currency {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

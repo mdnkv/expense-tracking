@@ -8,7 +8,7 @@ import java.util.Objects;
 @Table(name = "users_user")
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @Column(name = "email", nullable = false, unique = true)

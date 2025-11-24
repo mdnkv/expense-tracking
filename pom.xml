@@ -58,6 +58,11 @@
 			<artifactId>joda-money</artifactId>
 			<version>2.0.2</version>
 		</dependency>
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-core</artifactId>
+			<version>5.8.41</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -80,7 +85,6 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-database-postgresql</artifactId>
-			<version>11.17.1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>

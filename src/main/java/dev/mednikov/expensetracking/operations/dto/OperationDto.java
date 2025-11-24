@@ -12,11 +12,11 @@ import java.time.LocalDate;
 
 public class OperationDto {
 
-    private Long id;
-    @NotNull private Long userId;
-    @NotNull private Long accountId;
-    private Long categoryId;
-    @NotNull private Long currencyId;
+    private String id;
+    @NotNull private String userId;
+    @NotNull private String accountId;
+    private String categoryId;
+    @NotNull private String currencyId;
     @NotNull @NotBlank private String description;
     @NotNull private BigDecimal amount;
     @NotNull private LocalDate date;
@@ -25,43 +25,43 @@ public class OperationDto {
     private AccountDto account;
     private CurrencyDto currency;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public Long getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Long accountId) {
+    public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
 
-    public Long getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Long categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 
-    public Long getCurrencyId() {
+    public String getCurrencyId() {
         return currencyId;
     }
 
-    public void setCurrencyId(Long currencyId) {
+    public void setCurrencyId(String currencyId) {
         this.currencyId = currencyId;
     }
 

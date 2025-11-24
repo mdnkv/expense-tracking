@@ -11,7 +11,7 @@ import java.util.Objects;
 @Table(name = "categories_category")
 public class Category implements Comparable<Category> {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @JoinColumn(name = "user_id", nullable = false)

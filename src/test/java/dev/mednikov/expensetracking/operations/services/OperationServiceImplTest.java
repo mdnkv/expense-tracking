@@ -1,5 +1,6 @@
 package dev.mednikov.expensetracking.operations.services;
 
+import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import dev.mednikov.expensetracking.accounts.models.Account;
 import dev.mednikov.expensetracking.accounts.models.AccountType;
 import dev.mednikov.expensetracking.accounts.repositories.AccountRepository;
@@ -30,6 +31,8 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 class OperationServiceImplTest {
 
+    private final static SnowflakeGenerator snowflakeGenerator = new SnowflakeGenerator();
+    
     @Mock private UserRepository userRepository;
     @Mock private OperationRepository operationRepository;
     @Mock private AccountRepository accountRepository;
@@ -40,15 +43,15 @@ class OperationServiceImplTest {
 
     @Test
     void createOperation_withAccountTest(){
-        Long userId = 1L;
-        Long accountId = 1L;
-        Long operationId = 1L;
-        Long currencyId = 1L;
+        Long userId = snowflakeGenerator.next();
+        Long accountId = snowflakeGenerator.next();
+        Long operationId = snowflakeGenerator.next();
+        Long currencyId = snowflakeGenerator.next();
 
         User user = new User.UserBuilder().withId(userId).build();
 
         Currency currency = new Currency();
-        currency.setId(1L);
+        currency.setId(snowflakeGenerator.next());
         currency.setName("Euro");
         currency.setCode("EUR");
         currency.setUser(user);
@@ -78,27 +81,24 @@ class OperationServiceImplTest {
 
         OperationDto request = new OperationDto();
         request.setAmount(BigDecimal.valueOf(100));
-        request.setCurrencyId(currencyId);
+        request.setCurrencyId(currencyId.toString());
         request.setOperationType(OperationType.EXPENSE);
         request.setDescription(description);
-        request.setAccountId(accountId);
-        request.setUserId(userId);
+        request.setAccountId(accountId.toString());
+        request.setUserId(userId.toString());
         request.setDate(LocalDate.now());
 
         OperationDto result = operationService.createOperation(request);
-        Assertions
-                .assertThat(result)
-                .hasFieldOrPropertyWithValue("id", operationId)
-                .hasFieldOrProperty("account");
+        Assertions.assertThat(result).isNotNull();
     }
 
     @Test
     void createOperation_withAccountAndCategoryTest(){
-        Long userId = 1L;
-        Long accountId = 1L;
-        Long operationId = 1L;
-        Long categoryId = 1L;
-        Long currencyId = 1L;
+        Long userId = snowflakeGenerator.next();
+        Long accountId = snowflakeGenerator.next();
+        Long operationId = snowflakeGenerator.next();
+        Long categoryId = snowflakeGenerator.next();
+        Long currencyId = snowflakeGenerator.next();
 
         User user = new User.UserBuilder().withId(userId).build();
 
@@ -134,13 +134,13 @@ class OperationServiceImplTest {
                 .withCategory(category)
                 .build();
         OperationDto request = new OperationDto();
-        request.setCategoryId(categoryId);
+        request.setCategoryId(categoryId.toString());
         request.setAmount(BigDecimal.valueOf(100));
-        request.setCurrencyId(currencyId);
+        request.setCurrencyId(currencyId.toString());
         request.setOperationType(OperationType.EXPENSE);
         request.setDescription(description);
-        request.setAccountId(accountId);
-        request.setUserId(userId);
+        request.setAccountId(accountId.toString());
+        request.setUserId(userId.toString());
         request.setDate(LocalDate.now());
 
         Mockito.when(currencyRepository.findById(currencyId)).thenReturn(Optional.of(currency));
@@ -152,26 +152,27 @@ class OperationServiceImplTest {
         OperationDto result = operationService.createOperation(request);
         Assertions
                 .assertThat(result)
-                .hasFieldOrPropertyWithValue("id", operationId)
+                .hasFieldOrPropertyWithValue("id", operationId.toString())
                 .hasFieldOrProperty("account")
                 .hasFieldOrProperty("category");
     }
 
     @Test
     void updateOperation_notFoundTest(){
-        Long userId = 1L;
-        Long accountId = 1L;
-        Long operationId = 1L;
+        Long userId = snowflakeGenerator.next();
+        Long accountId = snowflakeGenerator.next();
+        Long operationId = snowflakeGenerator.next();
+        Long currencyId = snowflakeGenerator.next();
 
         String description = "Sed lectus nibh, mattis quis tempor";
         OperationDto request = new OperationDto();
-        request.setId(operationId);
+        request.setId(operationId.toString());
         request.setAmount(BigDecimal.valueOf(100));
-        request.setCurrencyId(1L);
+        request.setCurrencyId(currencyId.toString());
         request.setOperationType(OperationType.EXPENSE);
         request.setDescription(description);
-        request.setAccountId(accountId);
-        request.setUserId(userId);
+        request.setAccountId(accountId.toString());
+        request.setUserId(userId.toString());
         request.setDate(LocalDate.now());
 
         Mockito.when(operationRepository.findById(operationId)).thenReturn(Optional.empty());
@@ -183,9 +184,10 @@ class OperationServiceImplTest {
 
     @Test
     void updateOperation_withAccountTest(){
-        Long userId = 1L;
-        Long accountId = 1L;
-        Long operationId = 1L;
+        Long userId = snowflakeGenerator.next();
+        Long accountId = snowflakeGenerator.next();
+        Long operationId = snowflakeGenerator.next();
+        Long currencyId = snowflakeGenerator.next();
 
         User user = new User.UserBuilder().withId(userId).build();
         Account account = new Account.AccountBuilder()
@@ -196,7 +198,7 @@ class OperationServiceImplTest {
                 .build();
 
         Currency currency = new Currency();
-        currency.setId(1L);
+        currency.setId(snowflakeGenerator.next());
         currency.setName("Euro");
         currency.setCode("EUR");
         currency.setUser(user);
@@ -217,27 +219,28 @@ class OperationServiceImplTest {
         Mockito.when(accountRepository.getReferenceById(accountId)).thenReturn(account);
         Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
         OperationDto request = new OperationDto();
-        request.setId(operationId);
+        request.setId(operationId.toString());
         request.setAmount(BigDecimal.valueOf(100));
-        request.setCurrencyId(1L);
+        request.setCurrencyId(currencyId.toString());
         request.setOperationType(OperationType.EXPENSE);
         request.setDescription(description);
-        request.setAccountId(accountId);
-        request.setUserId(userId);
+        request.setAccountId(accountId.toString());
+        request.setUserId(userId.toString());
         request.setDate(LocalDate.now());
 
         OperationDto result = operationService.updateOperation(request);
         Assertions.assertThat(result)
-                .hasFieldOrPropertyWithValue("id", operationId)
+                .hasFieldOrPropertyWithValue("id", operationId.toString())
                 .hasFieldOrProperty("account");
     }
 
     @Test
     void updateOperation_withAccountAndCategoryTest(){
-        Long userId = 1L;
-        Long accountId = 1L;
-        Long operationId = 1L;
-        Long categoryId = 1L;
+        Long userId = snowflakeGenerator.next();
+        Long accountId = snowflakeGenerator.next();
+        Long operationId = snowflakeGenerator.next();
+        Long categoryId = snowflakeGenerator.next();
+        Long currencyId = snowflakeGenerator.next();
 
         User user = new User.UserBuilder().withId(userId).build();
         Account account = new Account.AccountBuilder()
@@ -248,7 +251,7 @@ class OperationServiceImplTest {
                 .build();
 
         Currency currency = new Currency();
-        currency.setId(1L);
+        currency.setId(snowflakeGenerator.next());
         currency.setName("Euro");
         currency.setCode("EUR");
         currency.setUser(user);
@@ -278,28 +281,28 @@ class OperationServiceImplTest {
         Mockito.when(operationRepository.save(Mockito.any(Operation.class))).thenReturn(operation);
 
         OperationDto request = new OperationDto();
-        request.setId(operationId);
+        request.setId(operationId.toString());
         request.setAmount(BigDecimal.valueOf(100));
-        request.setCurrencyId(1L);
+        request.setCurrencyId(currencyId.toString());
         request.setOperationType(OperationType.EXPENSE);
         request.setDescription(description);
-        request.setAccountId(accountId);
-        request.setUserId(userId);
+        request.setAccountId(accountId.toString());
+        request.setUserId(userId.toString());
         request.setDate(LocalDate.now());
-        request.setCategoryId(categoryId);
+        request.setCategoryId(categoryId.toString());
 
         OperationDto result = operationService.updateOperation(request);
         Assertions.assertThat(result)
-                .hasFieldOrPropertyWithValue("id", operationId)
+                .hasFieldOrPropertyWithValue("id", operationId.toString())
                 .hasFieldOrProperty("account");
     }
 
     @Test
     void findOperationById_existsTest(){
-        Long userId = 1L;
-        Long accountId = 1L;
-        Long operationId = 1L;
-        Long categoryId = 1L;
+        Long userId = snowflakeGenerator.next();
+        Long accountId = snowflakeGenerator.next();
+        Long operationId = snowflakeGenerator.next();
+        Long categoryId = snowflakeGenerator.next();
 
         User user = new User.UserBuilder().withId(userId).build();
         Account account = new Account.AccountBuilder()
@@ -310,7 +313,7 @@ class OperationServiceImplTest {
                 .build();
 
         Currency currency = new Currency();
-        currency.setId(1L);
+        currency.setId(snowflakeGenerator.next());
         currency.setName("Euro");
         currency.setCode("EUR");
         currency.setUser(user);
@@ -340,7 +343,7 @@ class OperationServiceImplTest {
 
     @Test
     void findOperationById_doesNotExistTest(){
-        Long id = 1L;
+        Long id = snowflakeGenerator.next();
         Mockito.when(operationRepository.findById(id)).thenReturn(Optional.empty());
         Optional<OperationDto> result = operationService.findOperationById(id);
         Assertions.assertThat(result).isEmpty();

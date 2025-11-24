@@ -49,7 +49,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
 
         LoginResponseDto result = new LoginResponseDto();
         result.setToken(token);
-        result.setId(user.getId());
+        result.setId(user.getId().toString());
         return result;
     }
 
