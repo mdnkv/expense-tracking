@@ -13,9 +13,9 @@ import {EmptyPlaceholderComponent} from "../../../core/components/empty-placehol
 export class AccountsListComponent {
 
   @Input() accounts: Account[] = []
-  @Output() onRemoveClicked = new EventEmitter<number>()
+  @Output() onRemoveClicked = new EventEmitter<string>()
 
-  removeAccount(id: number){
+  removeAccount(id: string){
     // ask user to confirmation
     Swal.fire({
       icon: 'warning',

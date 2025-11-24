@@ -44,8 +44,7 @@ export class AddOperationComponent implements OnInit{
 
   ngOnInit() {
     // get user id
-    const userIdString = localStorage.getItem("UserId") as string
-    const userId = Number.parseInt(userIdString)
+    const userId = localStorage.getItem("UserId") as string
 
     // get categories for user
     this.categoryService.getAllCategoriesForUser(userId).subscribe({
@@ -88,8 +87,7 @@ export class AddOperationComponent implements OnInit{
 
   onFormSubmit(){
     // obtain the user id from local storage
-    const userIdString = localStorage.getItem("UserId") as string
-    const userId = Number.parseInt(userIdString)
+    const userId = localStorage.getItem("UserId") as string
 
     // create payload
     const payload: Operation = {

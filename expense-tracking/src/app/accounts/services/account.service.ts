@@ -20,15 +20,15 @@ export class AccountService {
     return this.http.put<Account>(`${this.serverUrl}accounts/update`, body)
   }
 
-  deleteAccount(id: number): Observable<void>{
+  deleteAccount(id: string): Observable<void>{
     return this.http.delete<void>(`${this.serverUrl}accounts/delete/${id}`)
   }
 
-  getAllAccountsForUser(userId: number): Observable<Account[]>{
+  getAllAccountsForUser(userId: string): Observable<Account[]>{
     return this.http.get<Account[]>(`${this.serverUrl}accounts/user/${userId}`)
   }
 
-  getAccountById(id: number): Observable<Account>{
+  getAccountById(id: string): Observable<Account>{
     return this.http.get<Account>(`${this.serverUrl}accounts/account/${id}`)
   }
 

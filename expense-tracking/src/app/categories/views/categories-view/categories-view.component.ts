@@ -30,9 +30,8 @@ export class CategoriesViewComponent implements OnInit {
 
   ngOnInit() {
     const userId = localStorage.getItem("UserId") as string
-    const id = Number.parseInt(userId)
 
-    this.categoryService.getAllCategoriesForUser(id).subscribe({
+    this.categoryService.getAllCategoriesForUser(userId).subscribe({
       next: result =>{
         this.categoriesList = result
         this.isLoadingError = false
@@ -62,7 +61,7 @@ export class CategoriesViewComponent implements OnInit {
     })
   }
 
-  deleteCategory(id: number){
+  deleteCategory(id: string){
     this.categoryService.deleteCategory(id).subscribe({
       next: result => {
         this.categoriesList = this.categoriesList.filter(e => e.id != id)

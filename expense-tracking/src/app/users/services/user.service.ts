@@ -25,7 +25,7 @@ export class UserService {
     return this.http.post<SignupResponse>(`${this.serverUrl}users/create`, body)
   }
 
-  getUserById (id: number): Observable<User> {
+  getUserById (id: string): Observable<User> {
     return this.http.get<User>(`${this.serverUrl}users/user/${id}`).pipe(
       map(result => {
         const name = `${result.firstName} ${result.lastName.substring(0,1)}`

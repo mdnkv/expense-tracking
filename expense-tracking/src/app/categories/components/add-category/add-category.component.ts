@@ -22,8 +22,7 @@ export class AddCategoryComponent {
 
   formSubmit(){
     // get user id
-    const userIdString = localStorage.getItem("UserId") as string
-    const userId = Number.parseInt(userIdString)
+    const userId = localStorage.getItem("UserId") as string
 
     // create payload
     const payload: Category = {

@@ -1,6 +1,6 @@
 export interface Currency {
-  id?: number
-  userId: number
+  id?: string
+  userId: string
   name: string
   code: string
 }

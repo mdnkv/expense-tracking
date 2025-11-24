@@ -14,7 +14,7 @@ export class OperationCardComponent {
 
   @Input() operation: Operation | undefined
 
-  @Output() deleteClicked = new EventEmitter<number>
+  @Output() deleteClicked = new EventEmitter<string>
 
   onDelete(){
     this.deleteClicked.emit(this.operation!.id!)

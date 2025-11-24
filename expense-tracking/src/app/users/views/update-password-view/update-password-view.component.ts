@@ -32,12 +32,11 @@ export class UpdatePasswordViewComponent {
 
     // get user id from local storage
     const userId = localStorage.getItem("UserId") as string
-    const id = Number.parseInt(userId)
 
     // create payload
     const payload: ChangePasswordRequest = {
       password: this.form.get('password')?.value,
-      id: id
+      id: userId
     }
 
     // execute request

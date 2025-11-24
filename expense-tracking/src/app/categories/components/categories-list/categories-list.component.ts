@@ -15,9 +15,9 @@ import Swal from "sweetalert2";
 export class CategoriesListComponent {
 
   @Input() categories: Category[] = []
-  @Output() onRemoveClicked = new EventEmitter<number>()
+  @Output() onRemoveClicked = new EventEmitter<string>()
 
-  removeCategory(id: number){
+  removeCategory(id: string){
     // ask user to confirmation
     Swal.fire({
       icon: 'warning',

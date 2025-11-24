@@ -26,11 +26,10 @@ export class AddAccountComponent {
   onFormSubmit() {
     // get user id
     const userId = localStorage.getItem("UserId") as string
-    const id = Number.parseInt(userId)
 
     // create payload
     const payload: Account = {
-      userId: id,
+      userId: userId,
       name: this.accountCreateForm.get('name')?.value,
       type: this.accountType
     }

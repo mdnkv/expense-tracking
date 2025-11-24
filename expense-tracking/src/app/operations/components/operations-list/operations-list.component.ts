@@ -16,9 +16,9 @@ import Swal from "sweetalert2";
 export class OperationsListComponent {
 
   @Input() operations: Operation[] = []
-  @Output() onRemoveClicked = new EventEmitter<number>()
+  @Output() onRemoveClicked = new EventEmitter<string>()
 
-  removeOperation(id: number){
+  removeOperation(id: string){
     // ask user to confirmation
     Swal.fire({
       icon: 'warning',

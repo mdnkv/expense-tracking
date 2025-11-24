@@ -3,12 +3,12 @@ import {Category} from "../../categories/models/categories.models";
 import {Currency} from "../../currencies/models/currencies.models";
 
 export interface Operation {
-  id?: number
-  userId: number
-  accountId: number
-  categoryId?: number
+  id?: string
+  userId: string
+  accountId: string
+  categoryId?: string
   description: string
-  currencyId: number
+  currencyId: string
   amount: number
   operationType: string
   date: Date

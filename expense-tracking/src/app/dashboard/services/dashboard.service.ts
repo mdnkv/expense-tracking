@@ -12,7 +12,7 @@ export class DashboardService {
   http: HttpClient = inject(HttpClient)
   serverUrl = environment.serverUrl
 
-  getIncomeExpenseWidget(userId: number): Observable<IncomeExpenseWidget>{
+  getIncomeExpenseWidget(userId: string): Observable<IncomeExpenseWidget>{
     return this.http.get<IncomeExpenseWidget>(`${this.serverUrl}dashboard/income-expense/${userId}`)
   }
 
