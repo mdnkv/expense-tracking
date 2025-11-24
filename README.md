@@ -1,7 +1,5 @@
 # Expense tracking application
 
-[LIVE DEMO](https://expensetracking.mednikov.dev)
-
 ![](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
@@ -75,6 +73,12 @@ Once all these values are provided, the same sequence of steps applies:
    - If you do not have a local Maven installation: ```./mvnw clean install```
 3. Run the fat jar ```java -Dspring.profiles.active=prod -jar target/expense-tracking-0.0.1-SNAPSHOT.jar```
 4. Open your browser and navigate to ```http://localhost:{YourPortNumber}```
+
+## Android Application
+
+This project has a companion Android application. This app is also an academic project, and I made a decision to leverage existing complex backend to be able to showcase advanced features in the app.
+
+You can check the Android app in [this github repository](https://github.com/mdnkv/expense-tracking-app)
 
 ## Author
 
