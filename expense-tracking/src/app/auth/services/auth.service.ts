@@ -23,7 +23,7 @@ export class AuthService {
       map(result => {
         // save authentication data
         localStorage.setItem('AuthenticationToken', result.token)
-        localStorage.setItem('UserId', result.id.toString())
+        localStorage.setItem('UserId', result.id)
 
         // calculate expiration datetime
         const currentDateTime = new Date()

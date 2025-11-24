@@ -20,15 +20,15 @@ export class CategoryService {
     return this.http.put<Category>(`${this.serverUrl}categories/update`, body)
   }
 
-  getAllCategoriesForUser(userId: number): Observable<Category[]>{
+  getAllCategoriesForUser(userId: string): Observable<Category[]>{
     return this.http.get<Category[]>(`${this.serverUrl}categories/user/${userId}`)
   }
 
-  deleteCategory(id: number): Observable<void>{
+  deleteCategory(id: string): Observable<void>{
     return this.http.delete<void>(`${this.serverUrl}categories/delete/${id}`)
   }
 
-  getCategoryById(id: number): Observable<Category> {
+  getCategoryById(id: string): Observable<Category> {
     return this.http.get<Category>(`${this.serverUrl}categories/category/${id}`)
   }
 

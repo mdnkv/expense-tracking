@@ -1,6 +1,6 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {CategoryService} from "../../services/category.service";
 import {Category} from "../../models/categories.models";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -13,11 +13,13 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class EditCategoryViewComponent implements OnInit{
 
+  id = input.required<string>()
+
   isSuccess: boolean = false
   isError: boolean = false
   isFormLoading: boolean = false
 
-  activatedRoute: ActivatedRoute = inject(ActivatedRoute)
+
   router: Router = inject(Router)
   categoryService: CategoryService = inject(CategoryService)
   formBuilder: FormBuilder = inject(FormBuilder)
@@ -28,21 +30,16 @@ export class EditCategoryViewComponent implements OnInit{
   category: Category | undefined
 
   ngOnInit() {
-    const pathParam = this.activatedRoute.snapshot.paramMap.get('id')
-    if (pathParam != null){
-      const id = Number.parseInt(pathParam)
-      this.categoryService.getCategoryById(id).subscribe({
-        next: (result) => {
-          this.category = result
-          this.categoryUpdateForm.get('name')?.setValue(result.name)
-        },
-        error: (err: HttpErrorResponse) => {
-          console.log(err)
-        }
-      })
-    } else {
-      this.isError = true
-    }
+    this.categoryService.getCategoryById(this.id()).subscribe({
+      next: (result) => {
+        this.category = result
+        this.categoryUpdateForm.get('name')?.setValue(result.name)
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err)
+        this.isError = true
+      }
+    })
   }
 
   onFormSubmit(){

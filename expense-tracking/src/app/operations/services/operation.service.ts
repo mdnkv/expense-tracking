@@ -22,15 +22,15 @@ export class OperationService {
   }
 
 
-  deleteOperation (id: number): Observable<void>{
+  deleteOperation (id: string): Observable<void>{
     return this.http.delete<void>(`${this.serverUrl}operations/delete/${id}`)
   }
 
-  getAllOperationsForUser(userId: number): Observable<Operation[]>{
+  getAllOperationsForUser(userId: string): Observable<Operation[]>{
     return this.http.get<Operation[]>(`${this.serverUrl}operations/user/${userId}`)
   }
 
-  getOperationById(id: number): Observable<Operation>{
+  getOperationById(id: string): Observable<Operation>{
     return this.http.get<Operation>(`${this.serverUrl}operations/operation/${id}`)
   }
 

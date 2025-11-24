@@ -21,7 +21,7 @@ import java.util.Optional;
 @Table(name = "operations_operation")
 public class Operation implements Comparable<Operation>, Monetary {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @ManyToOne

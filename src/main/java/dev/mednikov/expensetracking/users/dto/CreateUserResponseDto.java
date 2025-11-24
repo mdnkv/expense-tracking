@@ -2,17 +2,17 @@ package dev.mednikov.expensetracking.users.dto;
 
 public class CreateUserResponseDto {
 
-    private Long id;
+    private String id;
 
-    public CreateUserResponseDto(Long id) {
+    public CreateUserResponseDto(String id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

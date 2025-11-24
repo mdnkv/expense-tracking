@@ -23,8 +23,7 @@ export class OperationsViewComponent implements OnInit{
 
   ngOnInit() {
     // get user id
-    const userIdString = localStorage.getItem("UserId") as string
-    const userId = Number.parseInt(userIdString)
+    const userId = localStorage.getItem("UserId") as string
 
     // get operations for user
     this.operationService.getAllOperationsForUser(userId).subscribe({
@@ -54,7 +53,7 @@ export class OperationsViewComponent implements OnInit{
   }
 
 
-  deleteOperation(id: number){
+  deleteOperation(id: string){
     this.operationService.deleteOperation(id).subscribe({
       next: result => {
         this.operationsList = this.operationsList.filter(e => e.id != id)

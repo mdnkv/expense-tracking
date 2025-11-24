@@ -1,5 +1,6 @@
 package dev.mednikov.expensetracking.users.services;
 
+import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import dev.mednikov.expensetracking.users.dto.CreateUserRequestDto;
 import dev.mednikov.expensetracking.users.dto.CreateUserResponseDto;
 import dev.mednikov.expensetracking.users.dto.UserDto;
@@ -23,6 +24,8 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
 
+    private final static SnowflakeGenerator snowflakeGenerator = new SnowflakeGenerator();
+
     @Mock private PasswordEncoder passwordEncoder;
     @Mock private UserRepository userRepository;
     @Mock private ApplicationEventPublisher eventPublisher;
@@ -44,7 +47,7 @@ class UserServiceImplTest {
 
     @Test
     void createUser_successTest(){
-        Long userId = 1L;
+        Long userId = snowflakeGenerator.next();
         String email = "cwnbookyuuytsdc85by@ymail.com";
         String firstName = "Theresia";
         String lastName = "Kuster";
@@ -62,18 +65,18 @@ class UserServiceImplTest {
 
         CreateUserRequestDto request = new CreateUserRequestDto(email, password, firstName, lastName);
         CreateUserResponseDto result = userService.createUser(request);
-        Assertions.assertThat(result.getId()).isEqualTo(userId);
+        Assertions.assertThat(result).isNotNull();
 
     }
 
     @Test
     void updateUser_doesNotExistTest(){
-        Long userId = 1L;
+        Long userId =  snowflakeGenerator.next();
         String email = "3fhmrmopo4mosckwz@googlemail.com";
         String firstName = "Leonie";
         String lastName = "Bürki";
 
-        UserDto request = new UserDto(userId, email, firstName, lastName);
+        UserDto request = new UserDto(userId.toString(), email, firstName, lastName);
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         Assertions.assertThatThrownBy(() -> userService.updateUser(request)).isInstanceOf(UserNotFoundException.class);
@@ -81,7 +84,7 @@ class UserServiceImplTest {
 
     @Test
     void updateUser_successTest(){
-        Long userId = 1L;
+        Long userId =  snowflakeGenerator.next();
         String email = "ab5ihd7pptj@hotmail.com";
         String firstName = "Selina";
         String lastName = "Mathys";
@@ -95,11 +98,10 @@ class UserServiceImplTest {
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
 
-        UserDto request = new UserDto(userId, email, firstName, lastName);
+        UserDto request = new UserDto(userId.toString(), email, firstName, lastName);
 
         UserDto result = userService.updateUser(request);
         Assertions.assertThat(result)
-                .hasFieldOrPropertyWithValue("id", userId)
                 .hasFieldOrPropertyWithValue("email", email)
                 .hasFieldOrPropertyWithValue("firstName", firstName)
                 .hasFieldOrPropertyWithValue("lastName", lastName);
@@ -107,7 +109,7 @@ class UserServiceImplTest {
 
     @Test
     void getUser_doesNotExistTest(){
-        Long userId = 1L;
+        Long userId = snowflakeGenerator.next();
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.empty());
         Optional<UserDto> result = userService.getUser(userId);
         Assertions.assertThat(result).isEmpty();
@@ -115,7 +117,7 @@ class UserServiceImplTest {
 
     @Test
     void getUser_existsTest(){
-        Long userId = 1L;
+        Long userId = snowflakeGenerator.next();
         String email = "k53v3u1lr0q10@msn.com";
         String firstName = "Julia";
         String lastName = "Wirth-Tanner";

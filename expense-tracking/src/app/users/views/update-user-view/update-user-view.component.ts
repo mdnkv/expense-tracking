@@ -29,8 +29,7 @@ export class UpdateUserViewComponent implements OnInit{
 
   ngOnInit() {
     const userId = localStorage.getItem("UserId") as string
-    const id = Number.parseInt(userId)
-    this.userService.getUserById(id).subscribe({
+    this.userService.getUserById(userId).subscribe({
       next: result => {
         this.user = result
         this.form.get('firstName')?.setValue(this.user.firstName)

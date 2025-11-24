@@ -1,5 +1,6 @@
 package dev.mednikov.expensetracking.categories.services;
 
+import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import dev.mednikov.expensetracking.categories.dto.CategoryDto;
 import dev.mednikov.expensetracking.categories.dto.CategoryDtoMapper;
 import dev.mednikov.expensetracking.categories.exceptions.CategoryNotFoundException;
@@ -10,11 +11,13 @@ import dev.mednikov.expensetracking.users.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
+    private final static SnowflakeGenerator snowflakeGenerator = new SnowflakeGenerator();
     private final static CategoryDtoMapper mapper = new CategoryDtoMapper();
 
     private final UserRepository userRepository;
@@ -27,8 +30,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto createCategory(CategoryDto request) {
-        User user = this.userRepository.getReferenceById(request.getUserId());
+        Long userId = Long.parseLong(request.getUserId());
+        User user = this.userRepository.getReferenceById(userId);
         Category category = new Category.CategoryBuilder()
+                .withId(snowflakeGenerator.next())
                 .withUser(user)
                 .withName(request.getName())
                 .build();
@@ -38,8 +43,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto updateCategory(CategoryDto request) {
+        Objects.requireNonNull(request.getId());
+        Long id = Long.parseLong(request.getId());
         Category category = this.categoryRepository
-                .findById(request.getId())
+                .findById(id)
                 .orElseThrow(CategoryNotFoundException::new);
         category.setName(request.getName());
 

@@ -6,17 +6,17 @@ export interface SignupRequest {
 }
 
 export interface SignupResponse {
-  id: number
+  id: string
 }
 
 
 export interface User {
-  id: number
+  id: string
   firstName: string
   lastName: string
 }
 
 export interface ChangePasswordRequest {
-  id: number
+  id: string
   password: string
 }

@@ -1,5 +1,6 @@
 package dev.mednikov.expensetracking.operations.services;
 
+import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import dev.mednikov.expensetracking.accounts.models.Account;
 import dev.mednikov.expensetracking.accounts.repositories.AccountRepository;
 import dev.mednikov.expensetracking.categories.models.Category;
@@ -17,11 +18,13 @@ import dev.mednikov.expensetracking.users.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class OperationServiceImpl implements OperationService {
 
+    private final static SnowflakeGenerator snowflakeGenerator = new SnowflakeGenerator();
     private final static OperationDtoMapper mapper = new OperationDtoMapper();
 
     private final OperationRepository operationRepository;
@@ -45,13 +48,18 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public OperationDto createOperation(OperationDto request) {
-        User user = this.userRepository.getReferenceById(request.getUserId());
-        Account account = this.accountRepository.getReferenceById(request.getAccountId());
+        Long userId = Long.parseLong(request.getUserId());
+        User user = this.userRepository.getReferenceById(userId);
 
-        Currency currency = this.currencyRepository.findById(request.getCurrencyId())
+        Long accountId = Long.parseLong(request.getAccountId());
+        Account account = this.accountRepository.getReferenceById(accountId);
+
+        Long currencyId = Long.parseLong(request.getCurrencyId());
+        Currency currency = this.currencyRepository.findById(currencyId)
                 .orElseThrow(CurrencyNotFoundException::new);
 
         Operation operation = new Operation.OperationBuilder()
+                .withId(snowflakeGenerator.next())
                 .withUser(user)
                 .withAccount(account)
                 .withAmount(request.getAmount())
@@ -62,7 +70,8 @@ public class OperationServiceImpl implements OperationService {
                 .build();
 
         if (request.getCategoryId() != null){
-            Category category = this.categoryRepository.getReferenceById(request.getCategoryId());
+            Long categoryId = Long.parseLong(request.getCategoryId());
+            Category category = this.categoryRepository.getReferenceById(categoryId);
             operation.setCategory(category);
         }
 
@@ -73,8 +82,10 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public OperationDto updateOperation(OperationDto request) {
+        Objects.requireNonNull(request.getId());
+        Long id = Long.parseLong(request.getId());
         Operation operation = this.operationRepository
-                .findById(request.getId())
+                .findById(id)
                 .orElseThrow(OperationNotFoundException::new);
 
         operation.setAmount(request.getAmount());
@@ -82,11 +93,13 @@ public class OperationServiceImpl implements OperationService {
         operation.setType(request.getOperationType());
         operation.setOperationDate(request.getDate());
 
-        Account account = this.accountRepository.getReferenceById(request.getAccountId());
+        Long accountId = Long.parseLong(request.getAccountId());
+        Account account = this.accountRepository.getReferenceById(accountId);
         operation.setAccount(account);
 
         if (request.getCategoryId() != null){
-            Category category = this.categoryRepository.getReferenceById(request.getCategoryId());
+            Long categoryId = Long.parseLong(request.getCategoryId());
+            Category category = this.categoryRepository.getReferenceById(categoryId);
             operation.setCategory(category);
         }
 

@@ -1,5 +1,6 @@
 package dev.mednikov.expensetracking.currencies.services;
 
+import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import dev.mednikov.expensetracking.currencies.dto.CurrencyDto;
 import dev.mednikov.expensetracking.currencies.dto.CurrencyDtoMapper;
 import dev.mednikov.expensetracking.currencies.models.Currency;
@@ -14,6 +15,7 @@ import java.util.List;
 @Service
 public class CurrencyServiceImpl implements CurrencyService {
 
+    private final static SnowflakeGenerator snowflakeGenerator = new SnowflakeGenerator();
     private final CurrencyRepository currencyRepository;
 
     public CurrencyServiceImpl(CurrencyRepository currencyRepository) {
@@ -37,6 +39,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         currency.setUser(user);
         currency.setCode("EUR");
         currency.setName("Euro - EUR");
+        currency.setId(snowflakeGenerator.next());
         currencyRepository.save(currency);
     }
 

@@ -25,10 +25,9 @@ export class AccountsViewComponent implements OnInit{
   ngOnInit() {
     // get current user id
     const userId = localStorage.getItem("UserId") as string
-    const id = Number.parseInt(userId)
 
     // retrieve accounts for user
-    this.accountService.getAllAccountsForUser(id).subscribe({
+    this.accountService.getAllAccountsForUser(userId).subscribe({
       next: result => {
         this.accountsList = result
       },
@@ -53,7 +52,7 @@ export class AccountsViewComponent implements OnInit{
     })
   }
 
-  deleteAccount(id: number) {
+  deleteAccount(id: string) {
     this.accountService.deleteAccount(id).subscribe({
       next: result => {
         this.accountsList = this.accountsList.filter(e => e.id != id)

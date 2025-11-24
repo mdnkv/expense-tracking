@@ -1,5 +1,6 @@
 package dev.mednikov.expensetracking.accounts.services;
 
+import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import dev.mednikov.expensetracking.accounts.dto.AccountDto;
 import dev.mednikov.expensetracking.accounts.exceptions.AccountNotFoundException;
 import dev.mednikov.expensetracking.accounts.models.Account;
@@ -20,6 +21,8 @@ import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class AccountServiceImplTest {
+    
+    private final static SnowflakeGenerator snowflakeGenerator = new SnowflakeGenerator();
 
     @Mock private AccountRepository accountRepository;
     @Mock private UserRepository userRepository;
@@ -27,10 +30,10 @@ class AccountServiceImplTest {
 
     @Test
     void createAccountTest(){
-        Long userId = 1L;
+        Long userId = snowflakeGenerator.next();
         User user = new User.UserBuilder().withId(userId).build();
 
-        Long accountId = 1L;
+        Long accountId = snowflakeGenerator.next();
         String accountName = "Cash account";
         Account account = new Account.AccountBuilder()
                 .withUser(user)
@@ -43,7 +46,7 @@ class AccountServiceImplTest {
         Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
 
         AccountDto request = new AccountDto();
-        request.setUserId(userId);
+        request.setUserId(userId.toString());
         request.setName(accountName);
         request.setType(AccountType.CASH);
 
@@ -51,21 +54,21 @@ class AccountServiceImplTest {
 
         Assertions
                 .assertThat(result)
-                .hasFieldOrPropertyWithValue("id", accountId)
+                .hasFieldOrPropertyWithValue("id", accountId.toString())
                 .hasFieldOrPropertyWithValue("name", accountName)
                 .hasFieldOrPropertyWithValue("type", AccountType.CASH);
     }
 
     @Test
     void updateAccount_notFoundTest(){
-        Long userId = 1L;
-        Long accountId = 1L;
+        Long userId = snowflakeGenerator.next();
+        Long accountId = snowflakeGenerator.next();
 
         Mockito.when(accountRepository.findById(accountId)).thenReturn(Optional.empty());
 
         AccountDto request = new AccountDto();
-        request.setId(accountId);
-        request.setUserId(userId);
+        request.setId(accountId.toString());
+        request.setUserId(userId.toString());
         request.setName("My card account");
         request.setType(AccountType.CREDIT_CARD);
         Assertions
@@ -75,9 +78,9 @@ class AccountServiceImplTest {
 
     @Test
     void updateAccount_successTest(){
-        Long userId = 1L;
+        Long userId = snowflakeGenerator.next();
         User user = new User.UserBuilder().withId(userId).build();
-        Long accountId = 1L;
+        Long accountId = snowflakeGenerator.next();
         String accountName = "My credit card account";
         Account account = new Account.AccountBuilder()
                 .withUser(user)
@@ -90,8 +93,8 @@ class AccountServiceImplTest {
         Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
 
         AccountDto request = new AccountDto();
-        request.setId(accountId);
-        request.setUserId(userId);
+        request.setId(accountId.toString());
+        request.setUserId(userId.toString());
         request.setName(accountName);
         request.setType(AccountType.CREDIT_CARD);
 
@@ -99,16 +102,16 @@ class AccountServiceImplTest {
 
         Assertions
                 .assertThat(result)
-                .hasFieldOrPropertyWithValue("id", accountId)
+                .hasFieldOrPropertyWithValue("id", accountId.toString())
                 .hasFieldOrPropertyWithValue("name", accountName)
                 .hasFieldOrPropertyWithValue("type", AccountType.CREDIT_CARD);
     }
 
     @Test
     void findAccountById_existsTest(){
-        Long userId = 1L;
+        Long userId = snowflakeGenerator.next();
         User user = new User.UserBuilder().withId(userId).build();
-        Long accountId = 1L;
+        Long accountId = snowflakeGenerator.next();
         String accountName = "My cash account";
         Account account = new Account.AccountBuilder()
                 .withUser(user)
@@ -125,7 +128,7 @@ class AccountServiceImplTest {
 
     @Test
     void findAccountById_doesNotExistTest(){
-        Long accountId = 1L;
+        Long accountId = snowflakeGenerator.next();
         Mockito.when(accountRepository.findById(accountId)).thenReturn(Optional.empty());
         Optional<AccountDto> result = accountService.findAccountById(accountId);
         Assertions.assertThat(result).isEmpty();
@@ -133,25 +136,25 @@ class AccountServiceImplTest {
 
     @Test
     void findAllAccountsForUserTest(){
-        Long userId = 1L;
+        Long userId = snowflakeGenerator.next();
         User user = new User.UserBuilder().withId(userId).build();
 
         List<Account> accounts = List.of(
                 new Account.AccountBuilder()
                         .withUser(user)
-                        .withId(1L)
+                        .withId(snowflakeGenerator.next())
                         .withType(AccountType.CASH)
                         .withName("Cash account")
                         .build(),
                 new Account.AccountBuilder()
                         .withUser(user)
-                        .withId(2L)
+                        .withId(snowflakeGenerator.next())
                         .withType(AccountType.CREDIT_CARD)
                         .withName("Credit card account")
                         .build(),
                 new Account.AccountBuilder()
                         .withUser(user)
-                        .withId(3L)
+                        .withId(snowflakeGenerator.next())
                         .withType(AccountType.BANK_ACCOUNT)
                         .withName("My bank account")
                         .build()

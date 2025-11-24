@@ -12,7 +12,7 @@ export class CurrencyService {
   http: HttpClient = inject(HttpClient)
   serverUrl = environment.serverUrl
 
-  getAllCurrenciesForUser (userId: number): Observable<Currency[]>{
+  getAllCurrenciesForUser (userId: string): Observable<Currency[]>{
     return this.http.get<Currency[]>(`${this.serverUrl}currencies/user/${userId}`)
   }
 

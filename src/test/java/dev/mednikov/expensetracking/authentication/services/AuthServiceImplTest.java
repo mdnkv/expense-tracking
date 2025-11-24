@@ -85,7 +85,7 @@ class AuthServiceImplTest {
         Assertions.assertThat(result)
                 .isNotNull()
                 .hasFieldOrProperty("token")
-                .hasFieldOrPropertyWithValue("id", userId);
+                .hasFieldOrPropertyWithValue("id", userId.toString());
     }
 
     @Test

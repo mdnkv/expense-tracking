@@ -1,5 +1,6 @@
 package dev.mednikov.expensetracking.users.services;
 
+import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import dev.mednikov.expensetracking.users.dto.*;
 import dev.mednikov.expensetracking.users.events.NewUserCreatedEvent;
 import dev.mednikov.expensetracking.users.exceptions.UserAlreadyExistsException;
@@ -18,7 +19,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final static UserDtoMapper mapper = new UserDtoMapper();
-
+    private final static SnowflakeGenerator snowflakeGenerator = new SnowflakeGenerator();
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final ApplicationEventPublisher eventPublisher;
@@ -45,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
         // create user entity
         User user = new User.UserBuilder()
+                .withId(snowflakeGenerator.next())
                 .withEmail(email)
                 .withPassword(password)
                 .withSuperuser(superuser)
@@ -60,7 +62,7 @@ public class UserServiceImpl implements UserService {
         this.eventPublisher.publishEvent(event);
 
         // return result
-        return new CreateUserResponseDto(result.getId());
+        return new CreateUserResponseDto(result.getId().toString());
     }
 
     @Override
@@ -71,7 +73,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(UserDto request) {
         // get the user from db or throw an exception if user does not exist
-        User user = this.userRepository.findById(request.getId()).orElseThrow(UserNotFoundException::new);
+        Long userId = Long.parseLong(request.getId());
+        User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
 
         // update user
         user.setFirstName(request.getFirstName());
@@ -94,7 +97,7 @@ public class UserServiceImpl implements UserService {
     public void changePassword(ChangePasswordRequestDto request) {
         // hash password before saving
         String password = this.passwordEncoder.encode(request.getPassword());
-
-        this.userRepository.updatePassword(request.getId(), password);
+        Long userId = Long.parseLong(request.getId());
+        this.userRepository.updatePassword(userId, password);
     }
 }

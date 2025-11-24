@@ -1,7 +1,7 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {AccountService} from "../../services/account.service";
 import {Account} from "../../models/accounts.models";
 
@@ -13,7 +13,8 @@ import {Account} from "../../models/accounts.models";
 })
 export class EditAccountViewComponent implements OnInit{
 
-  activatedRoute: ActivatedRoute = inject(ActivatedRoute)
+  id = input.required<string>()
+
   router: Router = inject(Router)
   formBuilder: FormBuilder = inject(FormBuilder)
 
@@ -61,22 +62,33 @@ export class EditAccountViewComponent implements OnInit{
   }
 
   ngOnInit() {
-    const pathParam = this.activatedRoute.snapshot.paramMap.get('id')
-    if (pathParam != null){
-      const id = Number.parseInt(pathParam)
-      this.accountService.getAccountById(id).subscribe({
-        next: (result) => {
-          this.account = result
-          this.accountType = result.type
-          this.accountUpdateForm.get('name')?.setValue(result.name)
-        },
-        error: (err: HttpErrorResponse) => {
-          console.log(err)
-        }
-      })
-    } else {
-      this.isError = true
-    }
+    this.accountService.getAccountById(this.id()).subscribe({
+      next: (result) => {
+        this.account = result
+        this.accountType = result.type
+        this.accountUpdateForm.get('name')?.setValue(result.name)
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err)
+        this.isError = true
+      }
+    })
+    // const pathParam = this.activatedRoute.snapshot.paramMap.get('id')
+    // if (pathParam != null){
+    //   const id = Number.parseInt(pathParam)
+    //   this.accountService.getAccountById(id).subscribe({
+    //     next: (result) => {
+    //       this.account = result
+    //       this.accountType = result.type
+    //       this.accountUpdateForm.get('name')?.setValue(result.name)
+    //     },
+    //     error: (err: HttpErrorResponse) => {
+    //       console.log(err)
+    //     }
+    //   })
+    // } else {
+    //   this.isError = true
+    // }
   }
 
 }

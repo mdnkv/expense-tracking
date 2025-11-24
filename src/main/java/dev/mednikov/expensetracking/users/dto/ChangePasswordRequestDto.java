@@ -5,21 +5,21 @@ import jakarta.validation.constraints.NotNull;
 
 public class ChangePasswordRequestDto{
 
-    private @NotNull Long id;
+    private @NotNull String id;
     private @NotNull @NotBlank String password;
 
     public ChangePasswordRequestDto(){}
 
-    public ChangePasswordRequestDto(Long id, String password) {
+    public ChangePasswordRequestDto(String id, String password) {
         this.id = id;
         this.password = password;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

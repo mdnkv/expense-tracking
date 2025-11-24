@@ -23,7 +23,7 @@ public final class OperationDtoMapper implements Function<Operation, OperationDt
         AccountDto account = accountDtoMapper.apply(operation.getAccount());
         CurrencyDto currency = currencyDtoMapper.apply(operation.getCurrency());
         Optional<CategoryDto> category = operation.getCategory().map(categoryDtoMapper);
-        Long userId = operation.getUser().getId();
+        String userId = operation.getUser().getId().toString();
         if (category.isPresent()) {
             CategoryDto categoryDto = category.get();
             result.setCategoryId(categoryDto.getId());
@@ -35,7 +35,7 @@ public final class OperationDtoMapper implements Function<Operation, OperationDt
         result.setAccount(account);
         result.setAmount(operation.getAmount());
         result.setDescription(operation.getDescription());
-        result.setId(operation.getId());
+        result.setId(operation.getId().toString());
         result.setDate(operation.getOperationDate());
         result.setOperationType(operation.getType());
         result.setUserId(userId);

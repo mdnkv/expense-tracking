@@ -5,31 +5,31 @@ import jakarta.validation.constraints.NotNull;
 
 public class CategoryDto{
 
-    private Long id;
-    private @NotNull Long userId;
+    private String id;
+    private @NotNull String userId;
     private @NotNull @NotBlank String name;
 
     public CategoryDto(){}
 
-    public CategoryDto(Long id, Long userId, String name) {
+    public CategoryDto(String id, String userId, String name) {
         this.id = id;
         this.userId = userId;
         this.name = name;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

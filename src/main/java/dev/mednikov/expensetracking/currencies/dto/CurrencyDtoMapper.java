@@ -11,7 +11,7 @@ public final class CurrencyDtoMapper implements Function<Currency, CurrencyDto> 
         CurrencyDto currencyDto = new CurrencyDto();
         currencyDto.setName(currency.getName());
         currencyDto.setCode(currency.getCode());
-        currencyDto.setId(currency.getId());
+        currencyDto.setId(currency.getId().toString());
         currencyDto.setUserId(currency.getUser().getId());
         return currencyDto;
     }

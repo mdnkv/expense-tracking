@@ -5,25 +5,25 @@ import jakarta.validation.constraints.NotNull;
 
 public class UserDto{
 
-    private @NotNull Long id;
+    private @NotNull String id;
     private String email;
     private @NotNull @NotBlank String firstName;
     private @NotNull @NotBlank String lastName;
 
     public UserDto(){}
 
-    public UserDto(Long id, String email, String firstName, String lastName) {
+    public UserDto(String id, String email, String firstName, String lastName) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
