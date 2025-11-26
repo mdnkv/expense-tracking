@@ -2,6 +2,8 @@ package dev.mednikov.expensetracking.authentication.repositories;
 
 import dev.mednikov.expensetracking.authentication.models.AuthenticationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,5 +15,9 @@ public interface AuthenticationTokenRepository extends JpaRepository<Authenticat
     Optional<AuthenticationToken> findByToken(String token);
 
     List<AuthenticationToken> findAllByUserId (Long userId);
+
+    @Modifying
+    @Query("DELETE AuthenticationToken at WHERE at.user.id = :userId")
+    void deleteAllTokensForUser (Long userId);
 
 }

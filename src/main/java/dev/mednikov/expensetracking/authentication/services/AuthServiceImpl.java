@@ -9,6 +9,7 @@ import dev.mednikov.expensetracking.authentication.exceptions.BadCredentialsExce
 import dev.mednikov.expensetracking.authentication.models.AuthenticatedUser;
 import dev.mednikov.expensetracking.users.models.User;
 import dev.mednikov.expensetracking.users.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -68,13 +69,11 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
         return Optional.empty();
     }
 
+    @Transactional
     @Override
     public void logout(AuthenticatedUser principal) {
         Long userId = principal.getId();
-        List<AuthenticationToken> tokens = this.authenticationTokenRepository.findAllByUserId(userId);
-        if (!tokens.isEmpty()){
-            this.authenticationTokenRepository.deleteAll(tokens);
-        }
+        this.authenticationTokenRepository.deleteAllTokensForUser(userId);
     }
 
     @Override
