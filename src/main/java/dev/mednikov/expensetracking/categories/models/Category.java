@@ -22,6 +22,14 @@ public class Category implements Comparable<Category> {
     @Column(name = "category_name", nullable = false)
     private String name;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public int compareTo(Category o) {
         return this.name.compareTo(o.name);
