@@ -1,0 +1,5 @@
+[
+  {"name": "Cash", "type": "CASH"},
+  {"name": "My credit card", "type": "CREDIT_CARD"},
+  {"name": "My bank account", "type": "BANK_ACCOUNT"}
+]
