@@ -33,6 +33,8 @@ public final class OperationDtoMapper implements Function<Operation, OperationDt
             result.setCategory(null);
         }
         result.setAccount(account);
+        result.setAccountId(account.getId());
+        result.setCurrencyId(currency.getId());
         result.setAmount(operation.getAmount());
         result.setDescription(operation.getDescription());
         result.setId(operation.getId().toString());
