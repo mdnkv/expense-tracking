@@ -82,6 +82,6 @@ You can check the Android app in [this github repository](https://github.com/mdn
 
 ## Author
 
-(C) 2024-2025 Iurii Mednikov <iurii.mednikov@iu-study.org>
+(C) 2024-2026 Iurii Mednikov <iurii.mednikov@iu-study.org>
 
 The code is delivered under terms of the MIT software license. For more information, check the ```LICENSE.txt``` file.
